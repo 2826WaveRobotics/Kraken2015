@@ -34,3 +34,25 @@ OI::OI()
 
 	driver_X->WhenPressed(new ShiftHigh());
 }
+
+Joystick* OI::getDriverJoystick()
+{
+	return 	driverJoystick;
+}
+Joystick* OI::getOperatorJoystick()
+{
+	return operatorJoystick;
+}
+Joystick* OI::getDebugJoystick()
+{
+	return debugJoystick;
+}
+
+Joystick* OI::getDebugJoystick2()
+{
+	return debugJoystick2;
+}
+
+
+
+

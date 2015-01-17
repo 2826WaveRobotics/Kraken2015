@@ -3,6 +3,7 @@
 
 #include "../CommandBase.h"
 #include "WPILib.h"
+#include "../RobotMap.h"
 
 class Shift: public CommandBase
 {
@@ -13,6 +14,10 @@ public:
 	bool IsFinished();
 	void End();
 	void Interrupted();
+
+private:
+	Solenoid *shifter;
+
 };
 
 #endif

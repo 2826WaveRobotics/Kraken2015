@@ -11,7 +11,13 @@ public:
 	void InitDefaultCommand();
 	void DriveWithJoysticks(float left, float right);
 	void ShiftGear(bool highGear);
+
+	virtual double ReturnPIDInput();
+	virtual void UsePIDOutput(double);
+
+
 private:
+	RobotDrive* m_robotDrive;
 
 };
 

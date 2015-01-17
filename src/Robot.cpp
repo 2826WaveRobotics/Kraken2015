@@ -4,12 +4,20 @@
 #include "Commands/Command.h"
 #include "Commands/ExampleCommand.h"
 #include "CommandBase.h"
+#include "OI.h"
+#include "WaveConstants.h"
+#include "RobotMap.h"
+
+OI* Robot::oi = 0;
+Drive* Robot::m_drive = 0;
 
 void Robot::RobotInit()
 {
 	CommandBase::init();
+	oi = new OI();
 	autonomousCommand = new ExampleCommand();
 	lw = LiveWindow::GetInstance();
+	m_drive= new Drive();
 }
 	
 void Robot::DisabledPeriodic()
@@ -41,6 +49,13 @@ void Robot::TeleopInit()
 void Robot::TeleopPeriodic()
 {
 	Scheduler::GetInstance()->Run();
+
+	bool param = oi->getDriverJoystick()->GetRawAxis(3)>0.5 ? true : false;
+	m_drive->ShiftGear(param);
+
+	m_drive->DriveWithJoysticks(oi->getDriverJoystick()->GetRawAxis(2), oi->getDriverJoystick()->GetRawAxis(4));
+
+	Wait(0.01);
 }
 
 void Robot::TestPeriodic()

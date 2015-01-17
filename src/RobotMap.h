@@ -12,6 +12,7 @@ public:
 	static CANTalon* rightDrive;
 	static Solenoid* shifter;
 
+	static void init();
 
 private:
 

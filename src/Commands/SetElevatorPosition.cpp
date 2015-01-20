@@ -4,6 +4,7 @@
 
 SetElevatorPosition::SetElevatorPosition(double inches)
 {
+	m_motorValue = 0;
 	m_inches = inches;
 }
 

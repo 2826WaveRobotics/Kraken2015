@@ -4,9 +4,14 @@
 #include "CommandBase.h"
 #include "OI.h"
 #include "Subsystems/Drive.h"
+#include "Subsystems/Elevator.h"
 
 class Robot: public IterativeRobot
 {
+public:
+	static Drive* m_drive;
+	static Elevator* m_elevator;
+
 private:
 	Command *autonomousCommand;
 	LiveWindow *lw;
@@ -19,7 +24,5 @@ private:
 	void TeleopInit();
 	void TeleopPeriodic();
 	void TestPeriodic();
-
-	static Drive* m_drive;
 
 };

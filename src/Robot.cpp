@@ -10,16 +10,18 @@
 
 OI* Robot::oi = 0;
 Drive* Robot::m_drive = 0;
+Elevator* Robot::m_elevator = 0;
 
 void Robot::RobotInit()
 {
 	CommandBase::init();
-	oi = new OI();
-	autonomousCommand = new ExampleCommand();
 	lw = LiveWindow::GetInstance();
 	m_drive= new Drive();
+	m_elevator = new Elevator();
+	oi = new OI();
+	autonomousCommand = new ExampleCommand();
 }
-	
+
 void Robot::DisabledPeriodic()
 {
 	Scheduler::GetInstance()->Run();

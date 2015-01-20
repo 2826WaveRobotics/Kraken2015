@@ -5,7 +5,7 @@
 Drive::Drive() :
 		PIDSubsystem("Drive", 1.0, 0.0, 0.0)
 {
-	m_robotDrive = new RobotDrive(RobotMap::leftDrive, RobotMap::rightDrive);
+	m_robotDrive = new RobotDrive(RobotMap::leftDrive1, RobotMap::leftDrive2, RobotMap::rightDrive1, RobotMap::rightDrive2);
  // insert motor controllers, sensors, and everything else in here
 }
 
@@ -32,7 +32,7 @@ void Drive::DriveWithJoysticks(float left, float right)
 
 double Drive::ReturnPIDInput()
 {
-	return RobotMap::leftDrive->Get();
+	return RobotMap::leftDrive1->Get();
 }
 
 void Drive::UsePIDOutput(double)

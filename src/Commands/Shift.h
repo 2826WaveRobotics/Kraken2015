@@ -4,11 +4,12 @@
 #include "../CommandBase.h"
 #include "WPILib.h"
 #include "../RobotMap.h"
+#include "../Subsystems/Drive.h"
 
 class Shift: public CommandBase
 {
 public:
-	Shift();
+	Shift(bool highGear);
 	void Initialize();
 	void Execute();
 	bool IsFinished();
@@ -16,7 +17,8 @@ public:
 	void Interrupted();
 
 private:
-	Solenoid *shifter;
+	Drive* drive;
+	bool m_highGear;
 
 };
 

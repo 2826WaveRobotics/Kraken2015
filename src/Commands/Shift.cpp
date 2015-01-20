@@ -2,14 +2,22 @@
 #include "../Robot.h"
 #include "../WaveConstants.h"
 
-Shift::Shift()
+Shift::Shift(bool highGear)
 {
-	shifter = RobotMap::shifter;
+	drive = Robot::m_drive;
+	m_highGear = highGear;
 }
 
 void Shift::Initialize()
 {
-	shifter->Set(On);
+	if(m_highGear == true)
+	{
+		drive->ShiftGear(true);
+	}
+	else
+	{
+		drive->ShiftGear(false);
+	}
 }
 
 void Shift::Execute()
@@ -24,7 +32,7 @@ bool Shift::IsFinished()
 
 void Shift::End()
 {
-	shifter->Set(Off);
+
 }
 
 void Shift::Interrupted()

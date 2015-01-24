@@ -19,6 +19,13 @@ public:
 	static CANTalon* elevatorRight;
 	static AnalogInput* elevatorSensor;
 
+	//Recycler
+	static Talon* trackArmL;
+	static Talon* trackArmR;
+	static DigitalInput* lowerSensor;
+	static DigitalInput* upperSensor;
+	static Solenoid* canGrabber;
+
 	static void init();
 
 private:

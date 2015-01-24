@@ -1,5 +1,6 @@
 #include "OI.h"
 #include "Commands/ShiftHigh.h"
+#include "Commands/SetElevatorPosition.h"
 
 OI::OI()
 {
@@ -30,9 +31,10 @@ OI::OI()
 	operator_LJoy = new JoystickButton(driverJoystick, 9);
 	operator_RJoy = new JoystickButton(driverJoystick, 10);
 
-	//comment
+	//i can make a comment
 
 	driver_X->WhenPressed(new ShiftHigh());
+	driver_A->WhenPressed(new SetElevatorPosition(24.0));
 }
 
 Joystick* OI::getDriverJoystick()

@@ -4,7 +4,7 @@
 #include "Commands/Subsystem.h"
 #include "WPILib.h"
 
-class Elevator: public Subsystem
+class Elevator: public PIDSubsystem
 {
 private:
 	// It's desirable that everything possible under private except
@@ -16,9 +16,18 @@ private:
 
 public:
 	Elevator();
-	void InitDefaultCommand();
+
+	double ReturnPIDInput();
+		void UsePIDOutput(double output);
+		void InitDefaultCommand();
+
+	void setAbsoluteHeight(double targetHeight);
+	void disablePID();
+
 	float getCurrentVoltage();
 	float convertVoltsToInches (float volts);
+	float convertInchesToVolts(double inches);
+
 
 	// A positive speed will raise the elevator, a negative speed will lower it.
 	void setElevatorMotors(float speed);

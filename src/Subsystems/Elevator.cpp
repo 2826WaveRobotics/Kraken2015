@@ -7,17 +7,91 @@ namespace
 	double MinVolts = 0;
 	double MinLength = 0;
 	double MaxLength = 25;
+
+	float c_downP = 1.0;
+	float c_downI = 0.0;
+	float c_downD = 0.0;
+
+	float c_upP = 1.0;
+	float c_upI = 0.0;
+	float c_upD = 0.0;
 }
 
 
 
 
 Elevator::Elevator() :
-		Subsystem("Elevator")
+		PIDSubsystem("Elevator", 0.5, 0.0, 0.0)
+
 {
+	SetAbsoluteTolerance(0.1);
+		GetPIDController()->SetContinuous(false);
+		//LiveWindow::GetInstance()->AddActuator("ArmPitchWithPID", "PIDSubsystem Controller", GetPIDController());
+		GetPIDController()->SetInputRange(0, 12.0); //range on sensor 0-12 volts
+		GetPIDController()->SetOutputRange(-1.0, 1.0); //range on motors
+		GetPIDController()->SetAbsoluteTolerance(0.3); //plus or minus this voltage
+
 	m_elevatorLeft = RobotMap::elevatorLeft;
 	m_elevatorRight = RobotMap::elevatorRight;
 	m_elevatorSensor = RobotMap::elevatorSensor;
+}
+
+double Elevator::ReturnPIDInput() {
+	// Return your input value for the PID loop
+	// e.g. a sensor, like a potentiometer:
+	// yourPot->SetAverageVoltage() / kYourMaxVoltage;
+        return m_elevatorSensor->GetAverageVoltage();
+}
+void Elevator::UsePIDOutput(double output) {
+    output = -output; //Arm motors are inverted
+
+    //Limit the acceleration
+//    if(output > 0.8)
+//    {
+//        output = 0.8;
+//    }
+//    else if(output < -0.8)
+//    {
+//        output = -0.8;
+//    }
+
+	// Use output to drive your system, like a motor
+	// e.g. yourMotor->Set(output);
+
+	m_elevatorLeft->PIDWrite(output);
+	m_elevatorRight->PIDWrite(-output);
+}
+
+void Elevator::setAbsoluteHeight(double targetHeight)
+{
+
+    PIDController *pid = GetPIDController();
+    double currentHeight = convertVoltsToInches(getCurrentVoltage());
+
+    if(currentHeight<targetHeight)
+    {
+        //These are DOWN gains
+
+           pid->SetPID(c_downP, c_downI, c_downD);
+    }
+    else
+    {
+        //These are UP gains
+
+            pid->SetPID(c_upP, c_upI, c_upD);
+        }
+
+    double setVoltage = convertInchesToVolts(targetHeight);
+
+    pid->Reset();
+    pid->SetSetpoint(setVoltage); //setpoint is in voltage
+    pid->Enable();
+
+}
+
+void Elevator::disablePID()
+{
+	GetPIDController()->Disable();
 }
 
 void Elevator::InitDefaultCommand()
@@ -28,8 +102,14 @@ void Elevator::InitDefaultCommand()
 
 float Elevator::convertVoltsToInches (float volts)
 {
-	double inches = ((MaxVolts - MinVolts)/(MaxLength - MinLength)) * volts;
+	double inches = ((MaxLength - MinLength)/(MaxVolts - MinVolts)) * volts;
 	return inches;
+}
+
+float Elevator::convertInchesToVolts (double inches)
+{
+	float volts = ((MaxVolts - MinVolts)/(MaxLength - MinLength)) * inches;
+		return volts;
 }
 
 float Elevator::getCurrentVoltage()

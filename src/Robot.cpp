@@ -11,6 +11,7 @@
 OI* Robot::oi = 0;
 Drive* Robot::m_drive = 0;
 Elevator* Robot::m_elevator = 0;
+Recycler* Robot::m_recycler = 0;
 
 void Robot::RobotInit()
 {
@@ -19,6 +20,7 @@ void Robot::RobotInit()
 	m_drive= new Drive();
 	m_elevator = new Elevator();
 	oi = new OI();
+	m_recycler = new Recycler();
 	autonomousCommand = new ExampleCommand();
 }
 

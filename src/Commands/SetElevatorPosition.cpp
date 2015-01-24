@@ -10,18 +10,8 @@ SetElevatorPosition::SetElevatorPosition(double inches)
 
 void SetElevatorPosition::Initialize()
 {
-	float currentVolts = Robot::m_elevator->getCurrentVoltage();
-	float currentHeight = Robot::m_elevator->convertVoltsToInches(currentVolts);
-	if(currentHeight < m_inches)
-	{
-		//this means the elevator is lower then the target, the elevator needs to go up.
-		m_motorValue = .5;
-	}
-	else
-	{
-		//this means the elevator is above the target, the elevator needs to go down
-		m_motorValue = -.5;
-	}
+	    Robot::m_elevator->setAbsoluteHeight(m_inches);
+	    SetTimeout(3.0); //time in seconds
 }
 
 void SetElevatorPosition::Execute()
@@ -31,28 +21,13 @@ void SetElevatorPosition::Execute()
 
 bool SetElevatorPosition::IsFinished()
 {
-	float height = Robot::m_elevator->convertVoltsToInches(Robot::m_elevator->getCurrentVoltage());
-
-	if((m_motorValue > 0) && (height >= m_inches))
-	{
-		//If the elevator is moving up and is higher than or equal to m_inches, stop the motors
-		return true;
-	}
-	else if((m_motorValue < 0) && (height <= m_inches))
-	{
-		//If the elevator is moving down and is lower than or equal to m_inches, stop the motors
-		return true;
-	}
-	else
-	{
-		//We haven't reached m_inches yet, so keep going.
-		return false;
-	}
+	        return false; //always return false because we want the PID to keep the elevator in place
 }
 
 void SetElevatorPosition::End()
 {
 	//Turn the motors off
+	Robot::m_elevator->disablePID();
 	Robot::m_elevator->setElevatorMotors(0);
 }
 

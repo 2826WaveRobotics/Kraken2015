@@ -10,6 +10,11 @@ Solenoid* RobotMap::shifter = NULL;
 CANTalon* RobotMap::elevatorLeft = NULL;
 CANTalon* RobotMap::elevatorRight = NULL;
 AnalogInput* RobotMap::elevatorSensor = NULL;
+Talon* RobotMap::trackArmL= NULL;
+Talon* RobotMap::trackArmR= NULL;
+DigitalInput* RobotMap::lowerSensor= NULL;
+DigitalInput* RobotMap::upperSensor= NULL;
+Solenoid* RobotMap::canGrabber= NULL;
 
 void RobotMap::init() {
 
@@ -21,7 +26,14 @@ void RobotMap::init() {
 	elevatorRight = new CANTalon(5);
 
 	shifter = new Solenoid(0, 0);
+	canGrabber = new Solenoid (0,1);
 
 	elevatorSensor = new AnalogInput(0);
+
+	trackArmL = new Talon(1);
+	trackArmR = new Talon(2);
+
+	lowerSensor = new DigitalInput (1);
+	upperSensor = new DigitalInput (2);
 
 	}

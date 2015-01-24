@@ -12,9 +12,14 @@ CANTalon* RobotMap::elevatorRight = NULL;
 AnalogInput* RobotMap::elevatorSensor = NULL;
 Talon* RobotMap::trackArmL= NULL;
 Talon* RobotMap::trackArmR= NULL;
+Talon* RobotMap::frontIntake= NULL;
+Talon* RobotMap::rearIntake= NULL;
 DigitalInput* RobotMap::lowerSensor= NULL;
 DigitalInput* RobotMap::upperSensor= NULL;
+DigitalInput* RobotMap::frontIntakeSensor= NULL;
+DigitalInput* RobotMap::rearIntakeSensor= NULL;
 Solenoid* RobotMap::canGrabber= NULL;
+Encoder* RobotMap::m_driveEncoder= NULL;
 
 void RobotMap::init() {
 
@@ -32,8 +37,13 @@ void RobotMap::init() {
 
 	trackArmL = new Talon(1);
 	trackArmR = new Talon(2);
+	frontIntake = new Talon(3);
+	rearIntake = new Talon(4);
 
 	lowerSensor = new DigitalInput (1);
 	upperSensor = new DigitalInput (2);
+	frontIntakeSensor = new DigitalInput (3);
+	rearIntakeSensor = new DigitalInput (4);
 
+	m_driveEncoder = new Encoder (3,4, false); //last parameter is reverse direction
 	}

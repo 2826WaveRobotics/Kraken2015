@@ -42,6 +42,13 @@ double Elevator::ReturnPIDInput() {
 	// yourPot->SetAverageVoltage() / kYourMaxVoltage;
         return m_elevatorSensor->GetAverageVoltage();
 }
+
+double Elevator::GetPIDOutput()
+{
+	return GetPIDController()->Get();
+}
+
+
 void Elevator::UsePIDOutput(double output) {
     output = -output; //Arm motors are inverted
 
@@ -66,7 +73,7 @@ void Elevator::setAbsoluteHeight(double targetHeight)
 {
 
     PIDController *pid = GetPIDController();
-    double currentHeight = convertVoltsToInches(getCurrentVoltage());
+    double currentHeight = convertVoltsToInches(getCurrentVoltageOfSensor());
 
     if(currentHeight<targetHeight)
     {
@@ -112,9 +119,14 @@ float Elevator::convertInchesToVolts (double inches)
 		return volts;
 }
 
-float Elevator::getCurrentVoltage()
+float Elevator::getCurrentVoltageOfSensor()
 {
 	return	m_elevatorSensor->GetVoltage();
+}
+
+double Elevator::getCurrentHeight()
+{
+	return convertVoltsToInches(getCurrentVoltageOfSensor());
 }
 
 void Elevator::setElevatorMotors(float speed)
@@ -122,6 +134,17 @@ void Elevator::setElevatorMotors(float speed)
 	m_elevatorLeft->Set(speed);
 	m_elevatorRight->Set(-speed);
 }
+
+float Elevator::getCurrentFeedback_LeftMotor()
+{
+	return m_elevatorLeft->GetOutputCurrent();
+}
+
+float Elevator::getCurrentFeedback_RightMotor()
+{
+	return m_elevatorRight->GetOutputCurrent();
+}
+
 
 // Put methods for controlling this subsystem
 // here. Call these from Commands.

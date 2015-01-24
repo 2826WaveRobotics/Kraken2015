@@ -12,6 +12,7 @@ OI* Robot::oi = 0;
 Drive* Robot::m_drive = 0;
 Elevator* Robot::m_elevator = 0;
 Recycler* Robot::m_recycler = 0;
+Intake* Robot::m_intake = 0;
 
 void Robot::RobotInit()
 {
@@ -22,6 +23,7 @@ void Robot::RobotInit()
 	oi = new OI();
 	m_recycler = new Recycler();
 	autonomousCommand = new ExampleCommand();
+	m_intake= new Intake();
 }
 
 void Robot::DisabledPeriodic()

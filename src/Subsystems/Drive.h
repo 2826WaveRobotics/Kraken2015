@@ -11,6 +11,11 @@ public:
 	void InitDefaultCommand();
 	void DriveWithJoysticks(float left, float right);
 	void ShiftGear(bool highGear);
+	void setDriveOutputPID();
+	void setDistance(double inches);
+	float getPIDOutput();
+	double getCurrentDistance();
+
 
 	virtual double ReturnPIDInput();
 	virtual void UsePIDOutput(double);
@@ -18,7 +23,10 @@ public:
 
 private:
 	RobotDrive* m_robotDrive;
+	Encoder* m_driveEncoder;
 
+	double m_inchesToDrive;
+	double m_distanceDriven;
 };
 
 #endif

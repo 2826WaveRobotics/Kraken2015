@@ -13,7 +13,12 @@ public:
 	static CANTalon* rightDrive1;
 	static CANTalon* rightDrive2;
 	static Solenoid* shifter;
-
+	static Encoder* m_driveEncoder;
+	//inTake
+	static Talon* frontIntake;
+	static Talon* rearIntake;
+	static DigitalInput* frontIntakeSensor;
+	static DigitalInput* rearIntakeSensor;
 	//Elevator
 	static CANTalon* elevatorLeft;
 	static CANTalon* elevatorRight;

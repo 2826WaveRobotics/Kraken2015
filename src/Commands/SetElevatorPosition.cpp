@@ -10,25 +10,33 @@ SetElevatorPosition::SetElevatorPosition(double inches)
 
 void SetElevatorPosition::Initialize()
 {
-	    Robot::m_elevator->setAbsoluteHeight(m_inches);
-	    SetTimeout(3.0); //time in seconds
+	Robot::m_elevator->disablePID(); //Disable the PID in order to restart it with setAbsoluteHeight()
+	Robot::m_elevator->setAbsoluteHeight(m_inches);
+	SetTimeout(3.0); //time in seconds
 }
 
 void SetElevatorPosition::Execute()
 {
-	Robot::m_elevator->setElevatorMotors(m_motorValue);
+	Robot::m_elevator->UsePIDOutput(Robot::m_elevator->GetPIDOutput());
 }
 
 bool SetElevatorPosition::IsFinished()
 {
-	        return false; //always return false because we want the PID to keep the elevator in place
+	double currentHeight = Robot::m_elevator->getCurrentHeight();
+
+	if(fabs(currentHeight - m_inches) < 1) //if we're within an inch of where we want to be
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 void SetElevatorPosition::End()
 {
-	//Turn the motors off
-	Robot::m_elevator->disablePID();
-	Robot::m_elevator->setElevatorMotors(0);
+	//Do Nothing. Note that the PID is still running when this command ends
 }
 
 void SetElevatorPosition::Interrupted()

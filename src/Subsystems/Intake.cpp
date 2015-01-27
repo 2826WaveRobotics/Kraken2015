@@ -4,7 +4,8 @@
 Intake::Intake() :
 		Subsystem("Intake")
 {
-m_frontIntake = RobotMap ::frontIntake;
+m_frontIntakeLeft = RobotMap ::frontIntakeLeft;
+m_frontIntakeRight = RobotMap ::frontIntakeRight;
 m_rearIntake = RobotMap::rearIntake;
 m_frontIntakeSensor = RobotMap::frontIntakeSensor;
 m_rearIntakeSensor = RobotMap::rearIntakeSensor;
@@ -12,7 +13,8 @@ m_rearIntakeSensor = RobotMap::rearIntakeSensor;
 
 void Intake::SetFrontIntake(float percentage)
 {
-	m_frontIntake->Set(percentage);
+	m_frontIntakeLeft->Set(percentage);
+	m_frontIntakeRight->Set(-percentage);
 }
 void Intake::SetRearIntake(float percentage)
 {

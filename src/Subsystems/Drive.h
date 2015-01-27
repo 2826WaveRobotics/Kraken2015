@@ -23,7 +23,8 @@ public:
 
 private:
 	RobotDrive* m_robotDrive;
-	Encoder* m_driveEncoder;
+	Encoder* m_driveEncoderLeft;
+	Encoder* m_driveEncoderRight;
 
 	double m_inchesToDrive;
 	double m_distanceDriven;

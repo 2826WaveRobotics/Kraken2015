@@ -12,6 +12,7 @@ private:
 	CANTalon* m_elevatorLeft;
 	CANTalon* m_elevatorRight;
 	AnalogInput* m_elevatorSensor;
+	Solenoid* m_toteConstrictor;
 
 
 public:
@@ -29,6 +30,8 @@ public:
 	float convertVoltsToInches (float volts);
 	float convertInchesToVolts(double inches);
 	double getCurrentHeight();
+
+	void toteConstrictorLock(bool Lock);
 
 	//Returns current in Amps.
 	float getCurrentFeedback_LeftMotor();

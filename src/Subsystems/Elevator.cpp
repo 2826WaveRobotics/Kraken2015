@@ -1,5 +1,6 @@
 #include "Elevator.h"
 #include "../RobotMap.h"
+#include "../WaveConstants.h"
 
 namespace
 {
@@ -34,6 +35,7 @@ Elevator::Elevator() :
 	m_elevatorLeft = RobotMap::elevatorLeft;
 	m_elevatorRight = RobotMap::elevatorRight;
 	m_elevatorSensor = RobotMap::elevatorSensor;
+	m_toteConstrictor= RobotMap::toteConstrictor;
 }
 
 double Elevator::ReturnPIDInput() {
@@ -127,6 +129,16 @@ float Elevator::getCurrentVoltageOfSensor()
 double Elevator::getCurrentHeight()
 {
 	return convertVoltsToInches(getCurrentVoltageOfSensor());
+}
+
+void Elevator::toteConstrictorLock(bool Lock)
+{
+	if (Lock) {
+		m_toteConstrictor->Set(On);
+	}
+	else {
+		m_toteConstrictor->Set(Off);
+	}
 }
 
 void Elevator::setElevatorMotors(float speed)

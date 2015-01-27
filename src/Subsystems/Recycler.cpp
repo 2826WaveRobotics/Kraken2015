@@ -6,12 +6,9 @@ Recycler::Recycler() :
 Subsystem("Recycler")
 {
 
-	trackArmL = RobotMap::trackArmL;
-	trackArmR = RobotMap::trackArmR;
+	trackArm = RobotMap::trackArm;
 	lowerSensor = RobotMap::lowerSensor;
 	upperSensor = RobotMap::upperSensor;
-	canGrabber = RobotMap::canGrabber;
-
 }
 
 bool Recycler::isUpperSensorTripped(){
@@ -25,6 +22,8 @@ bool Recycler::isUpperSensorTripped(){
 		return false;
 	}
 }
+
+
 bool Recycler::isLowerSensorTripped() {
 	if(lowerSensor->Get()==true)
 	{
@@ -35,19 +34,11 @@ bool Recycler::isLowerSensorTripped() {
 		return false;
 	}
 }
-void	Recycler::SetRecycleMotors(float speed) {
-	trackArmL->Set(speed);
-	trackArmR->Set(-speed);
-	}
-void Recycler::canControl(bool grab){
-	if(grab){
-		canGrabber->Set(On);
-	}
-	else{
-		canGrabber->Set(Off);
-	}
-}
 
+
+void Recycler::SetRecycleMotors(float speed) {
+	trackArm->Set(speed);
+}
 
 void Recycler::InitDefaultCommand()
 {

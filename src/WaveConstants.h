@@ -9,12 +9,4 @@ const int On=1;
 const int Off=0;
 
 
-//An enumeration is a numbered list of variables
-enum
-{
-	Bin_CenterConfig = 0,
-	Bin_LeftConfig, //This has a value of 1
-	Bin_RightConfig //This has a value of 2
-};
-
 #endif

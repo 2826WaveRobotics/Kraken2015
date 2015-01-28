@@ -9,9 +9,8 @@ class Intake: public Subsystem
 private:
 	// It's desirable that everything possible under private except
 	// for methods that implement subsystem capabilities
-	CANTalon* m_frontIntakeLeft;
-	CANTalon* m_frontIntakeRight;
-	CANTalon* m_rearIntake;
+	Talon* m_frontIntake;
+	Talon* m_rearIntake;
 	DigitalInput* m_frontIntakeSensor;
 	DigitalInput* m_rearIntakeSensor;
 public:

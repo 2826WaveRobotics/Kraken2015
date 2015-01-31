@@ -67,8 +67,6 @@ void Robot::TeleopPeriodic()
 
 	m_drive->DriveWithJoysticks(oi->getDriverJoystick()->GetRawAxis(2), oi->getDriverJoystick()->GetRawAxis(4));
 
-	std::cout<<"hi"<<std::endl;
-
 	Wait(0.01);
 }
 

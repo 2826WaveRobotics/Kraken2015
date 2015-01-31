@@ -16,6 +16,8 @@ Intake* Robot::m_intake = 0;
 
 void Robot::RobotInit()
 {
+	RobotMap::init();
+
 	CommandBase::init();
 	lw = LiveWindow::GetInstance();
 	m_drive= new Drive();
@@ -55,7 +57,6 @@ void Robot::TeleopInit()
 void Robot::TeleopPeriodic()
 {
 	Scheduler::GetInstance()->Run();
-
 	bool param = oi->getDriverJoystick()->GetRawAxis(3)>0.5 ? true : false;
 	m_drive->ShiftGear(param);
 

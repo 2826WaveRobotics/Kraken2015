@@ -12,6 +12,7 @@ public:
 	static CANTalon* leftDrive2;
 	static CANTalon* rightDrive1;
 	static CANTalon* rightDrive2;
+	static RobotDrive* m_robotDrive;
 	static Solenoid* shifter;
 	static Encoder* m_driveEncoderLeft;
 	static Encoder* m_driveEncoderRight;

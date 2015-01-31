@@ -25,6 +25,7 @@ private:
 	RobotDrive* m_robotDrive;
 	Encoder* m_driveEncoderLeft;
 	Encoder* m_driveEncoderRight;
+	Solenoid* m_shifter;
 
 	double m_inchesToDrive;
 	double m_distanceDriven;

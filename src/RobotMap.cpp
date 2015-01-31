@@ -2,18 +2,19 @@
 #include "WaveConstants.h"
 
 
-CANTalon* RobotMap::leftDrive1 = NULL; // okay
-CANTalon* RobotMap::leftDrive2 = NULL; // okay
-CANTalon* RobotMap::rightDrive1 = NULL;// okay
-CANTalon* RobotMap::rightDrive2 = NULL;// okay
+CANTalon* RobotMap::leftDrive1 = NULL;
+CANTalon* RobotMap::leftDrive2 = NULL;
+CANTalon* RobotMap::rightDrive1 = NULL;
+CANTalon* RobotMap::rightDrive2 = NULL;
+RobotDrive* RobotMap::m_robotDrive = NULL;
 Solenoid* RobotMap::shifter = NULL;
-CANTalon* RobotMap::elevatorLeft = NULL; //okay
-CANTalon* RobotMap::elevatorRight = NULL; // okay
+CANTalon* RobotMap::elevatorLeft = NULL;
+CANTalon* RobotMap::elevatorRight = NULL;
 AnalogInput* RobotMap::elevatorSensor = NULL;
-CANTalon* RobotMap::trackArm= NULL; // okay
-CANTalon* RobotMap::frontIntakeLeft= NULL;// okay
-CANTalon* RobotMap::frontIntakeRight= NULL;// okay
-CANTalon* RobotMap::rearIntake= NULL; // okay
+CANTalon* RobotMap::trackArm= NULL;
+CANTalon* RobotMap::frontIntakeLeft= NULL;
+CANTalon* RobotMap::frontIntakeRight= NULL;
+CANTalon* RobotMap::rearIntake= NULL;
 DigitalInput* RobotMap::lowerSensor= NULL;
 DigitalInput* RobotMap::upperSensor= NULL;
 DigitalInput* RobotMap::frontIntakeSensor= NULL;
@@ -34,6 +35,7 @@ void RobotMap::init() {
 	leftDrive2 = new CANTalon(1);
 	rightDrive1 = new CANTalon(2);
 	rightDrive2 = new CANTalon(3);
+	m_robotDrive = new RobotDrive(leftDrive1, leftDrive2, rightDrive1, rightDrive2);
 	elevatorLeft = new CANTalon(4);
 	elevatorRight = new CANTalon(5);
 	trackArm = new CANTalon(6);

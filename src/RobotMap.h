@@ -14,34 +14,24 @@ public:
 	static CANTalon* rightDrive2;
 	static RobotDrive* m_robotDrive;
 	static Solenoid* shifter;
-	static Encoder* m_driveEncoderLeft;
-	static Encoder* m_driveEncoderRight;
-	static AnalogInput* yawRate;
-
+	static Encoder* m_driveEncoder;
 	//inTake
-	static CANTalon* frontIntakeLeft;
-	static CANTalon* frontIntakeRight;
-	static CANTalon* rearIntake;
+	static Talon* frontIntake;
+	static Talon* rearIntake;
 	static DigitalInput* frontIntakeSensor;
 	static DigitalInput* rearIntakeSensor;
-
-	//Bin juggler
-	static Solenoid* jugglerLift;
-	static Solenoid* leftLock;
-	static Solenoid* rightLock;
-	static Solenoid* leftGrab;
-	static Solenoid* rightGrab;
-
 	//Elevator
 	static CANTalon* elevatorLeft;
 	static CANTalon* elevatorRight;
 	static AnalogInput* elevatorSensor;
-	static Solenoid* toteConstrictor;
 
 	//Recycler
-	static CANTalon* trackArm;
+	static Talon* trackArmL;
+	static Talon* trackArmR;
 	static DigitalInput* lowerSensor;
 	static DigitalInput* upperSensor;
+	static Solenoid* canGrabber;
+
 	static void init();
 
 private:

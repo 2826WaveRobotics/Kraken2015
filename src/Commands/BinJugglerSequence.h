@@ -11,7 +11,8 @@ class BinJugglerSequence: public CommandGroup
 public:
 	BinJugglerSequence(int configuration);
 private:
-
+	int currentPosition;
+	int set;
 };
 
 #endif

@@ -6,31 +6,93 @@ BinJugglerSequence::BinJugglerSequence(int configuration) {
 	//AddSequential(new CommandName());
 
 
-//	AddSequential(new BinJugglerCommand(0, 0));
+	//	AddSequential(new BinJugglerCommand(0, 0));
 
-		switch(configuration)
+
+	if((currentPosition == Bin_CenterActive) && (configuration == Bin_LeftConfig))
 	{
-		case Bin_CenterConfig:
-			AddSequential(new BinJugglerCommand(Bin_LiftCylinder, On));
-			AddSequential(new WaveWait(0.5));
-			AddSequential(new BinJugglerCommand(Bin_LeftLock, On));
-			AddSequential(new BinJugglerCommand(Bin_RightLock, On));
-			break;
-		case Bin_LeftConfig:
-			AddSequential(new BinJugglerCommand(Bin_LiftCylinder, Off));
-			AddSequential(new WaveWait(0.5));
-			AddSequential(new BinJugglerCommand(Bin_LeftLock, Off));
-			AddSequential(new BinJugglerCommand(Bin_RightLock, On));
-			break;
-		case Bin_RightConfig:
-			AddSequential(new BinJugglerCommand(Bin_LiftCylinder, Off));
-			AddSequential(new WaveWait(0.5));
-			AddSequential(new BinJugglerCommand(Bin_LeftLock, On));
-			AddSequential(new BinJugglerCommand(Bin_RightLock, Off));
-			break;
-		default:
-			//Do nothing
-			break;
+		set = Bin_CenterToLeft;
+	}
+	else if((currentPosition == Bin_CenterActive) && (configuration == Bin_RightConfig))
+	{
+		set = Bin_CenterToRight;
+	}
+	else if((currentPosition == Bin_LeftActive) && (configuration == Bin_CenterConfig))
+	{
+		set = Bin_LeftToCenter;
+	}
+	else if((currentPosition == Bin_LeftActive) && (configuration == Bin_RightConfig))
+	{
+		set = Bin_LeftToRight;
+	}
+	else if((currentPosition == Bin_RightActive) && (configuration == Bin_CenterConfig))
+	{
+		set = Bin_RightToCenter;
+	}
+	else if((currentPosition == Bin_RightActive) && (configuration == Bin_LeftConfig))
+	{
+		set = Bin_RightToLeft;
+	}
+	else
+	{
+		set = Bin_SameToSame;
+	}
+
+
+	switch(set)
+	{
+	case Bin_CenterToLeft:
+		AddSequential(new BinJugglerCommand(Bin_RightLock, Off));
+		AddSequential(new BinJugglerCommand(Bin_LiftCylinder, Off));
+		AddSequential(new WaveWait(binCylinderWait));
+		currentPosition = Bin_LeftActive;
+		break;
+	case Bin_CenterToRight:
+		AddSequential(new BinJugglerCommand(Bin_LeftLock, Off));
+		AddSequential(new BinJugglerCommand(Bin_LiftCylinder, Off));
+		AddSequential(new WaveWait(binCylinderWait));
+		currentPosition = Bin_RightActive;
+		break;
+	case Bin_LeftToCenter:
+		AddSequential(new BinJugglerCommand(Bin_RightLock, Off));
+		AddSequential(new BinJugglerCommand(Bin_LiftCylinder, On));
+		AddSequential(new WaveWait(binCylinderWait));
+		AddSequential(new BinJugglerCommand(Bin_RightLock, On));
+		currentPosition = Bin_CenterActive;
+		break;
+	case Bin_LeftToRight:
+		AddSequential(new BinJugglerCommand(Bin_RightLock, Off));
+		AddSequential(new BinJugglerCommand(Bin_LiftCylinder, On));
+		AddSequential(new WaveWait(binCylinderWait));
+		AddSequential(new BinJugglerCommand(Bin_RightLock, On));
+		AddSequential(new BinJugglerCommand(Bin_LeftLock, Off));
+		AddSequential(new BinJugglerCommand(Bin_LiftCylinder, Off));
+		AddSequential(new WaveWait(binCylinderWait));
+		currentPosition = Bin_RightActive;
+		break;
+	case Bin_RightToCenter:
+		AddSequential(new BinJugglerCommand(Bin_LeftLock, Off));
+		AddSequential(new BinJugglerCommand(Bin_LiftCylinder, On));
+		AddSequential(new WaveWait(binCylinderWait));
+		AddSequential(new BinJugglerCommand(Bin_LeftLock, On));
+		currentPosition = Bin_CenterActive;
+		break;
+	case Bin_RightToLeft:
+		AddSequential(new BinJugglerCommand(Bin_LeftLock, Off));
+		AddSequential(new BinJugglerCommand(Bin_LiftCylinder, On));
+		AddSequential(new WaveWait(binCylinderWait));
+		AddSequential(new BinJugglerCommand(Bin_LeftLock, On));
+		AddSequential(new BinJugglerCommand(Bin_RightLock, Off));
+		AddSequential(new BinJugglerCommand(Bin_LiftCylinder, Off));
+		AddSequential(new WaveWait(binCylinderWait));
+		currentPosition = Bin_LeftActive;
+		break;
+	case Bin_SameToSame:
+		//already there!
+		break;
+	default:
+		//Do nothing
+		break;
 	}
 
 

@@ -19,28 +19,42 @@ void BinJuggler::InitDefaultCommand()
 	//SetDefaultCommand(new MySpecialCommand());
 }
 
-void BinJuggler::loadSelection(int configuration) {
-	switch(configuration)
-	{
-		case Bin_CenterConfig:
-			m_jugglerLift-> Set(On);
-			m_leftLock->Set(On);
-			m_rightLock->Set(On);
-			break;
-		case Bin_LeftConfig:
-			m_jugglerLift-> Set(Off);
-			m_leftLock->Set(Off);
-			m_rightLock->Set(On);
-			break;
-		case Bin_RightConfig:
-			m_jugglerLift-> Set(Off);
-			m_leftLock->Set(On);
-			m_rightLock->Set(Off);
-			break;
-		default:
-			//Do nothing
-			break;
+void BinJuggler::loadSelection(int cylinder, bool state) {
+
+	switch(cylinder) {
+	case Bin_LiftCylinder:
+		m_jugglerLift-> Set(state);
+		break;
+	case Bin_LeftLock:
+		m_leftLock-> Set(state);
+		break;
+	case Bin_RightLock:
+		m_rightLock-> Set(state);
+		break;
+	default:
+		break;
 	}
+	//	switch(configuration)
+//	{
+//		case Bin_CenterConfig:
+//			m_jugglerLift-> Set(On);
+//			m_leftLock->Set(On);
+//			m_rightLock->Set(On);
+//			break;
+//		case Bin_LeftConfig:
+//			m_jugglerLift-> Set(Off);
+//			m_leftLock->Set(Off);
+//			m_rightLock->Set(On);
+//			break;
+//		case Bin_RightConfig:
+//			m_jugglerLift-> Set(Off);
+//			m_leftLock->Set(On);
+//			m_rightLock->Set(Off);
+//			break;
+//		default:
+//			//Do nothing
+//			break;
+//	}
 
 
 

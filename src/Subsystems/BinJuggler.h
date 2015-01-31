@@ -17,7 +17,7 @@ private:
 public:
 	BinJuggler();
 	void InitDefaultCommand();
-	void loadSelection(int configuration);
+	void loadSelection(int cylinder, bool state);
 
 };
 

@@ -17,4 +17,12 @@ enum
 	Bin_RightConfig //This has a value of 2
 };
 
+
+enum
+{
+	Bin_LiftCylinder = 0,
+	Bin_LeftLock, //This has a value of 1
+	Bin_RightLock //This has a value of 2
+};
+
 #endif

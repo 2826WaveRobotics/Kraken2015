@@ -8,11 +8,14 @@
 #include "WaveConstants.h"
 #include "RobotMap.h"
 
+using namespace std;
+
 OI* Robot::oi = 0;
 Drive* Robot::m_drive = 0;
 Elevator* Robot::m_elevator = 0;
 Recycler* Robot::m_recycler = 0;
 Intake* Robot::m_intake = 0;
+BinJuggler* Robot::m_binJuggler = 0;
 
 void Robot::RobotInit()
 {
@@ -24,6 +27,7 @@ void Robot::RobotInit()
 	m_recycler = new Recycler();
 	autonomousCommand = new ExampleCommand();
 	m_intake= new Intake();
+	m_binJuggler= new BinJuggler();
 }
 
 void Robot::DisabledPeriodic()
@@ -60,6 +64,8 @@ void Robot::TeleopPeriodic()
 	m_drive->ShiftGear(param);
 
 	m_drive->DriveWithJoysticks(oi->getDriverJoystick()->GetRawAxis(2), oi->getDriverJoystick()->GetRawAxis(4));
+
+	std::cout<<"hi"<<std::endl;
 
 	Wait(0.01);
 }

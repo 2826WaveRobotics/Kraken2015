@@ -29,6 +29,7 @@ Solenoid* RobotMap::leftGrab = NULL;
 Solenoid* RobotMap::rightGrab = NULL;
 Solenoid* RobotMap::toteConstrictor = NULL;
 
+
 void RobotMap::init() {
 
 	leftDrive1 = new CANTalon(0);

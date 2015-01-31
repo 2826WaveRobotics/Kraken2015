@@ -3,6 +3,7 @@
 
 #include "WPILib.h"
 
+
 class RobotMap {
 
 public:
@@ -15,22 +16,35 @@ public:
 	static RobotDrive* m_robotDrive;
 	static Solenoid* shifter;
 	static Encoder* m_driveEncoder;
+	static AnalogInput* yawRate;
+	static Encoder* m_driveEncoderLeft;
+	static Encoder* m_driveEncoderRight;
+
 	//inTake
-	static Talon* frontIntake;
-	static Talon* rearIntake;
+	static CANTalon* frontIntakeLeft;
+	static CANTalon* frontIntakeRight;
+	static CANTalon* rearIntake;
 	static DigitalInput* frontIntakeSensor;
 	static DigitalInput* rearIntakeSensor;
+
 	//Elevator
 	static CANTalon* elevatorLeft;
 	static CANTalon* elevatorRight;
 	static AnalogInput* elevatorSensor;
 
 	//Recycler
-	static Talon* trackArmL;
-	static Talon* trackArmR;
+	static CANTalon* trackArm;
 	static DigitalInput* lowerSensor;
 	static DigitalInput* upperSensor;
 	static Solenoid* canGrabber;
+
+	//Bin Juggler
+	static Solenoid* jugglerLift;
+	static Solenoid* leftLock;
+	static Solenoid* rightLock;
+	static Solenoid* leftGrab;
+	static Solenoid* rightGrab;
+	static Solenoid* toteConstrictor;
 
 	static void init();
 

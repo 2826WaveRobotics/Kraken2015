@@ -8,5 +8,11 @@ const double lowElevatorPosition=1.0;
 const int On=1;
 const int Off=0;
 
+enum
+{
+	Bin_CenterConfig = 0,
+	Bin_LeftConfig,
+	Bin_RightConfig
+};
 
 #endif

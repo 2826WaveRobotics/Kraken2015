@@ -14,6 +14,7 @@ Elevator* Robot::m_elevator = 0;
 Recycler* Robot::m_recycler = 0;
 Intake* Robot::m_intake = 0;
 
+
 void Robot::RobotInit()
 {
 	RobotMap::init();

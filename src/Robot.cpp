@@ -19,6 +19,8 @@ BinJuggler* Robot::m_binJuggler = 0;
 
 void Robot::RobotInit()
 {
+	RobotMap::init();
+	
 	CommandBase::init();
 	lw = LiveWindow::GetInstance();
 	m_drive= new Drive();

@@ -8,6 +8,7 @@
 EmptyChamber::EmptyChamber()
 {
 	m_motorValue = 0;
+	m_inches = 0; //to-do, change this to the initial height on robot
 
 }
 

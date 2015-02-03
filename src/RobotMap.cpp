@@ -36,13 +36,14 @@ void RobotMap::init() {
 	leftDrive2 = new CANTalon(1);
 	rightDrive1 = new CANTalon(2);
 	rightDrive2 = new CANTalon(3);
-	m_robotDrive = new RobotDrive(leftDrive1, leftDrive2, rightDrive1, rightDrive2);
 	elevatorLeft = new CANTalon(4);
 	elevatorRight = new CANTalon(5);
 	trackArm = new CANTalon(6);
 	frontIntakeLeft = new CANTalon(7);
 	frontIntakeRight = new CANTalon(8);
 	rearIntake = new CANTalon(9);
+
+	m_robotDrive = new RobotDrive(leftDrive1, leftDrive2, rightDrive1, rightDrive2);
 
 	shifter = new Solenoid(0, 0);
 	jugglerLift = new Solenoid(0,1);

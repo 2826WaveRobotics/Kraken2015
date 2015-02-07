@@ -33,7 +33,7 @@
 
 #endif
 
-
+Compressor* RobotMap::compressor = NULL;
 CANTalon* RobotMap::leftDrive1 = NULL;
 CANTalon* RobotMap::leftDrive2 = NULL;
 CANTalon* RobotMap::rightDrive1 = NULL;
@@ -62,7 +62,10 @@ Solenoid* RobotMap::rightGrab = NULL;
 Solenoid* RobotMap::toteConstrictor = NULL;
 
 
+
 void RobotMap::init() {
+
+	compressor = new Compressor(0);
 
 	leftDrive1 = new CANTalon(CANTalon_leftDrive1);
 	leftDrive2 = new CANTalon(CANTalon_leftDrive2);

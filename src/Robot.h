@@ -8,6 +8,7 @@
 #include "Subsystems/Recycler.h"
 #include "Subsystems/Intake.h"
 #include "Subsystems/BinJuggler.h"
+#include "Subsystems/CompressorSubsystem.h"
 
 class Robot: public IterativeRobot
 {
@@ -17,6 +18,7 @@ public:
 	static Recycler* m_recycler;
 	static Intake* m_intake;
 	static BinJuggler* m_binJuggler;
+	static CompressorSubsystem* m_compressor;
 
 private:
 	Command *autonomousCommand;

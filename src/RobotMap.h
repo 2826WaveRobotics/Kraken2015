@@ -8,6 +8,9 @@ class RobotMap {
 
 public:
 
+	//Compressor
+	static Compressor* compressor;
+
 	//Drive
 	static CANTalon* leftDrive1;
 	static CANTalon* leftDrive2;

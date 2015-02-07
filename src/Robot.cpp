@@ -16,6 +16,7 @@ Elevator* Robot::m_elevator = 0;
 Recycler* Robot::m_recycler = 0;
 Intake* Robot::m_intake = 0;
 BinJuggler* Robot::m_binJuggler = 0;
+CompressorSubsystem* Robot::m_compressor = 0;
 
 void Robot::RobotInit()
 {
@@ -30,17 +31,20 @@ void Robot::RobotInit()
 	autonomousCommand = new ExampleCommand();
 	m_intake= new Intake();
 	m_binJuggler= new BinJuggler();
+	m_compressor= new CompressorSubsystem();
 }
 
 void Robot::DisabledPeriodic()
 {
 	Scheduler::GetInstance()->Run();
+	m_compressor->Stop();
 }
 
 void Robot::AutonomousInit()
 {
 	if (autonomousCommand != NULL)
 		autonomousCommand->Start();
+	m_compressor->Start();
 }
 
 void Robot::AutonomousPeriodic()
@@ -56,6 +60,7 @@ void Robot::TeleopInit()
 	// this line or comment it out.
 	if (autonomousCommand != NULL)
 		autonomousCommand->Cancel();
+	m_compressor->Start();
 }
 
 void Robot::TeleopPeriodic()

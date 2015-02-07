@@ -1,6 +1,38 @@
 #include "RobotMap.h"
 #include "WaveConstants.h"
 
+#define PRACTICE_BOT
+
+#ifdef PRACTICE_BOT
+
+	int CANTalon_leftDrive1 = 0;
+	int CANTalon_leftDrive2 = 1;
+	int CANTalon_rightDrive1 = 2;
+	int CANTalon_rightDrive2 = 3;
+	int CANTalon_elevatorLeft = 4;
+	int CANTalon_elevatorRight = 5;
+	int CANTalon_trackArm = 6;
+	int CANTalon_frontIntakeLeft = 7;
+	int CANTalon_frontIntakeRight = 8;
+	int CANTalon_rearIntake = 9;
+
+#endif
+
+#ifdef COMPETITION_BOT
+
+	int CANTalon_leftDrive1 = 10;
+	int CANTalon_leftDrive2 = 11;
+	int CANTalon_rightDrive1 = 12;
+	int CANTalon_rightDrive2 = 13;
+	int CANTalon_elevatorLeft = 14;
+	int CANTalon_elevatorRight = 15;
+	int CANTalon_trackArm = 16;
+	int CANTalon_frontIntakeLeft = 17;
+	int CANTalon_frontIntakeRight = 18;
+	int CANTalon_rearIntake = 19;
+
+#endif
+
 
 CANTalon* RobotMap::leftDrive1 = NULL;
 CANTalon* RobotMap::leftDrive2 = NULL;
@@ -32,16 +64,16 @@ Solenoid* RobotMap::toteConstrictor = NULL;
 
 void RobotMap::init() {
 
-	leftDrive1 = new CANTalon(0);
-	leftDrive2 = new CANTalon(1);
-	rightDrive1 = new CANTalon(2);
-	rightDrive2 = new CANTalon(3);
-	elevatorLeft = new CANTalon(4);
-	elevatorRight = new CANTalon(5);
-	trackArm = new CANTalon(6);
-	frontIntakeLeft = new CANTalon(7);
-	frontIntakeRight = new CANTalon(8);
-	rearIntake = new CANTalon(9);
+	leftDrive1 = new CANTalon(CANTalon_leftDrive1);
+	leftDrive2 = new CANTalon(CANTalon_leftDrive2);
+	rightDrive1 = new CANTalon(CANTalon_rightDrive1);
+	rightDrive2 = new CANTalon(CANTalon_rightDrive2);
+	elevatorLeft = new CANTalon(CANTalon_elevatorLeft);
+	elevatorRight = new CANTalon(CANTalon_elevatorRight);
+	trackArm = new CANTalon(CANTalon_trackArm);
+	frontIntakeLeft = new CANTalon(CANTalon_frontIntakeLeft);
+	frontIntakeRight = new CANTalon(CANTalon_frontIntakeRight);
+	rearIntake = new CANTalon(CANTalon_rearIntake);
 
 	m_robotDrive = new RobotDrive(leftDrive1, leftDrive2, rightDrive1, rightDrive2);
 

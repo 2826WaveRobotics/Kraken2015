@@ -72,6 +72,8 @@ void Robot::TeleopPeriodic()
 
 	m_drive->DriveWithJoysticks(oi->getDriverJoystick()->GetRawAxis(2), oi->getDriverJoystick()->GetRawAxis(4));
 
+	m_intake->SetFrontIntake(oi->getOperatorJoystick()->GetRawAxis(1));
+
 	Wait(0.01);
 }
 

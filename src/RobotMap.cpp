@@ -12,8 +12,8 @@
 	int CANTalon_elevatorLeft = 4;
 	int CANTalon_elevatorRight = 5;
 	int CANTalon_trackArm = 6;
-	int CANTalon_frontIntakeLeft = 7;
-	int CANTalon_frontIntakeRight = 8;
+	int CANTalon_frontIntakeLeft = 20;
+	int CANTalon_frontIntakeRight = 19;
 	int CANTalon_rearIntake = 9;
 
 #endif

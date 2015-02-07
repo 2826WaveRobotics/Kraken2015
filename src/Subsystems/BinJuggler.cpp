@@ -63,3 +63,14 @@ void BinJuggler::loadSelection(int cylinder, bool state) {
 // Put methods for controlling this subsystem
 // here. Call these from Commands.
 
+void BinJuggler::setActive(int currentActive)
+{
+	active = currentActive;
+}
+
+int BinJuggler::returnActive()
+{
+	return active;
+}
+
+

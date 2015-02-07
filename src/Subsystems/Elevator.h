@@ -3,6 +3,7 @@
 
 #include "Commands/Subsystem.h"
 #include "WPILib.h"
+#include "WaveConstants.h"
 
 class Elevator: public PIDSubsystem
 {

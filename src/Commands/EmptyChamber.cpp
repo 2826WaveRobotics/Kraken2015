@@ -8,7 +8,7 @@
 EmptyChamber::EmptyChamber()
 {
 	m_motorValue = 0;
-	m_inches = 0; //to-do, change this to the initial height on robot
+	m_inches = lowElevatorPosition; //to-do, change this to the initial height on robot
 
 }
 
@@ -28,7 +28,7 @@ bool EmptyChamber::IsFinished()
 {
 	double currentHeight = Robot::m_elevator->getCurrentHeight();
 
-	if(fabs(currentHeight - highElevatorPosition) < 1) //if we're within an inch of where we want to be
+	if(fabs(currentHeight - highElevatorPosition) < elevatorTolerance) //if we're within an inch of where we want to be
 	{
 		return true;
 	}

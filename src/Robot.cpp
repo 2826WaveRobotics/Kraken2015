@@ -62,7 +62,7 @@ void Robot::TeleopPeriodic()
 {
 	Scheduler::GetInstance()->Run();
 
-	bool param = oi->getDriverJoystick()->GetRawAxis(3)>0.5 ? true : false;
+	bool param = oi->getDriverJoystick()->GetRawAxis(3)>0.75 ? true : false;
 	m_drive->ShiftGear(param);
 
 	m_drive->DriveWithJoysticks(oi->getDriverJoystick()->GetRawAxis(2), oi->getDriverJoystick()->GetRawAxis(4));

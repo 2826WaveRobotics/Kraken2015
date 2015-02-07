@@ -95,5 +95,6 @@ BinJugglerSequence::BinJugglerSequence(int configuration) {
 		break;
 	}
 
+	Robot::m_binJuggler->setActive(currentPosition);
 
 }

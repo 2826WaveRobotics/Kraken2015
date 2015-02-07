@@ -5,8 +5,8 @@ namespace
 {
 	double MaxVolts = 12;
 	double MinVolts = 0;
-	double MinLength = 0;
-	double MaxLength = 25;
+	double MinLength = lowElevatorPosition;
+	double MaxLength = highElevatorPosition;
 
 	float c_downP = 1.0;
 	float c_downI = 0.0;

@@ -5,6 +5,7 @@
 
 const double highElevatorPosition=13.0;
 const double lowElevatorPosition=1.0;
+const double elevatorTolerance = 0.5;
 const int On=1;
 const int Off=0;
 const double binCylinderWait = 0.5;

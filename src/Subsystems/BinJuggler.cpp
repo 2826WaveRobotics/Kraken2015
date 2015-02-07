@@ -5,7 +5,7 @@
 BinJuggler::BinJuggler() :
 		Subsystem("BinJuggler")
 {
-	m_jugglerLift= RobotMap::jugglerLift;
+	m_jugglerLift= RobotMap::jugglerCylinder;
  m_leftLock= RobotMap ::leftLock;
  m_rightLock= RobotMap::rightLock;
  m_leftGrab= RobotMap::leftGrab;

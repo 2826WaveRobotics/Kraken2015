@@ -44,7 +44,7 @@ void SystemTestCommand::Initialize()
 		RobotMap::shifter->Set(true);
 		break;
 	case Test_jugglerLift:
-		RobotMap::jugglerLift->Set(true);
+		RobotMap::jugglerCylinder->Set(true);
 		break;
 	case Test_leftLock:
 		RobotMap::leftLock->Set(true);

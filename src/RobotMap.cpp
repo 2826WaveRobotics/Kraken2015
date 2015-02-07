@@ -54,12 +54,11 @@ DigitalInput* RobotMap::rearIntakeSensor= NULL;
 Encoder* RobotMap::m_driveEncoderLeft= NULL;
 Encoder* RobotMap::m_driveEncoderRight= NULL;
 AnalogInput* RobotMap::yawRate = NULL;
-Solenoid* RobotMap::jugglerLift = NULL;
+Solenoid* RobotMap::jugglerCylinder = NULL;
 Solenoid* RobotMap::leftLock = NULL;
 Solenoid* RobotMap::rightLock = NULL;
 Solenoid* RobotMap::leftGrab = NULL;
 Solenoid* RobotMap::rightGrab = NULL;
-Solenoid* RobotMap::toteConstrictor = NULL;
 
 
 
@@ -81,12 +80,11 @@ void RobotMap::init() {
 	m_robotDrive = new RobotDrive(leftDrive1, leftDrive2, rightDrive1, rightDrive2);
 
 	shifter = new Solenoid(0, 0);
-	jugglerLift = new Solenoid(0,1);
+	jugglerCylinder = new Solenoid(0,1);
 	leftLock = new Solenoid(0,2);
 	rightLock = new Solenoid(0,3);
 	leftGrab = new Solenoid(0,4);
 	rightGrab = new Solenoid(0,5);
-	toteConstrictor = new Solenoid(0,6);
 
 	elevatorSensor = new AnalogInput(0);
 	yawRate = new AnalogInput(1);

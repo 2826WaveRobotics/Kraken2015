@@ -42,12 +42,11 @@ public:
 	static Solenoid* canGrabber;
 
 	//Bin Juggler
-	static Solenoid* jugglerLift;
+	static Solenoid* jugglerCylinder;
 	static Solenoid* leftLock;
 	static Solenoid* rightLock;
 	static Solenoid* leftGrab;
 	static Solenoid* rightGrab;
-	static Solenoid* toteConstrictor;
 
 	static void init();
 

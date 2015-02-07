@@ -27,7 +27,7 @@ Elevator::Elevator() :
 	SetAbsoluteTolerance(0.1);
 		GetPIDController()->SetContinuous(false);
 		//LiveWindow::GetInstance()->AddActuator("ArmPitchWithPID", "PIDSubsystem Controller", GetPIDController());
-		GetPIDController()->SetInputRange(0, 12.0); //range on sensor 0-12 volts
+		GetPIDController()->SetInputRange(MinVolts, MaxVolts); //range on sensor 0-12 volts
 		GetPIDController()->SetOutputRange(-1.0, 1.0); //range on motors
 		GetPIDController()->SetAbsoluteTolerance(0.3); //plus or minus this voltage
 

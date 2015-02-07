@@ -7,8 +7,8 @@
 
 EmptyChamber::EmptyChamber()
 {
-	m_motorValue = 0;
-	m_inches = lowElevatorPosition; //to-do, change this to the initial height on robot
+	//m_motorValue = 0;
+	//m_inches = lowElevatorPosition; //to-do, change this to the initial height on robot
 
 }
 

@@ -24,7 +24,7 @@ bool SetElevatorPosition::IsFinished()
 {
 	double currentHeight = Robot::m_elevator->getCurrentHeight();
 
-	if(fabs(currentHeight - m_inches) < 1) //if we're within an inch of where we want to be
+	if(fabs(currentHeight - m_inches) < elevatorTolerance) //if we're within an inch of where we want to be
 	{
 		return true;
 	}

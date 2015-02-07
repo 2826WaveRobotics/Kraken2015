@@ -14,8 +14,8 @@ public:
 	void End();
 	void Interrupted();
 private:
-	float m_inches;
-	double m_motorValue;
+	//float m_inches;
+	//double m_motorValue;
 };
 
 #endif

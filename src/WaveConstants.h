@@ -6,6 +6,7 @@
 const double highElevatorPosition=13.0;
 const double lowElevatorPosition=1.0;
 const double elevatorTolerance = 0.5;
+const double bumpHeight = 3.0;
 const int On=1;
 const int Off=0;
 const double binCylinderWait = 0.5;
@@ -42,6 +43,17 @@ enum
 	Bin_CenterActive = 0,
 	Bin_LeftActive, //This has a value of 1
 	Bin_RightActive //This has a value of 2
+};
+
+enum
+{
+	Tote_Carry0 = 0,
+	Tote_Carry1, //This has a value of 1
+	Tote_Carry2, //This has a value of 2
+	Tote_Carry3,
+	Tote_Carry4,
+	Tote_Carry5,
+	Tote_Carry6
 };
 
 #endif

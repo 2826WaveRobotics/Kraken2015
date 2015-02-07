@@ -1,9 +1,10 @@
 #include "Elevator.h"
 #include "../RobotMap.h"
 
+
 namespace
 {
-	double MaxVolts = 12;
+	double MaxVolts = 3.5;
 	double MinVolts = 0;
 	double MinLength = lowElevatorPosition;
 	double MaxLength = highElevatorPosition;
@@ -15,6 +16,14 @@ namespace
 	float c_upP = 1.0;
 	float c_upI = 0.0;
 	float c_upD = 0.0;
+
+	float aVal = 0.1857567;
+	float bVal = -1.329018;
+	float cVal = 9.266816;
+	float dVal = 4.541211;
+
+
+
 }
 
 
@@ -109,13 +118,14 @@ void Elevator::InitDefaultCommand()
 
 float Elevator::convertVoltsToInches (float volts)
 {
-	double inches = ((MaxLength - MinLength)/(MaxVolts - MinVolts)) * volts;
+	float centimeters = (dVal + ((aVal - dVal)/(1 + pow((volts/cVal),(bVal)))));
+	float inches = .393701 * centimeters;
 	return inches;
 }
 
 float Elevator::convertInchesToVolts (double inches)
 {
-	float volts = ((MaxVolts - MinVolts)/(MaxLength - MinLength)) * inches;
+	float volts = cVal * ( pow((((aVal-dVal)/(inches-dVal))-1), (1/bVal)));
 		return volts;
 }
 

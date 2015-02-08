@@ -75,7 +75,7 @@ void Elevator::UsePIDOutput(double output) {
 	// e.g. yourMotor->Set(output);
 
 	m_elevatorLeft->PIDWrite(output);
-	m_elevatorRight->PIDWrite(-output);
+	m_elevatorRight->PIDWrite(output);
 }
 
 void Elevator::setAbsoluteHeight(double targetHeight)
@@ -141,8 +141,17 @@ double Elevator::getCurrentHeight()
 
 void Elevator::setElevatorMotors(float speed)
 {
+	if(speed>=0 && getCurrentHeight() >= MaxLength)
+	{
+		speed = 0;
+	}
+	if(speed<=0 && getCurrentHeight() <= MinLength)
+	{
+		speed = 0;
+	}
+
 	m_elevatorLeft->Set(speed);
-	m_elevatorRight->Set(-speed);
+	m_elevatorRight->Set(speed);
 }
 
 float Elevator::getCurrentFeedback_LeftMotor()

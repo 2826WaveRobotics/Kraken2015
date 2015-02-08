@@ -60,7 +60,7 @@ void Robot::TeleopInit()
 	// this line or comment it out.
 	if (autonomousCommand != NULL)
 		autonomousCommand->Cancel();
-	m_compressor->Start();
+	//m_compressor->Start();
 }
 
 void Robot::TeleopPeriodic()
@@ -70,9 +70,11 @@ void Robot::TeleopPeriodic()
 	bool param = oi->getDriverJoystick()->GetRawAxis(3)>0.75 ? true : false;
 	m_drive->ShiftGear(param);
 
-	m_drive->DriveWithJoysticks(oi->getDriverJoystick()->GetRawAxis(2), oi->getDriverJoystick()->GetRawAxis(4));
+	m_drive->DriveWithJoysticks(oi->getDriverJoystick()->GetRawAxis(1), oi->getDriverJoystick()->GetRawAxis(4));
 
 	m_intake->SetFrontIntake(oi->getOperatorJoystick()->GetRawAxis(1));
+
+	m_elevator->setElevatorMotors(-oi->getOperatorJoystick()->GetRawAxis(5));
 
 	Wait(0.01);
 }

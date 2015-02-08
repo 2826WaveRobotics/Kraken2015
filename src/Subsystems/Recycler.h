@@ -12,6 +12,7 @@ private:
 	CANTalon* trackArm;
 	DigitalInput* lowerSensor;
 	DigitalInput* upperSensor;
+	Solenoid* handleHolder;
 
 
 public:
@@ -19,6 +20,7 @@ public:
 	void InitDefaultCommand();
 	void canControl(bool grab);
 	void SetRecycleMotors(float speed);
+	void SetHandleHolder(bool position);
 
 	bool isUpperSensorTripped();
 	bool isLowerSensorTripped();

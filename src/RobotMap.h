@@ -23,7 +23,7 @@ public:
 	static Encoder* m_driveEncoderLeft;
 	static Encoder* m_driveEncoderRight;
 
-	//inTake
+	//Intake
 	static CANTalon* frontIntakeLeft;
 	static CANTalon* frontIntakeRight;
 	static CANTalon* rearIntake;
@@ -39,7 +39,7 @@ public:
 	static CANTalon* trackArm;
 	static DigitalInput* lowerSensor;
 	static DigitalInput* upperSensor;
-	static Solenoid* canGrabber;
+	static Solenoid* handleHolder;
 
 	//Bin Juggler
 	static Solenoid* jugglerCylinder;

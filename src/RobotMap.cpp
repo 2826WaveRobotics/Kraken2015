@@ -59,6 +59,7 @@ Solenoid* RobotMap::leftLock = NULL;
 Solenoid* RobotMap::rightLock = NULL;
 Solenoid* RobotMap::leftGrab = NULL;
 Solenoid* RobotMap::rightGrab = NULL;
+Solenoid* RobotMap::handleHolder = NULL;
 
 
 
@@ -85,6 +86,7 @@ void RobotMap::init() {
 	rightLock = new Solenoid(0,3);
 	leftGrab = new Solenoid(0,4);
 	rightGrab = new Solenoid(0,5);
+	handleHolder = new Solenoid(0,6);
 
 	elevatorSensor = new AnalogInput(0);
 	yawRate = new AnalogInput(1);

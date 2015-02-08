@@ -9,6 +9,7 @@ Subsystem("Recycler")
 	trackArm = RobotMap::trackArm;
 	lowerSensor = RobotMap::lowerSensor;
 	upperSensor = RobotMap::upperSensor;
+	handleHolder = RobotMap::handleHolder;
 
 }
 
@@ -38,6 +39,10 @@ bool Recycler::isLowerSensorTripped() {
 
 void	Recycler::SetRecycleMotors(float speed) {
 	trackArm->Set(speed);
+}
+
+void Recycler::SetHandleHolder(bool position){
+	handleHolder->Set(position);
 }
 
 

@@ -3,8 +3,8 @@
 
 //#define NULL = 0;
 
-const double highElevatorPosition=4.0;
-const double lowElevatorPosition=25.0;
+const double highElevatorPosition=20.0;
+const double lowElevatorPosition=5.0;
 const double elevatorTolerance = 0.5;
 const double bumpHeight = 3.0;
 const int On=1;

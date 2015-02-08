@@ -136,22 +136,27 @@ float Elevator::getCurrentVoltageOfSensor()
 
 double Elevator::getCurrentHeight()
 {
-	return convertVoltsToInches(getCurrentVoltageOfSensor());
+	double negative = convertVoltsToInches(getCurrentVoltageOfSensor());
+	double inches = 28 - negative;
+	std::cout << "Inches: " << inches << std::endl;
+	return inches;
 }
 
 void Elevator::setElevatorMotors(float speed)
 {
-	if(speed>=0 && getCurrentHeight() >= MaxLength)
+/*	if(speed>=0 && getCurrentHeight() >= MaxLength)
 	{
 		speed = 0;
 	}
-	if(speed<=0 && getCurrentHeight() <= MinLength)
+ if(speed<=0 && getCurrentHeight() <= MinLength)
 	{
 		speed = 0;
 	}
-
-	m_elevatorLeft->Set(speed);
-	m_elevatorRight->Set(speed);
+*/
+	double nope = getCurrentHeight();
+	std::cout << "Inches: " << nope << std::endl;
+	m_elevatorLeft->Set(-speed);
+	m_elevatorRight->Set(-speed);
 }
 
 float Elevator::getCurrentFeedback_LeftMotor()

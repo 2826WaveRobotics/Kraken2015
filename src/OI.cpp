@@ -5,10 +5,10 @@
 
 OI::OI()
 {
-	driverJoystick = new Joystick(0);
-	operatorJoystick = new Joystick(1);
-	debugJoystick = new Joystick(2);
-	debugJoystick2 = new Joystick(3);
+	driverJoystick = new Joystick(1);
+	operatorJoystick = new Joystick(2);
+	debugJoystick = new Joystick(3);
+	debugJoystick2 = new Joystick(4);
 
 	driver_A = new JoystickButton(driverJoystick, 1);
 	driver_B = new JoystickButton(driverJoystick, 2);

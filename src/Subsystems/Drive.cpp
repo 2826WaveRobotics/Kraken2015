@@ -74,7 +74,7 @@ void Drive::ShiftGear(bool highGear)
 
 void Drive::DriveWithJoysticks(float left, float right)
 {
-	m_robotDrive->ArcadeDrive(left , right);
+	m_robotDrive->ArcadeDrive(left,right);
 }
 
 double Drive::getCurrentDistance()

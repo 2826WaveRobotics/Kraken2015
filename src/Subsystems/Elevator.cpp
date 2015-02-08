@@ -75,7 +75,7 @@ void Elevator::UsePIDOutput(double output) {
 	// e.g. yourMotor->Set(output);
 
 	m_elevatorLeft->PIDWrite(output);
-	m_elevatorRight->PIDWrite(-output);
+	m_elevatorRight->PIDWrite(output);
 }
 
 void Elevator::setAbsoluteHeight(double targetHeight)
@@ -125,7 +125,8 @@ float Elevator::convertVoltsToInches (float volts)
 
 float Elevator::convertInchesToVolts (double inches)
 {
-	float volts = cVal * ( pow((((aVal-dVal)/(inches-dVal))-1), (1/bVal)));
+	float centimeters = inches/.393701;
+	float volts = cVal * ( pow((((aVal-dVal)/(centimeters-dVal))-1), (1/bVal)));
 		return volts;
 }
 
@@ -142,7 +143,7 @@ double Elevator::getCurrentHeight()
 void Elevator::setElevatorMotors(float speed)
 {
 	m_elevatorLeft->Set(speed);
-	m_elevatorRight->Set(-speed);
+	m_elevatorRight->Set(speed);
 }
 
 float Elevator::getCurrentFeedback_LeftMotor()

@@ -17,6 +17,7 @@ Recycler* Robot::m_recycler = 0;
 Intake* Robot::m_intake = 0;
 BinJuggler* Robot::m_binJuggler = 0;
 CompressorSubsystem* Robot::m_compressor = 0;
+Swim* Robot::m_swim = 0;
 
 void Robot::RobotInit()
 {
@@ -32,6 +33,9 @@ void Robot::RobotInit()
 	m_intake= new Intake();
 	m_binJuggler= new BinJuggler();
 	m_compressor= new CompressorSubsystem();
+	m_swim = new Swim();
+
+
 }
 
 void Robot::DisabledPeriodic()
@@ -54,13 +58,13 @@ void Robot::AutonomousPeriodic()
 
 void Robot::TeleopInit()
 {
-	// This makes sure that the autonomous stops running when
-	// teleop starts running. If you want the autonomous to
-	// continue until interrupted by another command, remove
-	// this line or comment it out.
 	if (autonomousCommand != NULL)
 		autonomousCommand->Cancel();
 	//m_compressor->Start();
+	std::cout << "Message" << std::endl;
+
+	//test
+	m_elevator->test_max_variance = 0;
 }
 
 void Robot::TeleopPeriodic()
@@ -72,9 +76,14 @@ void Robot::TeleopPeriodic()
 
 	m_drive->DriveWithJoysticks(oi->getDriverJoystick()->GetRawAxis(1), oi->getDriverJoystick()->GetRawAxis(4));
 
-	m_intake->SetFrontIntake(oi->getOperatorJoystick()->GetRawAxis(1));
+//	m_intake->SetFrontIntake(-oi->getOperatorJoystick()->GetRawAxis(1));
+//	m_intake->SetRearIntake(oi->getOperatorJoystick()->GetRawAxis(1));
 
-	m_elevator->setElevatorMotors(-oi->getOperatorJoystick()->GetRawAxis(5));
+	m_elevator->setElevatorMotors(oi->getOperatorJoystick()->GetRawAxis(1));
+
+	m_recycler->SetRecycleMotors(oi->getOperatorJoystick()->GetRawAxis(5));
+
+	//m_drive->displayEncoders();
 
 	Wait(0.01);
 }

@@ -15,7 +15,7 @@ public:
 	void setDistance(double inches);
 	float getPIDOutput();
 	double getCurrentDistance();
-
+	void displayEncoders();
 
 	virtual double ReturnPIDInput();
 	virtual void UsePIDOutput(double);

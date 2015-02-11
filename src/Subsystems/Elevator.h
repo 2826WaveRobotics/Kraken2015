@@ -39,6 +39,11 @@ public:
 
 	// A positive speed will raise the elevator, a negative speed will lower it.
 	void setElevatorMotors(float speed);
+
+	double getMode(double input[]);
+	void sortArray();
+	double test_max_variance = 0;
+	double test_sample[500];
 };
 
 #endif

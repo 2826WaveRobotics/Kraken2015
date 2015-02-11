@@ -81,3 +81,9 @@ double Drive::getCurrentDistance()
 {
 	return m_driveEncoderLeft->PIDGet();
 }
+void Drive::displayEncoders()
+{
+	std::cout << m_driveEncoderLeft->Get() << "\t\t";
+	std::cout << m_driveEncoderRight->Get() << "\t\t";
+	std::cout << abs(m_driveEncoderLeft->Get()-m_driveEncoderRight->Get()) << std::endl; // difference between them
+}

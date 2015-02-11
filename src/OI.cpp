@@ -2,6 +2,7 @@
 #include "Commands/ShiftHigh.h"
 #include "Commands/SetElevatorPosition.h"
 #include "Commands/SystemTestCommand.h"
+#include "Commands/GatherStats.h"
 
 OI::OI()
 {
@@ -49,10 +50,9 @@ OI::OI()
 	JoystickButton* debug_15 = new JoystickButton(debugJoystick2, 3);
 	JoystickButton* debug_16 = new JoystickButton(debugJoystick2, 4);
 
-	//i can make a comment
-
 	driver_X->WhenPressed(new ShiftHigh());
 	driver_A->WhenPressed(new SetElevatorPosition(24.0));
+	operator_Y->WhenPressed(new GatherStats());
 	debug_13->WhileHeld(new SystemTestCommand(Test_leftDrive1));
 	debug_14->WhileHeld(new SystemTestCommand(Test_leftDrive2));
 	debug_15->WhileHeld(new SystemTestCommand(Test_rightDrive1));

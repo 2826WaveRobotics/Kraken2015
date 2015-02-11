@@ -23,9 +23,11 @@ void SystemTestCommand::Initialize()
 		RobotMap::rightDrive2->Set(.5);
 		break;
 	case Test_elevatorLeft:
+		std::cout << "Testing Left Elevator Motor" << std::endl;
 		RobotMap::elevatorLeft->Set(.5);
 		break;
 	case Test_elevatorRight:
+		std::cout << "Testing Right Elevator Motor" << std::endl;
 		RobotMap::elevatorRight->Set(.5);
 		break;
 	case Test_trackArm:

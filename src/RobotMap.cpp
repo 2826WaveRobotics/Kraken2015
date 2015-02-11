@@ -1,5 +1,6 @@
 #include "RobotMap.h"
 #include "WaveConstants.h"
+#include "stdlib.h"
 
 #define PRACTICE_BOT
 
@@ -11,10 +12,10 @@
 	int CANTalon_rightDrive2 = 3;
 	int CANTalon_elevatorLeft = 4;
 	int CANTalon_elevatorRight = 5;
-	int CANTalon_trackArm = 6;
+	int CANTalon_trackArm = 8;
 	int CANTalon_frontIntakeLeft = 20;
 	int CANTalon_frontIntakeRight = 19;
-	int CANTalon_rearIntake = 9;
+	int CANTalon_rearIntake = 6;
 
 #endif
 
@@ -91,11 +92,12 @@ void RobotMap::init() {
 	elevatorSensor = new AnalogInput(0);
 	yawRate = new AnalogInput(1);
 
-	lowerSensor = new DigitalInput (0);
-	upperSensor = new DigitalInput (1);
-	frontIntakeSensor = new DigitalInput (2);
-	rearIntakeSensor = new DigitalInput (3);
+	lowerSensor = new DigitalInput (4);
+	upperSensor = new DigitalInput (5);
+	frontIntakeSensor = new DigitalInput (6);
+	rearIntakeSensor = new DigitalInput (7);
 
-	m_driveEncoderLeft = new Encoder (4,5, false);//last parameter is reverse direction
-	m_driveEncoderRight = new Encoder (6,7, false);//last parameter is reverse direction
+
+	m_driveEncoderLeft = new Encoder (8,9, false);//last parameter is reverse direction
+	m_driveEncoderRight = new Encoder (2,3, true);//last parameter is reverse direction
 	}

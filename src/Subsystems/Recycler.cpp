@@ -37,7 +37,7 @@ bool Recycler::isLowerSensorTripped() {
 }
 
 
-void	Recycler::SetRecycleMotors(float speed) {
+void Recycler::SetRecycleMotors(float speed) {
 	trackArm->Set(speed);
 }
 

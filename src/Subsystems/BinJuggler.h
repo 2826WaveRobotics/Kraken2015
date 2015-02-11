@@ -21,6 +21,7 @@ public:
 	void loadSelection(int cylinder, bool state);
 	void setActive(int currentActive);
 	int returnActive();
+	void sequenceUp(bool trueForUp);
 
 
 };

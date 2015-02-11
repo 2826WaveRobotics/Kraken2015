@@ -73,4 +73,11 @@ int BinJuggler::returnActive()
 	return active;
 }
 
+void BinJuggler::sequenceUp(bool trueForUp) {
+	if(trueForUp)
+	{
+
+	}
+}
+
 

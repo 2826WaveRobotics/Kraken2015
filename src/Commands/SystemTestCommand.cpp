@@ -31,7 +31,8 @@ void SystemTestCommand::Initialize()
 		RobotMap::elevatorRight->Set(.5);
 		break;
 	case Test_trackArm:
-		RobotMap::trackArm->Set(.5);
+		RobotMap::trackArmLeft->Set(.5);
+		RobotMap::trackArmRight->Set(-.5);
 		break;
 	case Test_frontIntakeLeft:
 		RobotMap::frontIntakeLeft->Set(.5);
@@ -55,10 +56,10 @@ void SystemTestCommand::Initialize()
 		RobotMap::rightLock->Set(true);
 		break;
 	case Test_leftGrab:
-		RobotMap::leftGrab->Set(true);
+		RobotMap::leftHook->Set(true);
 		break;
 	case Test_rightGrab:
-		RobotMap::rightGrab->Set(true);
+		RobotMap::rightHook->Set(true);
 		break;
 //	case Test_toteConstrictor:
 	}

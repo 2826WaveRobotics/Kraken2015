@@ -1,15 +1,16 @@
-#ifndef BIN_JUGGLER_COMMAND_H
-#define BIN_JUGGLER_COMMAND_H
+#ifndef BinJugglerCommand_H
+#define BinJugglerCommand_H
 
 #include "../CommandBase.h"
 #include "WPILib.h"
+#include "WaveConstants.h"
 #include "../Subsystems/BinJuggler.h"
-#include "../Robot.h"
+#include "WaveWait.h"
 
 class BinJugglerCommand: public CommandBase
 {
 public:
-	BinJugglerCommand(int cylinder, bool state);
+	BinJugglerCommand(int configuration);
 	void Initialize();
 	void Execute();
 	bool IsFinished();
@@ -17,9 +18,12 @@ public:
 	void Interrupted();
 
 private:
-	int m_cylinder;
-	bool m_state;
-
+	int currentPosition;// = Bin_TightConfig;
+	int newConfiguration;
+	int set;
+	int step;
+	Timer m_waitTimer;
+	bool m_sequenceFinished;
 };
 
 #endif

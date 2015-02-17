@@ -9,9 +9,10 @@ class Recycler: public Subsystem
 private:
 	// It's desirable that everything possible under private except
 	// for methods that implement subsystem capabilities
-	CANTalon* trackArm;
-	DigitalInput* lowerSensor;
-	DigitalInput* upperSensor;
+	CANTalon* trackArmLeft;
+	CANTalon* trackArmRight;
+	DigitalInput* binLowerSensor;
+	DigitalInput* binUpperSensor;
 	Solenoid* handleHolder;
 
 

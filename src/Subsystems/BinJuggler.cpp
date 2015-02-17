@@ -3,13 +3,14 @@
 #include "../WaveConstants.h"
 
 BinJuggler::BinJuggler() :
-		Subsystem("BinJuggler")
+Subsystem("BinJuggler")
 {
 	m_jugglerLift= RobotMap::jugglerCylinder;
- m_leftLock= RobotMap ::leftLock;
- m_rightLock= RobotMap::rightLock;
- m_leftGrab= RobotMap::leftGrab;
- m_rightGrab= RobotMap::rightGrab;
+	m_leftLock= RobotMap ::leftLock;
+	m_rightLock= RobotMap::rightLock;
+	m_leftHook= RobotMap::leftHook;
+	m_rightHook= RobotMap::rightHook;
+	m_currentLocation= Bin_LeftActive;
 
 }
 
@@ -24,60 +25,57 @@ void BinJuggler::loadSelection(int cylinder, bool state) {
 	switch(cylinder) {
 	case Bin_LiftCylinder:
 		m_jugglerLift-> Set(state);
+		std::cout << "Setting Lift Cylinder to " << state << std::endl;
 		break;
 	case Bin_LeftLock:
 		m_leftLock-> Set(state);
+		std::cout << "Setting Left Lock to " << state << std::endl;
 		break;
 	case Bin_RightLock:
 		m_rightLock-> Set(state);
+		std::cout << "Setting Right Lock to " << state << std::endl;
+		break;
+	case Bin_RightHook:
+		m_rightHook->Set(state);
+		std::cout << "Setting Right Hook to " << state << std::endl;
+		break;
+	case Bin_LeftHook:
+		m_leftHook->Set(state);
+		std::cout << "Setting Left Hook to " << state << std::endl;
 		break;
 	default:
 		break;
 	}
-	//	switch(configuration)
-//	{
-//		case Bin_CenterConfig:
-//			m_jugglerLift-> Set(On);
-//			m_leftLock->Set(On);
-//			m_rightLock->Set(On);
-//			break;
-//		case Bin_LeftConfig:
-//			m_jugglerLift-> Set(Off);
-//			m_leftLock->Set(Off);
-//			m_rightLock->Set(On);
-//			break;
-//		case Bin_RightConfig:
-//			m_jugglerLift-> Set(Off);
-//			m_leftLock->Set(On);
-//			m_rightLock->Set(Off);
-//			break;
-//		default:
-//			//Do nothing
-//			break;
-//	}
-
-
-
 }
 
 // Put methods for controlling this subsystem
 // here. Call these from Commands.
 
-void BinJuggler::setActive(int currentActive)
+void BinJuggler::hookLeft(bool extend = true){
+	m_leftHook->Set(extend);
+}
+void BinJuggler::hookRight(bool extend = true){
+	m_rightHook->Set(extend);
+}
+void BinJuggler::expand(){
+	m_jugglerLift->Set(true);
+}
+void BinJuggler::contract(){
+	m_jugglerLift->Set(false);
+}
+void BinJuggler::lockLeft(bool extend = true){
+	m_leftLock->Set(extend);
+}
+void BinJuggler::lockRight(bool extend = true){
+	m_rightLock->Set(extend);
+}
+
+int BinJuggler::getCurrentLocation()
 {
-	active = currentActive;
+	return m_currentLocation;
 }
 
-int BinJuggler::returnActive()
+void BinJuggler::setCurrentLocation(int newLocation)
 {
-	return active;
+	m_currentLocation=newLocation;
 }
-
-void BinJuggler::sequenceUp(bool trueForUp) {
-	if(trueForUp)
-	{
-
-	}
-}
-
-

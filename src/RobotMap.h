@@ -36,17 +36,29 @@ public:
 	static AnalogInput* elevatorSensor;
 
 	//Recycler
-	static CANTalon* trackArm;
-	static DigitalInput* lowerSensor;
-	static DigitalInput* upperSensor;
+	static CANTalon* trackArmLeft;
+	static CANTalon* trackArmRight;
+	static DigitalInput* binLowerSensor;
+	static DigitalInput* binUpperSensor;
 	static Solenoid* handleHolder;
 
 	//Bin Juggler
 	static Solenoid* jugglerCylinder;
 	static Solenoid* leftLock;
 	static Solenoid* rightLock;
-	static Solenoid* leftGrab;
-	static Solenoid* rightGrab;
+	static Solenoid* leftHook;
+	static Solenoid* rightHook;
+
+//	static DigitalInput* DIO0; // for testing purposes
+//	static DigitalInput* DIO1;
+//	static DigitalInput* DIO2;
+//	static DigitalInput* DIO3;
+	static DigitalInput* DIO4;
+	static DigitalInput* DIO5;
+	static DigitalInput* DIO6;
+	static DigitalInput* DIO7;
+	static DigitalInput* DIO8;
+	static DigitalInput* DIO9; // for testing purposes
 
 	static void init();
 

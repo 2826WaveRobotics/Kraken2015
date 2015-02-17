@@ -26,7 +26,7 @@ bool BinGrab::IsFinished()
 
 void BinGrab::End()
 {
-
+ // Robot
 }
 
 void BinGrab::Interrupted()

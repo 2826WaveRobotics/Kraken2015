@@ -1,3 +1,4 @@
+#include "Commands/BinJugglerCommand.h"
 #include "WPILib.h"
 #include "Commands/Command.h"
 #include "Commands/ExampleCommand.h"
@@ -10,6 +11,7 @@
 #include "Subsystems/BinJuggler.h"
 #include "Subsystems/CompressorSubsystem.h"
 #include "Subsystems/Swim.h"
+#include "Subsystems/ExampleSubsystem.h"
 
 class Robot: public IterativeRobot
 {
@@ -24,6 +26,7 @@ public:
 
 private:
 	Command *autonomousCommand;
+	Command *binCommand; // for bin test
 	LiveWindow *lw;
 	static OI *oi;
 

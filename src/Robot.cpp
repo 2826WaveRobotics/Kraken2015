@@ -35,13 +35,20 @@ void Robot::RobotInit()
 	m_compressor= new CompressorSubsystem();
 	m_swim = new Swim();
 
-
 }
 
 void Robot::DisabledPeriodic()
 {
 	Scheduler::GetInstance()->Run();
 	m_compressor->Stop();
+	Wait(0.01);
+
+	cout << m_intake->IsFrontSensorTripped();
+	cout << m_intake->IsRearSensorTripped();
+	cout << m_recycler->isLowerSensorTripped();
+	cout << m_recycler->isUpperSensorTripped() << "\t";
+	m_drive->displayEncoders();
+	cout << endl;
 }
 
 void Robot::AutonomousInit()
@@ -58,9 +65,10 @@ void Robot::AutonomousPeriodic()
 
 void Robot::TeleopInit()
 {
-	if (autonomousCommand != NULL)
+	if (autonomousCommand != NULL){
 		autonomousCommand->Cancel();
-	//m_compressor->Start();
+	}
+	m_compressor->Start();
 	std::cout << "Message" << std::endl;
 
 	//test
@@ -70,20 +78,26 @@ void Robot::TeleopInit()
 void Robot::TeleopPeriodic()
 {
 	Scheduler::GetInstance()->Run();
+	oi->checkInput(); // runs through a function to check all the used buttons and joysticks
 
-	bool param = oi->getDriverJoystick()->GetRawAxis(3)>0.75 ? true : false;
-	m_drive->ShiftGear(param);
-
-	m_drive->DriveWithJoysticks(oi->getDriverJoystick()->GetRawAxis(1), oi->getDriverJoystick()->GetRawAxis(4));
-
-//	m_intake->SetFrontIntake(-oi->getOperatorJoystick()->GetRawAxis(1));
-//	m_intake->SetRearIntake(oi->getOperatorJoystick()->GetRawAxis(1));
-
-	m_elevator->setElevatorMotors(oi->getOperatorJoystick()->GetRawAxis(1));
-
-	m_recycler->SetRecycleMotors(oi->getOperatorJoystick()->GetRawAxis(5));
-
-	//m_drive->displayEncoders();
+//
+//	if(oi->getOperatorJoystick()->GetRawButton(1)){
+//		if (binCommand != NULL)
+//				binCommand->Start();
+//	}
+//	if(oi->getOperatorJoystick()->GetRawButton(2)){
+//		if (binCommand != NULL)
+//				binCommand->Start();
+//	}
+//	if(oi->getOperatorJoystick()->GetRawButton(3)){
+//		if (binCommand != NULL)
+//				binCommand->Start();
+//	}
+//
+//
+//
+//
+//
 
 	Wait(0.01);
 }

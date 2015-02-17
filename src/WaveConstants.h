@@ -17,14 +17,17 @@ enum
 {
 	Bin_CenterConfig = 0,
 	Bin_LeftConfig, //This has a value of 1
-	Bin_RightConfig //This has a value of 2
+	Bin_RightConfig, //This has a value of 2
+	Bin_TightConfig // This has a value of 3
 };
 
 enum
 {
 	Bin_LiftCylinder = 0,
 	Bin_LeftLock, //This has a value of 1
-	Bin_RightLock //This has a value of 2
+	Bin_RightLock, //This has a value of 2
+	Bin_LeftHook,
+	Bin_RightHook
 };
 
 enum
@@ -32,17 +35,29 @@ enum
 	Bin_SameToSame = 0,
 	Bin_CenterToLeft,
 	Bin_CenterToRight,
+	Bin_CenterToTight,
 	Bin_LeftToCenter,
 	Bin_LeftToRight,
+	Bin_LeftToTight,
 	Bin_RightToCenter,
-	Bin_RightToLeft
+	Bin_RightToLeft,
+	Bin_RightToTight,
+	Bin_TightToCenter,
+	Bin_TightToLeft,
+	Bin_TightToRight
+};
+
+enum
+{
+	BinJugglerSequence = 0
 };
 
 enum
 {
 	Bin_CenterActive = 0,
 	Bin_LeftActive, //This has a value of 1
-	Bin_RightActive //This has a value of 2
+	Bin_RightActive, //This has a value of 2
+	Bin_TightActive
 };
 
 enum

@@ -11,6 +11,7 @@ public:
 	Joystick* getOperatorJoystick();
 	Joystick* getDebugJoystick();
 	Joystick* getDebugJoystick2();
+	void checkInput();
 
 private:
 
@@ -39,39 +40,22 @@ private:
 	JoystickButton* operator_Y;
 
 	Joystick* debugJoystick;
-//	JoystickButton* debug_1;
-//	JoystickButton* debug_2;
-//	JoystickButton* debug_3;
-//	JoystickButton* debug_4;
-//	JoystickButton* debug_5;
-//	JoystickButton* debug_6;
-//	JoystickButton* debug_7;
-//	JoystickButton* debug_8;
-//	JoystickButton* debug_9;
-//	JoystickButton* debug_10;
-//	JoystickButton* debug_11;
-//	JoystickButton* debug_12;
-//	JoystickButton* debug_13;
-//	JoystickButton* debug_14;
-//	JoystickButton* debug_15;
-//	JoystickButton* debug_16;
-//	JoystickButton* debug_17;
-//	JoystickButton* debug_18;
-//	JoystickButton* debug_19;
-//	JoystickButton* debug_20;
-//	JoystickButton* debug_21;
-//	JoystickButton* debug_22;
-//	JoystickButton* debug_23;
-//	JoystickButton* debug_24;
-//	JoystickButton* debug_25;
-//	JoystickButton* debug_26;
-//	JoystickButton* debug_27;
-//	JoystickButton* debug_28;
-//	JoystickButton* debug_29;
-//	JoystickButton* debug_30;
-//	JoystickButton* debug_31;
-//	JoystickButton* debug_32;
-
+	JoystickButton* debug_1;
+	JoystickButton* debug_2;
+	JoystickButton* debug_3;
+	JoystickButton* debug_4;
+	JoystickButton* debug_5;
+	JoystickButton* debug_6;
+	JoystickButton* debug_7;
+	JoystickButton* debug_8;
+	JoystickButton* debug_9;
+	JoystickButton* debug_10;
+	JoystickButton* debug_11;
+	JoystickButton* debug_12;
+	JoystickButton* debug_13;
+	JoystickButton* debug_14;
+	JoystickButton* debug_15;
+	JoystickButton* debug_16;
 
 	Joystick* debugJoystick2;
 

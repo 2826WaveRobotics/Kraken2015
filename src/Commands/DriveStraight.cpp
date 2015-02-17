@@ -1,5 +1,4 @@
 #include "DriveStraight.h"
-#include "../Robot.h"
 
 DriveStraight::DriveStraight()
 {
@@ -12,7 +11,7 @@ DriveStraight::DriveStraight(double distance)
 
 void DriveStraight::Initialize()
 {
-	Robot::m_swim->Start();
+
 }
 
 void DriveStraight::Execute()

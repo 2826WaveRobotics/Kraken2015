@@ -15,13 +15,11 @@ private:
 	DigitalInput* binUpperSensor;
 	Solenoid* handleHolder;
 
-
 public:
 	Recycler();
 	void InitDefaultCommand();
 	void canControl(bool grab);
 	void SetRecycleMotors(float speed);
-	void SetHandleHolder(bool position);
 
 	bool isUpperSensorTripped();
 	bool isLowerSensorTripped();

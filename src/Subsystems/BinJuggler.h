@@ -31,6 +31,8 @@ public:
 	void lockLeft(bool extend);
 	void lockRight(bool extend);
 
+	void BinJugglerTest();
+
 	int getCurrentLocation();
 	void setCurrentLocation(int newLocation);
 

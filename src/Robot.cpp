@@ -17,7 +17,6 @@ Recycler* Robot::m_recycler = 0;
 Intake* Robot::m_intake = 0;
 BinJuggler* Robot::m_binJuggler = 0;
 CompressorSubsystem* Robot::m_compressor = 0;
-Swim* Robot::m_swim = 0;
 
 void Robot::RobotInit()
 {
@@ -33,8 +32,6 @@ void Robot::RobotInit()
 	m_intake= new Intake();
 	m_binJuggler= new BinJuggler();
 	m_compressor= new CompressorSubsystem();
-	m_swim = new Swim();
-
 }
 
 void Robot::DisabledPeriodic()
@@ -43,12 +40,14 @@ void Robot::DisabledPeriodic()
 	m_compressor->Stop();
 	Wait(0.01);
 
-	cout << m_intake->IsFrontSensorTripped();
-	cout << m_intake->IsRearSensorTripped();
-	cout << m_recycler->isLowerSensorTripped();
-	cout << m_recycler->isUpperSensorTripped() << "\t";
-	m_drive->displayEncoders();
-	cout << endl;
+	if(oi->GetDebugJoystickButton(16)){
+		cout << m_intake->IsFrontSensorTripped();
+		cout << m_intake->IsRearSensorTripped();
+		cout << m_recycler->isLowerSensorTripped();
+		cout << m_recycler->isUpperSensorTripped() << "\t";
+		m_drive->displayEncoders();
+		cout << endl;
+	}
 }
 
 void Robot::AutonomousInit()
@@ -69,10 +68,10 @@ void Robot::TeleopInit()
 		autonomousCommand->Cancel();
 	}
 	m_compressor->Start();
-	std::cout << "Message" << std::endl;
 
 	//test
 	m_elevator->test_max_variance = 0;
+
 }
 
 void Robot::TeleopPeriodic()
@@ -80,26 +79,16 @@ void Robot::TeleopPeriodic()
 	Scheduler::GetInstance()->Run();
 	oi->checkInput(); // runs through a function to check all the used buttons and joysticks
 
-//
-//	if(oi->getOperatorJoystick()->GetRawButton(1)){
-//		if (binCommand != NULL)
-//				binCommand->Start();
-//	}
-//	if(oi->getOperatorJoystick()->GetRawButton(2)){
-//		if (binCommand != NULL)
-//				binCommand->Start();
-//	}
-//	if(oi->getOperatorJoystick()->GetRawButton(3)){
-//		if (binCommand != NULL)
-//				binCommand->Start();
-//	}
-//
-//
-//
-//
-//
+	if(oi->GetDebugJoystickButton(16)){
+		cout << m_intake->IsFrontSensorTripped();
+		cout << m_intake->IsRearSensorTripped();
+		cout << m_recycler->isLowerSensorTripped();
+		cout << m_recycler->isUpperSensorTripped() << "\t";
+		m_drive->displayEncoders();
+		cout << endl;
+	}
 
-	Wait(0.01);
+	Wait(0.005);
 }
 
 void Robot::TestPeriodic()

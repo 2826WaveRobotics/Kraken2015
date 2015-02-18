@@ -10,31 +10,16 @@ Subsystem("Recycler")
 	trackArmRight = RobotMap::trackArmRight;
 	binLowerSensor = RobotMap::binLowerSensor;
 	binUpperSensor = RobotMap::binUpperSensor;
-	handleHolder = RobotMap::handleHolder;
 
 }
 
 bool Recycler::isUpperSensorTripped(){
 
-	if(binUpperSensor->Get()==true) //tripped
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+	return binUpperSensor->Get();
 }
 
 bool Recycler::isLowerSensorTripped() {
-	if(binLowerSensor->Get()==true)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+	return binLowerSensor->Get();
 }
 
 
@@ -42,11 +27,6 @@ void Recycler::SetRecycleMotors(float speed) {
 	trackArmLeft->Set(speed);
 	trackArmRight->Set(-speed);
 }
-
-void Recycler::SetHandleHolder(bool position){
-	handleHolder->Set(position);
-}
-
 
 void Recycler::InitDefaultCommand()
 {

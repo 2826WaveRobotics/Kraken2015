@@ -11,6 +11,7 @@ public:
 	Joystick* getOperatorJoystick();
 	Joystick* getDebugJoystick();
 	Joystick* getDebugJoystick2();
+	bool GetDebugJoystickButton(int button);
 	void checkInput();
 
 private:
@@ -56,6 +57,7 @@ private:
 	JoystickButton* debug_14;
 	JoystickButton* debug_15;
 	JoystickButton* debug_16;
+
 
 	Joystick* debugJoystick2;
 

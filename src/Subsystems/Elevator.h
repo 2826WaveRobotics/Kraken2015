@@ -14,6 +14,7 @@ private:
 	CANTalon* m_elevatorLeft;
 	CANTalon* m_elevatorRight;
 	AnalogInput* m_elevatorSensor;
+	Solenoid* m_toteLock;
 
 
 public:
@@ -39,6 +40,7 @@ public:
 
 	// A positive speed will raise the elevator, a negative speed will lower it.
 	void setElevatorMotors(float speed);
+	void lockTotes(bool lock);
 
 	double getMode(double input[]);
 	void sortArray();

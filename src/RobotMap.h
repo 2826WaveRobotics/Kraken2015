@@ -29,6 +29,7 @@ public:
 	static CANTalon* rearIntake;
 	static DigitalInput* frontIntakeSensor;
 	static DigitalInput* rearIntakeSensor;
+	static Solenoid* toteLocker;
 
 	//Elevator
 	static CANTalon* elevatorLeft;

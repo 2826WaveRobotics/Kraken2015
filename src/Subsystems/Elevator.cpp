@@ -27,7 +27,7 @@ float dVal = 4.541211;
 
 
 Elevator::Elevator() :
-										PIDSubsystem("Elevator", 0.5, 0.0, 0.0)
+												PIDSubsystem("Elevator", 0.5, 0.0, 0.0)
 
 {
 	SetAbsoluteTolerance(0.1);
@@ -40,6 +40,7 @@ Elevator::Elevator() :
 	m_elevatorLeft = RobotMap::elevatorLeft;
 	m_elevatorRight = RobotMap::elevatorRight;
 	m_elevatorSensor = RobotMap::elevatorSensor;
+	m_toteLock = RobotMap::toteLocker;
 }
 
 double Elevator::ReturnPIDInput() {
@@ -165,43 +166,43 @@ void Elevator::setElevatorMotors(float speed)
 
 	test_high_value = test_low_value = getCurrentVoltageOfSensor();
 
-//	for(test_iteration = 0; test_iteration < 500; test_iteration++) // get 500 data points and find mode
-//	{
-//		test_voltage = getCurrentVoltageOfSensor(); // get the voltage to work with
-//		test_sample[test_iteration] = test_voltage; // assign the value to an array for reference later
-//
-//		if(test_voltage > test_high_value){ // assign the high and low points
-//			test_high_value = test_voltage;
-//		}
-//		if(test_voltage < test_low_value){
-//			test_low_value = test_voltage;
-//		}
-//		test_average *= test_iteration; // calculate a new average
-//		test_average += test_voltage;
-//		test_average /= (test_iteration+1);
-//
-//		std::cout << test_voltage << std::endl; // print out the voltage
-//
-//		if(test_iteration > 500-2) // minus 2 to make sure we reach it
-//		{
-//			test_variance = test_high_value - test_low_value; // calculate the max variance during the run of the robot
-//			if(test_variance > test_max_variance){
-//				test_max_variance = test_variance;
-//			}
-//			if(test_high_value > test_high_value_max){ // calculate the high and low values achieved during the run
-//				test_high_value_max = test_high_value;
-//			}
-//			if(test_low_value < test_low_value_min){
-//				test_low_value_min = test_low_value;
-//			}
-//			//sortArray();
-//			//std::cout << test_variance << "\t" << test_max_variance << std::endl;
-//			//test_mode = getMode(test_values); // calculate the mode
-//			//std::cout << "\t\t\t\t\t" << "Test Average: " << test_average << "\t\tMode: " << test_mode << std::endl;
-//
-//		} // end final test
-//		Wait(.0001);
-//	}
+	//	for(test_iteration = 0; test_iteration < 500; test_iteration++) // get 500 data points and find mode
+	//	{
+	//		test_voltage = getCurrentVoltageOfSensor(); // get the voltage to work with
+	//		test_sample[test_iteration] = test_voltage; // assign the value to an array for reference later
+	//
+	//		if(test_voltage > test_high_value){ // assign the high and low points
+	//			test_high_value = test_voltage;
+	//		}
+	//		if(test_voltage < test_low_value){
+	//			test_low_value = test_voltage;
+	//		}
+	//		test_average *= test_iteration; // calculate a new average
+	//		test_average += test_voltage;
+	//		test_average /= (test_iteration+1);
+	//
+	//		std::cout << test_voltage << std::endl; // print out the voltage
+	//
+	//		if(test_iteration > 500-2) // minus 2 to make sure we reach it
+	//		{
+	//			test_variance = test_high_value - test_low_value; // calculate the max variance during the run of the robot
+	//			if(test_variance > test_max_variance){
+	//				test_max_variance = test_variance;
+	//			}
+	//			if(test_high_value > test_high_value_max){ // calculate the high and low values achieved during the run
+	//				test_high_value_max = test_high_value;
+	//			}
+	//			if(test_low_value < test_low_value_min){
+	//				test_low_value_min = test_low_value;
+	//			}
+	//			//sortArray();
+	//			//std::cout << test_variance << "\t" << test_max_variance << std::endl;
+	//			//test_mode = getMode(test_values); // calculate the mode
+	//			//std::cout << "\t\t\t\t\t" << "Test Average: " << test_average << "\t\tMode: " << test_mode << std::endl;
+	//
+	//		} // end final test
+	//		Wait(.0001);
+	//	}
 
 
 	////////////////End Test////////////////
@@ -268,13 +269,11 @@ void Elevator::sortArray()
 	} // no swaps made, sort complete
 
 	std::cout << "Sorted Values!" << std::endl;
-for(int k = 0; k < 500; k++)
-{
-	std::cout << test_sample[k] << std::endl;
+	for(int k = 0; k < 500; k++)
+	{
+		std::cout << test_sample[k] << std::endl;
+	}
 }
+void Elevator::lockTotes(bool lock = true){
+	m_toteLock->Set(lock);
 }
-
-// Put methods for controlling this subsystem
-// here. Call these from Commands.
-
-

@@ -11,7 +11,7 @@
 	int CANTalon_rightDrive1 = 2;
 	int CANTalon_rightDrive2 = 3;
 	int CANTalon_elevatorLeft = 8;
-	int CANTalon_elevatorRight = 9;
+	int CANTalon_elevatorRight = 11;
 	int CANTalon_trackArmLeft = 15;
 	int CANTalon_trackArmRight = 18;
 	int CANTalon_frontIntakeLeft = 12;
@@ -62,6 +62,7 @@ Solenoid* RobotMap::leftLock = NULL;
 Solenoid* RobotMap::rightLock = NULL;
 Solenoid* RobotMap::leftHook = NULL;
 Solenoid* RobotMap::rightHook = NULL;
+Solenoid* RobotMap::toteLocker = NULL;
 Solenoid* RobotMap::handleHolder = NULL;
 
 //DigitalInput* RobotMap::DIO0 = NULL; // for testing purposes
@@ -95,13 +96,14 @@ void RobotMap::init() {
 
 	m_robotDrive = new RobotDrive(leftDrive1, leftDrive2, rightDrive1, rightDrive2);
 
-	shifter = new Solenoid(0, 4);
+	shifter = new Solenoid(0,4);
 	jugglerCylinder = new Solenoid(0,3);
 	leftLock = new Solenoid(0,1);
 	rightLock = new Solenoid(0,5);
 	leftHook = new Solenoid(0,6);
 	rightHook = new Solenoid(0,2);
-	handleHolder = new Solenoid(0,0);
+	toteLocker = new Solenoid(0,0);
+	handleHolder = new Solenoid(0,7);
 
 	elevatorSensor = new AnalogInput(0);
 	yawRate = new AnalogInput(1);

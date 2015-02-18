@@ -54,49 +54,147 @@ void OI::checkInput(){
 
 	bool param = getDriverJoystick()->GetRawAxis(3)>0.75 ? true : false; // shift with the trigger
 	Robot::m_drive->ShiftGear(param);
-	Robot::m_drive->DriveWithJoysticks(driverJoystick->GetRawAxis(1), getDriverJoystick()->GetRawAxis(4));
+	Robot::m_drive->DriveWithJoysticks(driverJoystick->GetRawAxis(1), driverJoystick->GetRawAxis(4));
+
 	Robot::m_elevator->setElevatorMotors(operatorJoystick->GetRawAxis(1));
-	Robot::m_recycler->SetRecycleMotors(operatorJoystick->GetRawAxis(5));
 
-	operatorJoystick->GetRawAxis(2) < .55 ? Robot::m_intake->SetFrontIntake(0) : Robot::m_intake->SetFrontIntake(operatorJoystick->GetRawAxis(2));
-	operatorJoystick->GetRawAxis(3) < .55 ? Robot::m_intake->SetRearIntake(0) : Robot::m_intake->SetRearIntake(operatorJoystick->GetRawAxis(3));
+	operatorJoystick->GetRawAxis(2) < .05 ? Robot::m_intake->SetFrontIntake(0) : Robot::m_intake->SetFrontIntake(operatorJoystick->GetRawAxis(2));
+	operatorJoystick->GetRawAxis(3) < .05 ? Robot::m_intake->SetRearIntake(0) : Robot::m_intake->SetRearIntake(operatorJoystick->GetRawAxis(3));
 
-	if(debug_1->Get()){
-		Robot::m_binJuggler->loadSelection(Bin_LeftLock, On);
+	if(GetDebugJoystickButton(1)){
+		Robot::m_binJuggler->loadSelection(Bin_LeftLock, true);
 	}
-	if(debug_2->Get()){
-		Robot::m_binJuggler->loadSelection(Bin_LeftHook, On);
+	if(GetDebugJoystickButton(2)){
+		Robot::m_binJuggler->loadSelection(Bin_LeftHook, true);
 	}
-	if(debug_3->Get()){
-		Robot::m_binJuggler->loadSelection(Bin_RightHook, On);
+	if(GetDebugJoystickButton(3)){
+		Robot::m_binJuggler->loadSelection(Bin_RightHook, true);
 	}
-	if(debug_4->Get()){
-		Robot::m_binJuggler->loadSelection(Bin_RightLock, On);
+	if(GetDebugJoystickButton(4)){
+		Robot::m_binJuggler->loadSelection(Bin_RightLock, true);
 	}
-	if(debug_5->Get()){
-		Robot::m_binJuggler->loadSelection(Bin_LeftLock, Off);
+	if(GetDebugJoystickButton(5)){
+		Robot::m_binJuggler->loadSelection(Bin_LeftLock, false);
 	}
-	if(debug_6->Get()){
-		Robot::m_binJuggler->loadSelection(Bin_LeftHook, Off);
+	if(GetDebugJoystickButton(6)){
+		Robot::m_binJuggler->loadSelection(Bin_LeftHook, false);
 	}
-	if(debug_7->Get()){
-		Robot::m_binJuggler->loadSelection(Bin_RightHook, Off);
+	if(GetDebugJoystickButton(7)){
+		Robot::m_binJuggler->loadSelection(Bin_RightHook, false);
 	}
-	if(debug_8->Get()){
-		Robot::m_binJuggler->loadSelection(Bin_RightLock, Off);
+	if(GetDebugJoystickButton(8)){
+		Robot::m_binJuggler->loadSelection(Bin_RightLock, false);
 	}
-	if(debug_9->Get() || debug_10->Get() || debug_13->Get() || debug_14->Get()){
-		Robot::m_binJuggler->loadSelection(Bin_LiftCylinder, On);
+	if(GetDebugJoystickButton(9)){
+		Robot::m_binJuggler->loadSelection(Bin_LiftCylinder, true);
 	}
-	if(debug_11->Get() || debug_12->Get() || debug_15->Get() || debug_16->Get()){
-		Robot::m_binJuggler->loadSelection(Bin_LiftCylinder, On);
+	if(GetDebugJoystickButton(10)){
+
+	}
+	if(GetDebugJoystickButton(11)){
+
+	}
+	if(GetDebugJoystickButton(12)){
+
+	}
+	if(GetDebugJoystickButton(13)){
+		Robot::m_binJuggler->loadSelection(Bin_LiftCylinder, false);
+	}
+	if(GetDebugJoystickButton(14)){
+
+	}
+	if(GetDebugJoystickButton(15)){
+
+	}
+	if(GetDebugJoystickButton(16)){
+
 	}
 
-	operator_A->WhenPressed(new BinJugglerCommand(Bin_CenterConfig));
+	if((Robot::m_recycler->isLowerSensorTripped() == true) && (Robot::m_recycler->isUpperSensorTripped() == true)){ // neither sensor tripped
+		Robot::m_recycler->SetRecycleMotors(operatorJoystick->GetRawAxis(5));
+	}
+	else if((Robot::m_recycler->isLowerSensorTripped() == false) && (operatorJoystick->GetRawAxis(5) > 0)){ // lower is tripped, but we're going up
+		Robot::m_recycler->SetRecycleMotors(operatorJoystick->GetRawAxis(5));
+	}
+	else if((Robot::m_recycler->isUpperSensorTripped() == false) && (operatorJoystick->GetRawAxis(5) < 0)){ // upper is tripped, but we're going down
+		Robot::m_recycler->SetRecycleMotors(operatorJoystick->GetRawAxis(5));
+	}
+	else{
+		std::cout << "CANNOT MOVE THE RECYCLER ANY MORE" << std::endl;
+		Robot::m_recycler->SetRecycleMotors(0);
+	}
+
+
+
+
+
+	if(driverJoystick->GetRawButton(7)){ // BREAKS THE PROGRAM
+		Robot::m_elevator->lockTotes(true);
+	}
+	if(driverJoystick->GetRawButton(8)){
+		Robot::m_elevator->lockTotes(false);
+	}
+
+	operator_A->WhenPressed(new BinJugglerCommand(Bin_CenterConfig)); // NOT WORKING
 	operator_X->WhenPressed(new BinJugglerCommand(Bin_LeftConfig));
 	operator_B->WhenPressed(new BinJugglerCommand(Bin_RightConfig));
 
 }
 
+bool OI::GetDebugJoystickButton(int number){
+	switch(number){
+	case 1:
+		return debugJoystick2->GetRawButton(1);
+		break;
+	case 2:
+		return debugJoystick2->GetRawButton(2);
+		break;
+	case 3:
+		return debugJoystick2->GetRawButton(3);
+		break;
+	case 4:
+		return debugJoystick2->GetRawButton(4);
+		break;
+	case 5:
+		return debugJoystick->GetRawButton(9);
+		break;
+	case 6:
+		return debugJoystick->GetRawButton(10);
+		break;
+	case 7:
+		return debugJoystick->GetRawButton(11);
+		break;
+	case 8:
+		return debugJoystick->GetRawButton(12);
+		break;
+	case 9:
+		return debugJoystick->GetRawButton(5);
+		break;
+	case 10:
+		return debugJoystick->GetRawButton(6);
+		break;
+	case 11:
+		return debugJoystick->GetRawButton(7);
+		break;
+	case 12:
+		return debugJoystick->GetRawButton(8);
+		break;
+	case 13:
+		return debugJoystick->GetRawButton(1);
+		break;
+	case 14:
+		return debugJoystick->GetRawButton(2);
+		break;
+	case 15:
+		return debugJoystick->GetRawButton(3);
+		break;
+	case 16:
+		return debugJoystick->GetRawButton(4);
+		break;
+	default:
+		return false;
+		break;
+	}
+}
 
 

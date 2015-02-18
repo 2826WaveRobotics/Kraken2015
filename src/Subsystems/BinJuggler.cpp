@@ -19,6 +19,9 @@ void BinJuggler::InitDefaultCommand()
 	// Set the default command for a subsystem here.
 	//SetDefaultCommand(new MySpecialCommand());
 }
+void BinJuggler::BinJugglerTest(){
+	std::cout << "Testing Bin Juggler" << std::endl;
+}
 
 void BinJuggler::loadSelection(int cylinder, bool state) {
 

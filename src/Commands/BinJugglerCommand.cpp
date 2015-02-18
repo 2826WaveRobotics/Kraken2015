@@ -471,6 +471,7 @@ void BinJugglerCommand::Execute()
 
 	case Bin_SameToSame:
 		//already there!
+		std::cout << "Already there!" << std::endl;
 		break;
 	default:
 		//Do nothing

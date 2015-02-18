@@ -6,13 +6,16 @@ namespace
 const double c_pinTime = 0.25;
 const double c_liftTime = 1.25;
 }
-BinJugglerCommand::BinJugglerCommand(int configuration)
+BinJugglerCommand::BinJugglerCommand(int configuration = Bin_LeftActive)
 {
 	newConfiguration = configuration;
 }
 
 void BinJugglerCommand::Initialize()
 {
+	step = 1;
+
+	std::cout << "BinJugglerCommand: Initialize" << std::endl;
 
 	currentPosition = Robot::m_binJuggler->getCurrentLocation();
 

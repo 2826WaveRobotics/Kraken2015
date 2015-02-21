@@ -1,6 +1,8 @@
 #include "OI.h"
 #include "Robot.h"
 #include "Commands/BinJugglerCommand.h"
+#include "Commands/Shift.h"
+#include "Commands/ShiftHigh.h"
 
 OI::OI()
 {
@@ -20,16 +22,21 @@ OI::OI()
 	driver_LJoy = new JoystickButton(driverJoystick, 9);
 	driver_RJoy = new JoystickButton(driverJoystick, 10);
 
-	operator_A = new JoystickButton(driverJoystick, 1);
-	operator_B = new JoystickButton(driverJoystick, 2);
-	operator_X = new JoystickButton(driverJoystick, 3);
-	operator_Y = new JoystickButton(driverJoystick, 4);
-	operator_LB = new JoystickButton(driverJoystick, 5);
-	operator_RB = new JoystickButton(driverJoystick, 6);
-	operator_Back = new JoystickButton(driverJoystick, 7);
-	operator_Start = new JoystickButton(driverJoystick, 8);
-	operator_LJoy = new JoystickButton(driverJoystick, 9);
-	operator_RJoy = new JoystickButton(driverJoystick, 10);
+	operator_A = new JoystickButton(operatorJoystick, 1);
+	operator_B = new JoystickButton(operatorJoystick, 2);
+	operator_X = new JoystickButton(operatorJoystick, 3);
+	operator_Y = new JoystickButton(operatorJoystick, 4);
+	operator_LB = new JoystickButton(operatorJoystick, 5);
+	operator_RB = new JoystickButton(operatorJoystick, 6);
+	operator_Back = new JoystickButton(operatorJoystick, 7);
+	operator_Start = new JoystickButton(operatorJoystick, 8);
+	operator_LJoy = new JoystickButton(operatorJoystick, 9);
+	operator_RJoy = new JoystickButton(operatorJoystick, 10);
+
+	operator_Y->WhenPressed(new ShiftHigh);
+	operator_A->WhenPressed(new BinJugglerCommand(Bin_CenterConfig)); // NOT WORKING
+//	operator_X->WhenPressed(new BinJugglerCommand(Bin_LeftConfig));
+//	operator_B->WhenPressed(new BinJugglerCommand(Bin_RightConfig));
 
 }
 
@@ -135,9 +142,6 @@ void OI::checkInput(){
 		Robot::m_elevator->lockTotes(false);
 	}
 
-	operator_A->WhenPressed(new BinJugglerCommand(Bin_CenterConfig)); // NOT WORKING
-	operator_X->WhenPressed(new BinJugglerCommand(Bin_LeftConfig));
-	operator_B->WhenPressed(new BinJugglerCommand(Bin_RightConfig));
 
 }
 

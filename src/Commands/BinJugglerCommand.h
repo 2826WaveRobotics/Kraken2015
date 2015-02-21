@@ -23,6 +23,7 @@ private:
 	int set;
 	int step;
 	Timer m_waitTimer;
+	Timer m_waitTimer2;
 	bool m_sequenceFinished;
 };
 

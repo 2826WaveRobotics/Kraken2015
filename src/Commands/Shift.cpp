@@ -4,12 +4,14 @@
 
 Shift::Shift(bool highGear)
 {
-	drive = Robot::m_drive;
+//	drive = Robot::m_drive;
 	m_highGear = highGear;
 }
 
 void Shift::Initialize()
 {
+	drive = Robot::m_drive;
+	std::cout << "Shift Initialized, is Drive NULL?" << (NULL == drive ? "NULL":"Good") << std::endl;
 	if(m_highGear == true)
 	{
 		drive->ShiftGear(true);
@@ -22,20 +24,22 @@ void Shift::Initialize()
 
 void Shift::Execute()
 {
-
+	std::cout << "Shift Executing" << std::endl;
 }
 
 bool Shift::IsFinished()
 {
-	return false;
+	std::cout << "Is Shift Finished?" << std::endl;
+	return true;
 }
 
 void Shift::End()
 {
-
+	std::cout << "Shift ended" << std::endl;
 }
 
 void Shift::Interrupted()
 {
+	std::cout << "Shift Interrupted" << std::endl;
 	End();
 }

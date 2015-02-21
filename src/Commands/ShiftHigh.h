@@ -13,6 +13,9 @@ public:
 	bool IsFinished();
 	void End();
 	void Interrupted();
+
+private:
+	bool m_shiftState = false;
 };
 
 #endif

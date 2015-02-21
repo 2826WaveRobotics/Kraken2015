@@ -4,7 +4,7 @@
 
 #define PRACTICE_BOT
 
-#ifdef PRACTICE_BOT
+#ifdef COMPETITION_BOT
 
 	int CANTalon_leftDrive1 = 19;
 	int CANTalon_leftDrive2 = 20;
@@ -20,19 +20,19 @@
 
 #endif
 
-#ifdef COMPETITION_BOT
+#ifdef PRACTICE_BOT
 
-	int CANTalon_leftDrive1 = 10;
-	int CANTalon_leftDrive2 = 11;
-	int CANTalon_rightDrive1 = 12;
-	int CANTalon_rightDrive2 = 13;
-	int CANTalon_elevatorLeft = 14;
-	int CANTalon_elevatorRight = 15;
-	int CANTalon_trackArm = 16;
-	int CANTalon_trackArm = 19;
-	int CANTalon_frontIntakeLeft = 17;
-	int CANTalon_frontIntakeRight = 18;
-	int CANTalon_rearIntake = 22;
+	int CANTalon_leftDrive1 = 14;
+	int CANTalon_leftDrive2 = 26;//something
+	int CANTalon_rightDrive1 = 1;
+	int CANTalon_rightDrive2 = 27;
+	int CANTalon_elevatorLeft = 9;
+	int CANTalon_elevatorRight = 4;
+	int CANTalon_trackArmLeft = 17;
+	int CANTalon_trackArmRight = 16;
+	int CANTalon_frontIntakeLeft = 25;
+	int CANTalon_frontIntakeRight = 5;
+	int CANTalon_rearIntake = 7;
 #endif
 
 Compressor* RobotMap::compressor = NULL;

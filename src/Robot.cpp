@@ -89,6 +89,7 @@ void Robot::TeleopPeriodic()
 		m_drive->displayEncoders();
 		cout << endl;
 	}
+	//cout << "\t\t\tRunning Through Tele-op" << std::endl;
 
 	Wait(0.005);
 }

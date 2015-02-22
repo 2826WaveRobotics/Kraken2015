@@ -45,8 +45,9 @@ void Robot::DisabledPeriodic()
 		cout << m_intake->IsRearSensorTripped();
 		cout << m_recycler->isLowerSensorTripped();
 		cout << m_recycler->isUpperSensorTripped() << "\t";
-		cout << m_elevator->getCurrentVoltageOfSensor() << "\t";
-		m_drive->displayEncoders();
+		cout << m_elevator->getCurrentVoltageOfSensor() << "\t\t";
+		cout << m_drive->GetLeftEncoder() << "\t";
+		cout << m_drive->GetRightEncoder() << "\t";
 		cout << endl;
 	}
 }
@@ -86,7 +87,8 @@ void Robot::TeleopPeriodic()
 		cout << m_recycler->isLowerSensorTripped();
 		cout << m_recycler->isUpperSensorTripped() << "\t";
 		cout << m_elevator->getCurrentVoltageOfSensor() << "\t";
-		m_drive->displayEncoders();
+		cout << m_drive->GetLeftEncoder() << "\t";
+		cout << m_drive->GetRightEncoder() << "\t";
 		cout << endl;
 	}
 	//cout << "\t\t\tRunning Through Tele-op" << std::endl;

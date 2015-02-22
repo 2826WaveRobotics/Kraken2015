@@ -35,8 +35,8 @@ OI::OI()
 
 	operator_Y->WhenPressed(new ShiftHigh);
 	operator_A->WhenPressed(new BinJugglerCommand(Bin_CenterConfig)); // NOT WORKING
-//	operator_X->WhenPressed(new BinJugglerCommand(Bin_LeftConfig));
-//	operator_B->WhenPressed(new BinJugglerCommand(Bin_RightConfig));
+	//	operator_X->WhenPressed(new BinJugglerCommand(Bin_LeftConfig));
+	//	operator_B->WhenPressed(new BinJugglerCommand(Bin_RightConfig));
 
 }
 
@@ -61,9 +61,9 @@ void OI::checkInput(){
 
 	bool param = getDriverJoystick()->GetRawAxis(3)>0.75 ? true : false; // shift with the trigger
 	Robot::m_drive->ShiftGear(param);
-	Robot::m_drive->DriveWithJoysticks(driverJoystick->GetRawAxis(1), driverJoystick->GetRawAxis(4));
+	//Robot::m_drive->DriveWithJoysticks(driverJoystick->GetRawAxis(1), driverJoystick->GetRawAxis(4));
 
-	Robot::m_elevator->setElevatorMotors(operatorJoystick->GetRawAxis(1));
+
 
 	operatorJoystick->GetRawAxis(2) < .05 ? Robot::m_intake->SetFrontIntake(0) : Robot::m_intake->SetFrontIntake(operatorJoystick->GetRawAxis(2));
 	operatorJoystick->GetRawAxis(3) < .05 ? Robot::m_intake->SetRearIntake(0) : Robot::m_intake->SetRearIntake(operatorJoystick->GetRawAxis(3));
@@ -117,23 +117,37 @@ void OI::checkInput(){
 
 	}
 
-	if((Robot::m_recycler->isLowerSensorTripped() == true) && (Robot::m_recycler->isUpperSensorTripped() == true)){ // neither sensor tripped
-		Robot::m_recycler->SetRecycleMotors(operatorJoystick->GetRawAxis(5));
+	/*recycler*/if((Robot::m_recycler->isLowerSensorTripped() == 1) && (Robot::m_recycler->isUpperSensorTripped() == 1)){ // neither sensor tripped
+		Robot::m_recycler->SetRecycleMotors(-operatorJoystick->GetRawAxis(5));
 	}
-	else if((Robot::m_recycler->isLowerSensorTripped() == false) && (operatorJoystick->GetRawAxis(5) > 0)){ // lower is tripped, but we're going up
-		Robot::m_recycler->SetRecycleMotors(operatorJoystick->GetRawAxis(5));
+	else if((Robot::m_recycler->isLowerSensorTripped() == 0) && (operatorJoystick->GetRawAxis(5) < 0)){ // lower is tripped, but we're going up
+		Robot::m_recycler->SetRecycleMotors(-operatorJoystick->GetRawAxis(5));
 	}
-	else if((Robot::m_recycler->isUpperSensorTripped() == false) && (operatorJoystick->GetRawAxis(5) < 0)){ // upper is tripped, but we're going down
-		Robot::m_recycler->SetRecycleMotors(operatorJoystick->GetRawAxis(5));
+	else if((Robot::m_recycler->isUpperSensorTripped() == 0) && (operatorJoystick->GetRawAxis(5) > 0)){ // upper is tripped, but we're going down
+		Robot::m_recycler->SetRecycleMotors(-operatorJoystick->GetRawAxis(5));
 	}
 	else{
 		std::cout << "CANNOT MOVE THE RECYCLER ANY MORE" << std::endl;
 		Robot::m_recycler->SetRecycleMotors(0);
 	}
 
+	/*elevator*/if((Robot::m_elevator->getCurrentVoltageOfSensor() > .65) && (Robot::m_elevator->getCurrentVoltageOfSensor() < 4.2)){ // neither sensor tripped//4.75 & .65
+		Robot::m_elevator->setElevatorMotors(operatorJoystick->GetRawAxis(1));
+	}
+	else if((Robot::m_elevator->getCurrentVoltageOfSensor() < .65) && (operatorJoystick->GetRawAxis(1) < 0)){ // lower is tripped, but we're going up
+		Robot::m_elevator->setElevatorMotors(operatorJoystick->GetRawAxis(1));
+	}
+	else if((Robot::m_elevator->getCurrentVoltageOfSensor() > 4.2) && (operatorJoystick->GetRawAxis(1) > 0)){ // upper is tripped, but we're going down
+		Robot::m_elevator->setElevatorMotors(operatorJoystick->GetRawAxis(1));
+	}
+	else{
+		std::cout << "CANNOT MOVE THE RECYCLER ANY MORE" << std::endl;
+		Robot::m_elevator->setElevatorMotors(0);
+	}
 
+	Robot::m_drive->DriveWithJoysticks(driverJoystick->GetRawAxis(1), driverJoystick->GetRawAxis(4));
 
-
+	//Robot::m_elevator->setElevatorMotors(operatorJoystick->GetRawAxis(1));
 
 	if(driverJoystick->GetRawButton(7)){ // BREAKS THE PROGRAM
 		Robot::m_elevator->lockTotes(true);

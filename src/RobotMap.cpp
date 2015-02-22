@@ -26,12 +26,12 @@
 	int CANTalon_leftDrive2 = 26;//something
 	int CANTalon_rightDrive1 = 1;
 	int CANTalon_rightDrive2 = 27;
-	int CANTalon_elevatorLeft = 9;
-	int CANTalon_elevatorRight = 4;
+	int CANTalon_elevatorLeft = 25;
+	int CANTalon_elevatorRight = 5;
 	int CANTalon_trackArmLeft = 17;
 	int CANTalon_trackArmRight = 16;
-	int CANTalon_frontIntakeLeft = 25;
-	int CANTalon_frontIntakeRight = 5;
+	int CANTalon_frontIntakeLeft = 9;
+	int CANTalon_frontIntakeRight = 4;
 	int CANTalon_rearIntake = 7;
 #endif
 
@@ -108,10 +108,10 @@ void RobotMap::init() {
 	elevatorSensor = new AnalogInput(0);
 	yawRate = new AnalogInput(1);
 
-	binLowerSensor = new DigitalInput (6); // 4
-	binUpperSensor = new DigitalInput (7);
-	frontIntakeSensor = new DigitalInput (4);
-	rearIntakeSensor = new DigitalInput (5);
+	binLowerSensor = new DigitalInput (4); // 4
+	binUpperSensor = new DigitalInput (5);
+	frontIntakeSensor = new DigitalInput (6);
+	rearIntakeSensor = new DigitalInput (7);
 
 
 	m_driveEncoderLeft = new Encoder (0,1, false);//last parameter is reverse direction

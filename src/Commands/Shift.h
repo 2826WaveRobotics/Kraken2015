@@ -1,10 +1,10 @@
 #ifndef SHIFT_H
 #define SHIFT_H
 
+#include "Subsystems/Drive.h"
 #include "../CommandBase.h"
 #include "WPILib.h"
 #include "../RobotMap.h"
-#include "../Subsystems/Drive.h"
 
 class Shift: public CommandBase
 {

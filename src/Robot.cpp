@@ -82,13 +82,13 @@ void Robot::TeleopPeriodic()
 	oi->checkInput(); // runs through a function to check all the used buttons and joysticks
 
 	if(oi->GetDebugJoystickButton(16)){
-		cout << m_intake->IsFrontSensorTripped();
-		cout << m_intake->IsRearSensorTripped();
-		cout << m_recycler->isLowerSensorTripped();
-		cout << m_recycler->isUpperSensorTripped() << "\t";
+//		cout << m_intake->IsFrontSensorTripped();
+//		cout << m_intake->IsRearSensorTripped();
+//		cout << m_recycler->isLowerSensorTripped();
+//		cout << m_recycler->isUpperSensorTripped() << "\t";
 		cout << m_elevator->getCurrentVoltageOfSensor() << "\t";
-		cout << m_drive->GetLeftEncoder() << "\t";
-		cout << m_drive->GetRightEncoder() << "\t";
+//		cout << m_drive->GetLeftEncoder() << "\t";
+//		cout << m_drive->GetRightEncoder() << "\t";
 		cout << endl;
 	}
 	//cout << "\t\t\tRunning Through Tele-op" << std::endl;

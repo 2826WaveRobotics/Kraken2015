@@ -2,16 +2,16 @@
 #include "../Subsystems/Elevator.h"
 #include "../Robot.h"
 
-SetElevatorPosition::SetElevatorPosition(double inches)
+SetElevatorPosition::SetElevatorPosition(double volts)
 {
 	m_motorValue = 0;
-	m_inches = inches;
+	m_volts = volts;
 }
 
 void SetElevatorPosition::Initialize()
 {
 	Robot::m_elevator->disablePID(); //Disable the PID in order to restart it with setAbsoluteHeight()
-	Robot::m_elevator->setAbsoluteHeight(m_inches);
+	Robot::m_elevator->setAbsoluteHeight(m_volts); //enables PID after setting new value
 	SetTimeout(3.0); //time in seconds
 }
 
@@ -22,9 +22,10 @@ void SetElevatorPosition::Execute()
 
 bool SetElevatorPosition::IsFinished()
 {
-	double currentHeight = Robot::m_elevator->getCurrentHeight();
+	double currentHeight = Robot::m_elevator->getCurrentVoltageOfSensor();
 
-	if(fabs(currentHeight - m_inches) < elevatorTolerance) //if we're within an inch of where we want to be
+	std::cout << "SetElevatorPosition::IsFinished: currentHeight == " << currentHeight << "  m_volts=" << m_volts << std::endl;
+	if(fabs(currentHeight - m_volts) < elevatorTolerance) //if we're within an inch of where we want to be
 	{
 		return true;
 	}
@@ -36,6 +37,7 @@ bool SetElevatorPosition::IsFinished()
 
 void SetElevatorPosition::End()
 {
+	std::cout << "setElevatorPosition::End" << std::endl;
 	//Do Nothing. Note that the PID is still running when this command ends
 }
 

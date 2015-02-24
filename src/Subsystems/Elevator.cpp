@@ -4,10 +4,10 @@
 
 namespace
 {
-double MaxVolts = 3.5;
-double MinVolts = 0;
-double MinLength = lowElevatorPosition;
-double MaxLength = highElevatorPosition;
+double MaxVolts = highElevatorPosition + 0.2;
+double MinVolts = lowElevatorPosition - 0.2;
+//double MinLength = lowElevatorPosition;
+//double MaxLength = highElevatorPosition;
 
 float c_downP = 1.0;
 float c_downI = 0.0;
@@ -27,7 +27,7 @@ float dVal = 4.541211;
 
 
 Elevator::Elevator() :
-												PIDSubsystem("Elevator", 0.5, 0.0, 0.0)
+ PIDSubsystem("Elevator", 0.5, 0.0, 0.0)
 
 {
 	SetAbsoluteTolerance(0.1);
@@ -35,7 +35,7 @@ Elevator::Elevator() :
 	//LiveWindow::GetInstance()->AddActuator("ArmPitchWithPID", "PIDSubsystem Controller", GetPIDController());
 	GetPIDController()->SetInputRange(MinVolts, MaxVolts); //range on sensor 0-12 volts
 	GetPIDController()->SetOutputRange(-1.0, 1.0); //range on motors
-	GetPIDController()->SetAbsoluteTolerance(0.3); //plus or minus this voltage
+	GetPIDController()->SetAbsoluteTolerance(elevatorTolerance); //plus or minus this voltage
 
 	m_elevatorLeft = RobotMap::elevatorLeft;
 	m_elevatorRight = RobotMap::elevatorRight;
@@ -47,17 +47,26 @@ double Elevator::ReturnPIDInput() {
 	// Return your input value for the PID loop
 	// e.g. a sensor, like a potentiometer:
 	// yourPot->SetAverageVoltage() / kYourMaxVoltage;
-	return m_elevatorSensor->GetAverageVoltage();
+//	return m_elevatorSensor->GetAverageVoltage();
+	return m_elevatorSensor->GetVoltage();
 }
 
 double Elevator::GetPIDOutput()
 {
+	//std::cout << "ELevator::GetPIDOutput() -- returning " << GetPIDController()->Get() << std::endl;
 	return GetPIDController()->Get();
 }
 
 
 void Elevator::UsePIDOutput(double output) {
-	output = -output; //Arm motors are inverted
+
+
+	//Enforce virtual limits
+	double currentHeight = getCurrentVoltageOfSensor();
+	if((currentHeight > highElevatorPosition) || (currentHeight < lowElevatorPosition))
+	{
+		output = 0;
+	}
 
 	//Limit the acceleration
 	//    if(output > 0.8)
@@ -72,6 +81,7 @@ void Elevator::UsePIDOutput(double output) {
 	// Use output to drive your system, like a motor
 	// e.g. yourMotor->Set(output);
 
+	//std::cout << "ELevator::UsePIDOutput() -- " << -output << std::endl;
 	m_elevatorLeft->PIDWrite(output);
 	m_elevatorRight->PIDWrite(output);
 }
@@ -80,23 +90,24 @@ void Elevator::setAbsoluteHeight(double targetHeight)
 {
 
 	PIDController *pid = GetPIDController();
-	double currentHeight = convertVoltsToInches(getCurrentVoltageOfSensor());
+//	double currentHeight = convertVoltsToInches(getCurrentVoltageOfSensor());
+	double currentHeight = getCurrentVoltageOfSensor();
 
-	if(currentHeight<targetHeight)
+	if(currentHeight < targetHeight)
 	{
 		//These are DOWN gains
-
 		pid->SetPID(c_downP, c_downI, c_downD);
 	}
 	else
 	{
 		//These are UP gains
-
 		pid->SetPID(c_upP, c_upI, c_upD);
 	}
 
-	double setVoltage = convertInchesToVolts(targetHeight);
+//	double setVoltage = convertInchesToVolts(targetHeight);
+	double setVoltage = targetHeight;
 
+	pid->Disable();
 	pid->Reset();
 	pid->SetSetpoint(setVoltage); //setpoint is in voltage
 	pid->Enable();
@@ -105,6 +116,7 @@ void Elevator::setAbsoluteHeight(double targetHeight)
 
 void Elevator::disablePID()
 {
+	std::cout << "ELevator::DisablePID()" << std::endl;
 	GetPIDController()->Disable();
 }
 

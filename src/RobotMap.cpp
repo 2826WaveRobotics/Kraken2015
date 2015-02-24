@@ -22,17 +22,17 @@
 
 #ifdef PRACTICE_BOT
 
-	int CANTalon_leftDrive1 = 14;
-	int CANTalon_leftDrive2 = 26;//something
-	int CANTalon_rightDrive1 = 1;
-	int CANTalon_rightDrive2 = 27;
-	int CANTalon_elevatorLeft = 25;
-	int CANTalon_elevatorRight = 5;
-	int CANTalon_trackArmLeft = 17;
-	int CANTalon_trackArmRight = 16;
-	int CANTalon_frontIntakeLeft = 9;
-	int CANTalon_frontIntakeRight = 4;
-	int CANTalon_rearIntake = 7;
+	int CANTalon_leftDrive1 = 14; //coast
+	int CANTalon_leftDrive2 = 26; //coast
+	int CANTalon_rightDrive1 = 1; //coast
+	int CANTalon_rightDrive2 = 27; //coast
+	int CANTalon_elevatorLeft = 25; //brake
+	int CANTalon_elevatorRight = 5; //brake
+	int CANTalon_trackArmLeft = 17; //brake
+	int CANTalon_trackArmRight = 16; //brake
+	int CANTalon_frontIntakeLeft = 9; //brake
+	int CANTalon_frontIntakeRight = 4; //brake
+	int CANTalon_rearIntake = 7; //coast
 #endif
 
 Compressor* RobotMap::compressor = NULL;

@@ -3,9 +3,9 @@
 
 //#define NULL = 0;
 
-const double highElevatorPosition=20.0;
-const double lowElevatorPosition=5.0;
-const double elevatorTolerance = 0.5;
+const double highElevatorPosition=4.2;
+const double lowElevatorPosition=0.89;
+const double elevatorTolerance = 0.3;
 const double bumpHeight = 3.0;
 const int On=1;
 const int Off=0;
@@ -70,5 +70,16 @@ enum
 	Tote_Carry5,
 	Tote_Carry6
 };
+
+enum
+{
+	Axis_LX = 0,
+	Axis_LY,        //1
+	Axis_LTrigger,  //2
+	Axis_RTrigger,  //3
+	Axis_RX,        //4
+	Axis_RY         //5
+};
+
 
 #endif

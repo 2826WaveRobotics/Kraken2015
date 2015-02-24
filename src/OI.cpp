@@ -3,6 +3,8 @@
 #include "Commands/BinJugglerCommand.h"
 #include "Commands/Shift.h"
 #include "Commands/ShiftHigh.h"
+#include "Commands/SetElevatorPosition.h"
+#include "Commands/LoadMagazine.h"
 
 OI::OI()
 {
@@ -33,11 +35,20 @@ OI::OI()
 	operator_LJoy = new JoystickButton(operatorJoystick, 9);
 	operator_RJoy = new JoystickButton(operatorJoystick, 10);
 
+	debug_11 = new JoystickButton(debugJoystick, 7);
+	debug_12 = new JoystickButton(debugJoystick, 8);
+
 	operator_Y->WhenPressed(new ShiftHigh);
 	operator_A->WhenPressed(new BinJugglerCommand(Bin_CenterConfig)); // NOT WORKING
 	//	operator_X->WhenPressed(new BinJugglerCommand(Bin_LeftConfig));
 	//	operator_B->WhenPressed(new BinJugglerCommand(Bin_RightConfig));
+//
+//	debug_12->WhenPressed(new SetElevatorPosition(3.8));
+//	debug_11->WhenPressed(new SetElevatorPosition(1.0));
 
+	debug_11->WhenPressed(new LoadMagazine());
+
+	m_allowHumanInput = false;
 }
 
 Joystick* OI::getDriverJoystick()
@@ -59,14 +70,27 @@ Joystick* OI::getDebugJoystick2()
 }
 void OI::checkInput(){
 
-	bool param = getDriverJoystick()->GetRawAxis(3)>0.75 ? true : false; // shift with the trigger
+	bool param = getDriverJoystick()->GetRawAxis(Axis_RTrigger)>0.75 ? true : false; // shift with the trigger
 	Robot::m_drive->ShiftGear(param);
 	//Robot::m_drive->DriveWithJoysticks(driverJoystick->GetRawAxis(1), driverJoystick->GetRawAxis(4));
 
 
 
-	operatorJoystick->GetRawAxis(2) < .05 ? Robot::m_intake->SetFrontIntake(0) : Robot::m_intake->SetFrontIntake(operatorJoystick->GetRawAxis(2));
-	operatorJoystick->GetRawAxis(3) < .05 ? Robot::m_intake->SetRearIntake(0) : Robot::m_intake->SetRearIntake(operatorJoystick->GetRawAxis(3));
+	//Intakes
+	operatorJoystick->GetRawAxis(Axis_RTrigger) < .05 ? Robot::m_intake->SetRearIntake(0) : Robot::m_intake->SetRearIntake(operatorJoystick->GetRawAxis(Axis_RTrigger));
+	if(operatorJoystick->GetRawAxis(Axis_LTrigger) > .05)
+	{
+		Robot::m_intake->SetFrontIntake(-operatorJoystick->GetRawAxis(Axis_LTrigger));
+	}
+	else if(operatorJoystick->GetRawButton(5))
+	{
+		Robot::m_intake->SetFrontIntake(0.5);
+	}
+	else
+	{
+		Robot::m_intake->SetFrontIntake(0);
+	}
+
 
 	if(GetDebugJoystickButton(1)){
 		Robot::m_binJuggler->loadSelection(Bin_LeftLock, true);
@@ -117,35 +141,60 @@ void OI::checkInput(){
 
 	}
 
-	/*recycler*/if((Robot::m_recycler->isLowerSensorTripped() == 1) && (Robot::m_recycler->isUpperSensorTripped() == 1)){ // neither sensor tripped
-		Robot::m_recycler->SetRecycleMotors(-operatorJoystick->GetRawAxis(5));
+	/*recycler*/
+	if((Robot::m_recycler->isLowerSensorTripped() == 1) && (Robot::m_recycler->isUpperSensorTripped() == 1)){ // neither sensor tripped
+		Robot::m_recycler->SetRecycleMotors(-operatorJoystick->GetRawAxis(Axis_RY));
 	}
-	else if((Robot::m_recycler->isLowerSensorTripped() == 0) && (operatorJoystick->GetRawAxis(5) < 0)){ // lower is tripped, but we're going up
-		Robot::m_recycler->SetRecycleMotors(-operatorJoystick->GetRawAxis(5));
+	else if((Robot::m_recycler->isLowerSensorTripped() == 0) && (operatorJoystick->GetRawAxis(Axis_RY) < 0)){ // lower is tripped, but we're going up
+		Robot::m_recycler->SetRecycleMotors(-operatorJoystick->GetRawAxis(Axis_RY));
 	}
-	else if((Robot::m_recycler->isUpperSensorTripped() == 0) && (operatorJoystick->GetRawAxis(5) > 0)){ // upper is tripped, but we're going down
-		Robot::m_recycler->SetRecycleMotors(-operatorJoystick->GetRawAxis(5));
+	else if((Robot::m_recycler->isUpperSensorTripped() == 0) && (operatorJoystick->GetRawAxis(Axis_RY) > 0)){ // upper is tripped, but we're going down
+		Robot::m_recycler->SetRecycleMotors(-operatorJoystick->GetRawAxis(Axis_RY));
 	}
 	else{
-		std::cout << "CANNOT MOVE THE RECYCLER ANY MORE" << std::endl;
+//		std::cout << "CANNOT MOVE THE RECYCLER ANY MORE" << std::endl;
 		Robot::m_recycler->SetRecycleMotors(0);
 	}
 
-	/*elevator*/if((Robot::m_elevator->getCurrentVoltageOfSensor() > .65) && (Robot::m_elevator->getCurrentVoltageOfSensor() < 4.2)){ // neither sensor tripped//4.75 & .65
-		Robot::m_elevator->setElevatorMotors(operatorJoystick->GetRawAxis(1));
+	/*elevator*/
+	//m_allowHumanInput = false;
+	bool outsideDeadband = fabs(operatorJoystick->GetRawAxis(Axis_LY)) > 0.15;
+	if(outsideDeadband)
+	{
+		m_allowHumanInput = true;
+		Robot::m_elevator->disablePID();
 	}
-	else if((Robot::m_elevator->getCurrentVoltageOfSensor() < .65) && (operatorJoystick->GetRawAxis(1) < 0)){ // lower is tripped, but we're going up
-		Robot::m_elevator->setElevatorMotors(operatorJoystick->GetRawAxis(1));
-	}
-	else if((Robot::m_elevator->getCurrentVoltageOfSensor() > 4.2) && (operatorJoystick->GetRawAxis(1) > 0)){ // upper is tripped, but we're going down
-		Robot::m_elevator->setElevatorMotors(operatorJoystick->GetRawAxis(1));
-	}
-	else{
-		std::cout << "CANNOT MOVE THE RECYCLER ANY MORE" << std::endl;
+	else if(m_allowHumanInput && !outsideDeadband)
+	{
+		//Turn motors off then don't allow human input again until joysticks are moved again
+		m_allowHumanInput = false;
 		Robot::m_elevator->setElevatorMotors(0);
 	}
 
-	Robot::m_drive->DriveWithJoysticks(driverJoystick->GetRawAxis(1), driverJoystick->GetRawAxis(4));
+	if(m_allowHumanInput)
+	{
+		if((Robot::m_elevator->getCurrentVoltageOfSensor() > lowElevatorPosition) && (Robot::m_elevator->getCurrentVoltageOfSensor() < highElevatorPosition)
+				&& outsideDeadband) // neither sensor tripped//4.75 & .65
+		{
+			Robot::m_elevator->setElevatorMotors(operatorJoystick->GetRawAxis(Axis_LY));
+		}
+		else if((Robot::m_elevator->getCurrentVoltageOfSensor() < lowElevatorPosition) && (operatorJoystick->GetRawAxis(Axis_LY) < 0)
+				&& outsideDeadband) // lower is tripped, but we're going up
+		{
+			Robot::m_elevator->setElevatorMotors(operatorJoystick->GetRawAxis(Axis_LY));
+		}
+		else if((Robot::m_elevator->getCurrentVoltageOfSensor() > highElevatorPosition) && (operatorJoystick->GetRawAxis(Axis_LY) > 0)
+				&& outsideDeadband) // upper is tripped, but we're going down
+		{
+			Robot::m_elevator->setElevatorMotors(operatorJoystick->GetRawAxis(Axis_LY));
+		}
+		else{
+	//		std::cout << "CANNOT MOVE THE ELEVATOR ANY MORE" << std::endl;
+			Robot::m_elevator->setElevatorMotors(0);
+		}
+	}
+
+	Robot::m_drive->DriveWithJoysticks(driverJoystick->GetRawAxis(Axis_LY), driverJoystick->GetRawAxis(Axis_RX));
 
 	//Robot::m_elevator->setElevatorMotors(operatorJoystick->GetRawAxis(1));
 

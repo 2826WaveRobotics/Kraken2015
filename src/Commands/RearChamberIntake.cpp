@@ -17,7 +17,7 @@ void RearChamberIntake::Execute()
 	if(Robot::m_intake->IsRearSensorTripped()){
 		m_rearSensorHasBeenTripped = true;
 		Robot::m_intake->SetRearIntake(0);
-		Robot::m_intake->SetFrontIntake(.75);
+		Robot::m_intake->SetFrontIntake(-.75);
 	}
 
 	if(m_rearSensorHasBeenTripped && Robot::m_intake->IsFrontSensorTripped()){

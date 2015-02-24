@@ -61,6 +61,8 @@ private:
 
 	Joystick* debugJoystick2;
 
+	bool m_allowHumanInput;
+
 };
 
 #endif

@@ -61,7 +61,9 @@ private:
 
 	Joystick* debugJoystick2;
 
-	bool m_allowHumanInput;
+	bool m_allowElevatorInput;
+	bool m_allowRecyclerInput;
+	bool m_allowIntakeInput;
 
 };
 

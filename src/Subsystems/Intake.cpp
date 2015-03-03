@@ -9,6 +9,18 @@ Subsystem("Intake")
 	m_rearIntake = RobotMap::rearIntake;
 	m_frontIntakeSensor = RobotMap::frontIntakeSensor;
 	m_rearIntakeSensor = RobotMap::rearIntakeSensor;
+
+	m_intakeSystemInUse = false;
+}
+
+bool Intake::IsIntakeSystemInUse()
+{
+	return m_intakeSystemInUse;
+}
+
+void Intake::UseIntakeSystem(bool inUse)
+{
+	m_intakeSystemInUse=inUse;
 }
 
 void Intake::SetFrontIntake(float percentage)
@@ -25,20 +37,20 @@ void Intake::SetRearIntake(float percentage)
 bool Intake::IsFrontSensorTripped()
 {
 	if(m_frontIntakeSensor->Get()==true) {
-		return true;
+		return false;
 	}
 	else {
-		return false;
+		return true;
 	}
 }
 
 bool Intake:: IsRearSensorTripped()
 {
 	if(m_rearIntakeSensor->Get()==true) {
-		return true;
+		return false;
 	}
 	else {
-		return false;
+		return true;
 	}
 }
 

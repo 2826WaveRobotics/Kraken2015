@@ -22,8 +22,8 @@ public:
 
 	double ReturnPIDInput();
 	double GetPIDOutput();
-		void UsePIDOutput(double output);
-		void InitDefaultCommand();
+	void UsePIDOutput(double output);
+	void InitDefaultCommand();
 
 	void setAbsoluteHeight(double targetHeight);
 	void disablePID();
@@ -37,15 +37,16 @@ public:
 	float getCurrentFeedback_LeftMotor();
 	float getCurrentFeedback_RightMotor();
 
-
 	// A positive speed will raise the elevator, a negative speed will lower it.
 	void setElevatorMotors(float speed);
 	void lockTotes(bool lock);
 
-	double getMode(double input[]);
-	void sortArray();
-	double test_max_variance = 0;
-	double test_sample[500];
+	double checkSoftStops(double desiredOutput, bool invertedOutput = false);
+
+	int m_numOfTotes = 0;
+	void CalculateTotes();
+	void SetTotes(int totes);
+	int GetTotes();
 };
 
 #endif

@@ -14,6 +14,7 @@ private:
 	CANTalon* m_rearIntake;
 	DigitalInput* m_frontIntakeSensor;
 	DigitalInput* m_rearIntakeSensor;
+	bool m_intakeSystemInUse;
 public:
 	Intake();
 	void InitDefaultCommand();
@@ -21,6 +22,9 @@ public:
 	void SetRearIntake(float percentage);
 	bool IsFrontSensorTripped();
 	bool IsRearSensorTripped ();
+
+	bool IsIntakeSystemInUse();
+	void UseIntakeSystem(bool inUse);
 };
 
 #endif

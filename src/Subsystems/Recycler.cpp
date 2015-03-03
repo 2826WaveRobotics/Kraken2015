@@ -10,20 +10,37 @@ Subsystem("Recycler")
 	trackArmRight = RobotMap::trackArmRight;
 	binLowerSensor = RobotMap::binLowerSensor;
 	binUpperSensor = RobotMap::binUpperSensor;
-
+	handleHolder = RobotMap::handleHolder;
 }
 
 bool Recycler::isUpperSensorTripped(){
 
-	return binUpperSensor->Get();
+	if(binUpperSensor->Get() == 0){
+		return true;
+	}
+	else{
+		return false;
+	}
 }
 
 bool Recycler::isLowerSensorTripped() {
-	return binLowerSensor->Get();
+	if(binLowerSensor->Get() == 0){
+		return true;
+	}
+	else{
+		return false;
+	}
 }
 
-
 void Recycler::SetRecycleMotors(float speed) {
+	std::cout << "Speed: " << speed << std::endl;
+	if(isLowerSensorTripped() && speed < 0){ // lower is tripped, but we're going up
+		speed = 0;
+	}
+	else if(isUpperSensorTripped() && speed > 0){ // upper is tripped, but we're going down
+		speed = 0;
+	}
+
 	trackArmLeft->Set(speed);
 	trackArmRight->Set(-speed);
 }
@@ -33,7 +50,6 @@ void Recycler::InitDefaultCommand()
 	// Set the default command for a subsystem here.
 	//SetDefaultCommand(new MySpecialCommand());
 }
-
-// Put methods for controlling this subsystem
-// here. Call these from Commands.
-
+void Recycler::HandleHold(bool open){
+	handleHolder->Set(open);
+}

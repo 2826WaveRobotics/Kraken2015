@@ -2,7 +2,7 @@
 #include "Commands/BinJugglerCommand.h"
 #include "WPILib.h"
 #include "Commands/Command.h"
-#include "Commands/ExampleCommand.h"
+#include "Commands/AutoTest.h"
 #include "CommandBase.h"
 #include "OI.h"
 #include "Subsystems/Elevator.h"
@@ -24,12 +24,13 @@ public:
 	static BinJuggler* m_binJuggler;
 	static CompressorSubsystem* m_compressor;
 	static Swim* m_swim;
+	static OI *oi;
 
 private:
 	Command *autonomousCommand;
+
 	Command *binCommand; // for bin test
 	LiveWindow *lw;
-	static OI *oi;
 
 	void RobotInit();
 	void DisabledPeriodic();
@@ -38,5 +39,7 @@ private:
 	void TeleopInit();
 	void TeleopPeriodic();
 	void TestPeriodic();
+
+//	PowerDistributionPanel PDBoard;
 
 };

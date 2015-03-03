@@ -11,6 +11,9 @@ public:
 	//Compressor
 	static Compressor* compressor;
 
+	//CAN Controlled Devices
+	static PowerDistributionPanel* PDBoard;
+
 	//Drive
 	static CANTalon* leftDrive1;
 	static CANTalon* leftDrive2;

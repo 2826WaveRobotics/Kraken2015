@@ -2,7 +2,7 @@
 
 #include "WPILib.h"
 #include "Commands/Command.h"
-#include "Commands/ExampleCommand.h"
+#include "Commands/AutoTest.h"
 #include "CommandBase.h"
 #include "OI.h"
 #include "WaveConstants.h"
@@ -28,7 +28,7 @@ void Robot::RobotInit()
 	m_elevator = new Elevator();
 	oi = new OI();
 	m_recycler = new Recycler();
-	autonomousCommand = new ExampleCommand();
+	autonomousCommand = new AutoTest();
 	m_intake= new Intake();
 	m_binJuggler= new BinJuggler();
 	m_compressor= new CompressorSubsystem();
@@ -70,10 +70,6 @@ void Robot::TeleopInit()
 		autonomousCommand->Cancel();
 	}
 	m_compressor->Start();
-
-	//test
-	m_elevator->test_max_variance = 0;
-
 }
 
 void Robot::TeleopPeriodic()
@@ -82,18 +78,21 @@ void Robot::TeleopPeriodic()
 	oi->checkInput(); // runs through a function to check all the used buttons and joysticks
 
 	if(oi->GetDebugJoystickButton(16)){
-//		cout << m_intake->IsFrontSensorTripped();
-//		cout << m_intake->IsRearSensorTripped();
-//		cout << m_recycler->isLowerSensorTripped();
-//		cout << m_recycler->isUpperSensorTripped() << "\t";
-		cout << m_elevator->getCurrentVoltageOfSensor() << "\t";
-//		cout << m_drive->GetLeftEncoder() << "\t";
-//		cout << m_drive->GetRightEncoder() << "\t";
+		//		cout << m_intake->IsFrontSensorTripped();
+		//		cout << m_intake->IsRearSensorTripped();
+		//		cout << m_recycler->isLowerSensorTripped();
+		//		cout << m_recycler->isUpperSensorTripped() << "\t";
+		//		cout << m_elevator->getCurrentVoltageOfSensor() << "\t";
+		cout << m_drive->GetLeftEncoder() << "\t";
+		cout << m_drive->GetRightEncoder() << "\t";
 		cout << endl;
 	}
-	//cout << "\t\t\tRunning Through Tele-op" << std::endl;
+	double leftLoad = m_elevator->getCurrentFeedback_LeftMotor();
+	double rightLoad = m_elevator->getCurrentFeedback_RightMotor();
+	double averageLoad = (leftLoad + rightLoad) / 2;
+	//std::cout << "Average Load: " << averageLoad << "\tLeft: " << leftLoad << "\tRight: " << rightLoad << std::endl;
 
-	Wait(0.005);
+	Wait(0.01);
 }
 
 void Robot::TestPeriodic()

@@ -18,7 +18,7 @@ public:
 	void Interrupted();
 
 private:
-	int currentPosition = Bin_LeftConfig;
+	int currentPosition;
 	int newConfiguration;
 	int set;
 	int step;

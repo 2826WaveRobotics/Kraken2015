@@ -3,22 +3,39 @@
 
 //#define NULL = 0;
 
-const double highElevatorPosition=4.2;
-const double lowElevatorPosition=0.89;
-const double elevatorTolerance = 0.3;
+const double Elevator_UpperBound = 4.0;
+const double Elevator_LowerBound = 0.8;
+const double highElevatorPosition=4.08; // Jake wants this 3/1 1AM
+const double lowElevatorPosition=0.85;
+const double AutoElevatorPosition=1.6;
+const double elevatorTolerance = 0.1;
 const double bumpHeight = 3.0;
 const int On=1;
 const int Off=0;
 const double binCylinderWait = 0.5;
+const double pi = 3.1415926354;
+const double circumference = ((3/16)+6)*pi;
+const double ticksPerWheel = 1/(256*3*2.5); // 256 ticks per encoder * (3:1) * (5:2)
+
+const double toteLoad0 = .4375;
+const double toteLoad1 = .625;
+const double toteLoad2 = .9375;
+const double toteLoad3 = 1.5;
+const double toteLoad3B = 2.125;
+const double toteLoad4 = 2.125;
+const double toteLoad4B = 3.25;
+const double toteLoad5 = 2.875;
+const double toteLoad5B = 4.375;
+const double toteLoad6 = 0;
+const double toteLoad6B = 0;
 
 
 //An enumeration is a numbered list of variables
 enum
 {
-	Bin_CenterConfig = 0,
-	Bin_LeftConfig, //This has a value of 1
-	Bin_RightConfig, //This has a value of 2
-	Bin_TightConfig // This has a value of 3
+	Bin_LoadCenter = 0,
+	Bin_LoadLeft, //This has a value of 1
+	Bin_LoadRight, //This has a value of 2
 };
 
 enum
@@ -80,6 +97,17 @@ enum
 	Axis_RX,        //4
 	Axis_RY         //5
 };
-
+enum
+{
+	cyl_leftHook = 0,
+	cyl_rightHook,
+	cyl_handleHolder,
+	cyl_liftCylinder,
+	cyl_leftLock,
+	cyl_rightLock,
+	cyl_shifter,
+	cyl_toteHolder,
+	cyl_hooks // for commands that need to determine which hook to use
+};
 
 #endif

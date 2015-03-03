@@ -1,7 +1,6 @@
 #include "Elevator.h"
 #include "../RobotMap.h"
 
-
 namespace
 {
 double MaxVolts = highElevatorPosition + 0.2;
@@ -22,9 +21,6 @@ float bVal = -1.329018;
 float cVal = 9.266816;
 float dVal = 4.541211;
 }
-
-
-
 
 Elevator::Elevator() :
  PIDSubsystem("Elevator", 0.5, 0.0, 0.0)
@@ -59,14 +55,8 @@ double Elevator::GetPIDOutput()
 
 
 void Elevator::UsePIDOutput(double output) {
-
-
 	//Enforce virtual limits
-	double currentHeight = getCurrentVoltageOfSensor();
-	if((currentHeight > highElevatorPosition) || (currentHeight < lowElevatorPosition))
-	{
-		output = 0;
-	}
+	output=checkSoftStops(output, false);
 
 	//Limit the acceleration
 	//    if(output > 0.8)
@@ -163,64 +153,44 @@ void Elevator::setElevatorMotors(float speed)
 		speed = 0;
 	}
 	 */
-
-	///////////////////Test for the consistency of the voltage reading//////////////////
-	//delay the number of volts
-	double test_voltage;
-	double test_average = 0;
-	double test_mode;
-	int test_iteration = 0;
-	double test_low_value;
-	double test_high_value;
-	double test_high_value_max;
-	double test_low_value_min;
-	double test_variance;
-
-	test_high_value = test_low_value = getCurrentVoltageOfSensor();
-
-	//	for(test_iteration = 0; test_iteration < 500; test_iteration++) // get 500 data points and find mode
-	//	{
-	//		test_voltage = getCurrentVoltageOfSensor(); // get the voltage to work with
-	//		test_sample[test_iteration] = test_voltage; // assign the value to an array for reference later
-	//
-	//		if(test_voltage > test_high_value){ // assign the high and low points
-	//			test_high_value = test_voltage;
-	//		}
-	//		if(test_voltage < test_low_value){
-	//			test_low_value = test_voltage;
-	//		}
-	//		test_average *= test_iteration; // calculate a new average
-	//		test_average += test_voltage;
-	//		test_average /= (test_iteration+1);
-	//
-	//		std::cout << test_voltage << std::endl; // print out the voltage
-	//
-	//		if(test_iteration > 500-2) // minus 2 to make sure we reach it
-	//		{
-	//			test_variance = test_high_value - test_low_value; // calculate the max variance during the run of the robot
-	//			if(test_variance > test_max_variance){
-	//				test_max_variance = test_variance;
-	//			}
-	//			if(test_high_value > test_high_value_max){ // calculate the high and low values achieved during the run
-	//				test_high_value_max = test_high_value;
-	//			}
-	//			if(test_low_value < test_low_value_min){
-	//				test_low_value_min = test_low_value;
-	//			}
-	//			//sortArray();
-	//			//std::cout << test_variance << "\t" << test_max_variance << std::endl;
-	//			//test_mode = getMode(test_values); // calculate the mode
-	//			//std::cout << "\t\t\t\t\t" << "Test Average: " << test_average << "\t\tMode: " << test_mode << std::endl;
-	//
-	//		} // end final test
-	//		Wait(.0001);
-	//	}
-
-
-	////////////////End Test////////////////
+	std::cout << "Elevator Speed: " << speed << std::endl;
+	speed=checkSoftStops(speed, true);
 
 	m_elevatorLeft->Set(-speed);
 	m_elevatorRight->Set(-speed);
+}
+
+double Elevator::checkSoftStops(double desiredOutput, bool invertedOutput)
+{
+	//Up is negative speed, Down is positive speed
+	double currentHeight = getCurrentVoltageOfSensor();
+	if(invertedOutput)
+	{
+		if((currentHeight > Elevator_UpperBound) && (desiredOutput < 0))
+		{
+			//prevent Up movement
+			desiredOutput = 0;
+		}
+		else if((currentHeight < Elevator_LowerBound) && desiredOutput > 0)
+		{
+			//prevent Down movement
+			desiredOutput = 0;
+		}
+	}
+	else
+	{
+		if((currentHeight > Elevator_UpperBound) && (desiredOutput > 0))
+		{
+			//prevent Up movement
+			desiredOutput = 0;
+		}
+		else if((currentHeight < Elevator_LowerBound) && desiredOutput < 0)
+		{
+			//prevent Down movement
+			desiredOutput = 0;
+		}
+	}
+	return desiredOutput;
 }
 
 float Elevator::getCurrentFeedback_LeftMotor()
@@ -233,59 +203,15 @@ float Elevator::getCurrentFeedback_RightMotor()
 	return m_elevatorRight->GetOutputCurrent();
 }
 
-double Elevator::getMode(double input[])
-{
-	int returnVal = input[0]; // stores element to be returned
-	int repeatCount = 0; // counts the record number of repeats
-	int prevRepCnt = 0; // temporary count for repeats
-
-	for(int k = 0; k < 500; k++){
-		std::cout << input[k] << std::endl;
-	}
-
-	for (int i=0; i<500; i++) { // goes through each elem
-
-		for (int j=i; j<500; j++) { // compares to each elem after the first elem
-
-			if (i != j && input[i] == input[j]) { // if matching values
-				repeatCount++; // gets the repeat count
-
-				if (repeatCount>=prevRepCnt) { // a higher count of repeats than before
-					returnVal=input[i]; // return that element
-				}
-				prevRepCnt = repeatCount; // Keeps the highest repeat record
-			}
-			repeatCount=0; // resets repeat Count for next comparison
-		}
-	}
-	std::cout << "Mode: " << returnVal << std::endl;
-	return returnVal;
-
-}
-
-void Elevator::sortArray()
-{
-	bool swapped = true;
-	double tempValue;
-
-	for(int i = 0; (i < 500 && swapped == true); i++)
-	{
-		swapped = false;
-		if(test_sample[i] > test_sample[i+1]) // need to swap
-		{
-			tempValue = test_sample[i];
-			test_sample[i] = test_sample[i+1];
-			test_sample[i+1] = tempValue;
-			swapped = true;
-		} // swapping complete
-	} // no swaps made, sort complete
-
-	std::cout << "Sorted Values!" << std::endl;
-	for(int k = 0; k < 500; k++)
-	{
-		std::cout << test_sample[k] << std::endl;
-	}
-}
-void Elevator::lockTotes(bool lock = true){
+void Elevator::lockTotes(bool lock){
 	m_toteLock->Set(lock);
+}
+void Elevator::CalculateTotes(){
+
+}
+void Elevator::SetTotes(int totes){
+	m_numOfTotes = totes;
+}
+int Elevator::GetTotes(){
+	return m_numOfTotes;
 }

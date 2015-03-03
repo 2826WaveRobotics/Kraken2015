@@ -36,6 +36,7 @@
 #endif
 
 Compressor* RobotMap::compressor = NULL;
+PowerDistributionPanel* RobotMap::PDBoard = NULL;
 CANTalon* RobotMap::leftDrive1 = NULL;
 CANTalon* RobotMap::leftDrive2 = NULL;
 CANTalon* RobotMap::rightDrive1 = NULL;
@@ -81,6 +82,7 @@ DigitalInput* RobotMap::DIO9 = NULL; // for testing purposes
 void RobotMap::init() {
 
 	compressor = new Compressor(0);
+	PDBoard = new PowerDistributionPanel();
 
 	leftDrive1 = new CANTalon(CANTalon_leftDrive1);
 	leftDrive2 = new CANTalon(CANTalon_leftDrive2);

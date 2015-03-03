@@ -24,6 +24,7 @@ public:
 	bool isUpperSensorTripped();
 	bool isLowerSensorTripped();
 
+	void HandleHold(bool open);
 };
 
 #endif

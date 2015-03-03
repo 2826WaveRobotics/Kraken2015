@@ -4,6 +4,7 @@
 
 SetElevatorPosition::SetElevatorPosition(double volts)
 {
+	Requires(Robot::m_elevator);
 	m_motorValue = 0;
 	m_volts = volts;
 }
@@ -24,8 +25,12 @@ bool SetElevatorPosition::IsFinished()
 {
 	double currentHeight = Robot::m_elevator->getCurrentVoltageOfSensor();
 
-	std::cout << "SetElevatorPosition::IsFinished: currentHeight == " << currentHeight << "  m_volts=" << m_volts << std::endl;
+	//std::cout << "SetElevatorPosition::IsFinished: currentHeight == " << currentHeight << "  m_volts=" << m_volts << std::endl;
 	if(fabs(currentHeight - m_volts) < elevatorTolerance) //if we're within an inch of where we want to be
+	{
+		return true;
+	}
+	else if (IsTimedOut())
 	{
 		return true;
 	}
@@ -37,7 +42,7 @@ bool SetElevatorPosition::IsFinished()
 
 void SetElevatorPosition::End()
 {
-	std::cout << "setElevatorPosition::End" << std::endl;
+	//std::cout << "setElevatorPosition::End" << std::endl;
 	//Do Nothing. Note that the PID is still running when this command ends
 }
 

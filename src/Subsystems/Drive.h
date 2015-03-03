@@ -15,10 +15,13 @@ public:
 	void ShiftGear(bool highGear);
 	double GetLeftEncoder();
 	double GetRightEncoder();
+	void ResetEncoders();
 
 	//PID stuff
 	void SetDriveDistance(double distance);
 	double GetDistanceTravelled();
+	double GetRightDistanceTravelled();
+	double GetLeftDistanceTravelled();
 
 	//PID Controller Wrapper Functions
 	void Enable();
@@ -29,12 +32,19 @@ public:
 	void SetLeftSetpoint(double setpoint);
 	void SetRightSetpoint(double setpoint);
 	void SetDrivePID(double p, double i, double d);
+	void SetPower(double power);
+	void SetCoefPower(double power);
 
 private:
 	RobotDrive* m_robotDrive;
 	Encoder* m_driveEncoderLeft;
 	Encoder* m_driveEncoderRight;
 	Solenoid* m_shifter;
+
+	CANTalon* m_left1;
+	CANTalon* m_left2;
+	CANTalon* m_right1;
+	CANTalon* m_right2;
 
 	LeftPID* m_leftPID;
 	RightPID* m_rightPID;

@@ -1,6 +1,7 @@
 #include "Drive.h"
 #include "../RobotMap.h"
 #include "../WaveConstants.h"
+#include "../Robot.h"
 
 namespace
 {
@@ -24,8 +25,14 @@ Drive::Drive() :
 	m_inchesToDrive = 0;
 	m_distanceDriven = 0;
 
-	m_rightPID = new RightPID(&r_p, &r_i, &r_d);
-	m_leftPID = new LeftPID(&l_p, &l_i, &l_d);
+	m_left1 = RobotMap::leftDrive1;
+	m_left2 = RobotMap::leftDrive2;
+	m_right1 = RobotMap::rightDrive1;
+	m_right2 = RobotMap::rightDrive2;
+
+	//m_rightPID = new RightPID(&r_p, &r_i, &r_d);
+	//m_leftPID = new LeftPID(&l_p, &l_i, &l_d);
+	m_robotDrive->SetSafetyEnabled(false);
 }
 
 void Drive::InitDefaultCommand()
@@ -44,6 +51,7 @@ void Drive::ShiftGear(bool highGear)
 		m_shifter->Set(Off);
 	}
 }
+
 void Drive::SetEncodersContinuous(bool cont = true)
 {
 	m_leftPID->SetContinuous(cont);
@@ -52,21 +60,39 @@ void Drive::SetEncodersContinuous(bool cont = true)
 
 void Drive::DriveWithJoysticks(float left, float right)
 {
+	std::cout << "  Drive: " << left << ", " << right << std::endl;
 	m_robotDrive->ArcadeDrive(left,right);
 }
 
 void Drive::SetDriveDistance(double distance){
 
 }
+
 double Drive::GetDistanceTravelled(){
+
+
+
+
 	return 0; //temporary so it won't be an error
+}
+double Drive::GetLeftDistanceTravelled(){
+	return GetLeftEncoder()*circumference*ticksPerWheel;
+}
+double Drive::GetRightDistanceTravelled(){
+	return GetRightEncoder()*circumference*ticksPerWheel;
 }
 
 double Drive::GetLeftEncoder(){
 	return m_driveEncoderLeft->Get();
 }
+
 double Drive::GetRightEncoder(){
 	return m_driveEncoderRight->Get();
+}
+
+void Drive::ResetEncoders(){
+	m_driveEncoderLeft->Reset();
+	m_driveEncoderRight->Reset();
 }
 
 void Drive::Enable()
@@ -74,31 +100,59 @@ void Drive::Enable()
 	m_leftPID->Enable();
 	m_rightPID->Enable();
 }
+
 void Drive::Disable()
 {
 	m_leftPID->Disable();
 	m_rightPID->Disable();
 }
+
 void Drive::Reset()
 {
 	m_leftPID->Reset();
 	m_rightPID->Reset();
 }
+
 void Drive::SetDriveSetpoint(double setpoint)
 {
 	m_leftPID->SetSetpoint(setpoint);
 	m_rightPID->SetSetpoint(setpoint);
 }
+
 void Drive::SetLeftSetpoint(double setpoint)
 {
 	m_leftPID->SetSetpoint(setpoint);
 }
+
 void Drive::SetRightSetpoint(double setpoint)
 {
 	m_rightPID->SetSetpoint(setpoint);
 }
+
 void Drive::SetDrivePID(double p, double i, double d)
 {
 	m_leftPID->SetPID(p, i, d);
 	m_rightPID->SetPID(p, i, d);
+}
+
+void Drive::SetPower(double power){
+	m_left1->Set(power);
+	m_left2->Set(power);
+	m_right1->Set(-power);
+	m_right2->Set(-power);
+}
+void Drive::SetCoefPower(double power){
+	double leftCoef = 1 - (Robot::oi->getDebugJoystick()->GetRawAxis(2) / 10);
+	double rightCoef = 1 - (Robot::oi->getDebugJoystick()->GetRawAxis(3) / 10);
+	double leftPower = power*leftCoef;
+	double rightPower = power*rightCoef;
+
+	std::cout << "Left Ticks: " << GetLeftEncoder() << "\tRight Ticks: " << GetRightEncoder() << "\tLeft Distance: " <<
+			GetLeftDistanceTravelled() << "\tRight Distance: " << GetRightDistanceTravelled() <<
+			"\tLeft Coef: " << leftCoef << "\tRight Coef: " << rightCoef << "\tLeft Power: " << leftPower << "\tRight Power: " << rightPower << std::endl;
+
+	m_left1->Set(leftPower);
+	m_left2->Set(leftPower);
+	m_right1->Set(-rightPower);
+	m_right2->Set(-rightPower);
 }

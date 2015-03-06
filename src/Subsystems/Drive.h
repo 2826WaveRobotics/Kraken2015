@@ -32,6 +32,7 @@ public:
 	void SetLeftSetpoint(double setpoint);
 	void SetRightSetpoint(double setpoint);
 	void SetDrivePID(double p, double i, double d);
+	void SetSidePower(double left, double right);
 	void SetPower(double power);
 	void SetCoefPower(double power);
 

@@ -7,14 +7,14 @@
 class SetElevatorPosition: public CommandBase
 {
 public:
-	SetElevatorPosition(double volts);
+	SetElevatorPosition(double inches);
 	void Initialize();
 	void Execute();
 	bool IsFinished();
 	void End();
 	void Interrupted();
 private:
-	float m_volts;
+	float m_inches;
 	double m_motorValue;
 };
 

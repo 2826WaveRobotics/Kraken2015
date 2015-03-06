@@ -1,7 +1,6 @@
 #include "RearLoadSequence.h"
 #include "RearChamberIntake.h"
 #include "SetElevatorPosition.h"
-#include "EmptyChamber.h"
 #include "WaveConstants.h"
 #include "SetRearIntake.h"
 
@@ -20,10 +19,6 @@ RearLoadSequence::RearLoadSequence()
 
 	AddSequential(new SetRearIntake(0.5));
 	AddParallel(new SetElevatorPosition(highElevatorPosition));
-
-
-	//empties the chamber, elevator is in high load position
-	AddSequential(new EmptyChamber());
 
 	//positions a tote into the chamber
 	AddSequential(new RearChamberIntake());

@@ -14,13 +14,13 @@ void RearChamberIntake::Initialize()
 
 void RearChamberIntake::Execute()
 {
-	if(Robot::m_intake->IsRearSensorTripped()){
+	/*if(Robot::m_intake->IsRearSensorTripped()){ // No rear sensor
 		m_rearSensorHasBeenTripped = true;
 		Robot::m_intake->SetRearIntake(0);
 		Robot::m_intake->SetFrontIntake(-.75);
-	}
+	}*/
 
-	if(m_rearSensorHasBeenTripped && Robot::m_intake->IsFrontSensorTripped()){
+	if(/*m_rearSensorHasBeenTripped && */Robot::m_intake->IsFrontSensorTripped()){
 		m_frontSensorHasBeenTripped = true;
 		Robot::m_intake->SetFrontIntake(0);
 

@@ -1,29 +1,25 @@
 #include "Elevator.h"
 #include "../RobotMap.h"
+#include "../Robot.h"
 
 namespace
 {
-double MaxVolts = highElevatorPosition + 0.2;
-double MinVolts = lowElevatorPosition - 0.2;
+double MaxVolts = Elevator_UpperVolts;
+double MinVolts = Elevator_LowerVolts;
 //double MinLength = lowElevatorPosition;
 //double MaxLength = highElevatorPosition;
 
-float c_downP = 1.0;
+float c_downP = 2.0; // PID VALUES BEING SET IN setAbsoluteHeight for now, to utilize joysticks to test
 float c_downI = 0.0;
 float c_downD = 0.0;
 
-float c_upP = 1.0;
+float c_upP = 2.0;
 float c_upI = 0.0;
 float c_upD = 0.0;
-
-float aVal = 0.1857567;
-float bVal = -1.329018;
-float cVal = 9.266816;
-float dVal = 4.541211;
 }
 
 Elevator::Elevator() :
- PIDSubsystem("Elevator", 0.5, 0.0, 0.0)
+				 PIDSubsystem("Elevator", 0.5, 0.0, 0.0)
 
 {
 	SetAbsoluteTolerance(0.1);
@@ -43,7 +39,7 @@ double Elevator::ReturnPIDInput() {
 	// Return your input value for the PID loop
 	// e.g. a sensor, like a potentiometer:
 	// yourPot->SetAverageVoltage() / kYourMaxVoltage;
-//	return m_elevatorSensor->GetAverageVoltage();
+	//	return m_elevatorSensor->GetAverageVoltage();
 	return m_elevatorSensor->GetVoltage();
 }
 
@@ -76,26 +72,44 @@ void Elevator::UsePIDOutput(double output) {
 	m_elevatorRight->PIDWrite(output);
 }
 
-void Elevator::setAbsoluteHeight(double targetHeight)
+void Elevator::setAbsoluteHeight(double targetHeight) // target height is in inches
 {
-
 	PIDController *pid = GetPIDController();
-//	double currentHeight = convertVoltsToInches(getCurrentVoltageOfSensor());
-	double currentHeight = getCurrentVoltageOfSensor();
+	double currentHeight = convertVoltsToInches(getCurrentVoltageOfSensor()); // turning the voltage reading into a usable inch value
+
+	if(Robot::oi->GetDebugJoystickButton(17)){ //
+		//put max value in front of Robot::oi
+		c_upP = 6*(Robot::oi->getDebugJoystick()->GetRawAxis(4) / 2 + .5); // joystick from -1 to 1, then range cut down to -.5 to .5, and brought up to 0 to 1
+		c_downP = 6*(Robot::oi->getDebugJoystick()->GetRawAxis(4) / 2 + .5); // joystick from -1 to 1, then range cut down to -.5 to .5, and brought up to 0 to 1
+		c_upI = .5*(Robot::oi->getDebugJoystick()->GetRawAxis(2) / 2 + .5); // joystick from -1 to 1, then range cut down to -.5 to .5, and brought up to 0 to 1
+		c_downI = .5*(Robot::oi->getDebugJoystick()->GetRawAxis(2) / 2 + .5); // joystick from -1 to 1, then range cut down to -.5 to .5, and brought up to 0 to 1
+		c_upD = .5*(Robot::oi->getDebugJoystick()->GetRawAxis(3) / 2 + .5); // joystick from -1 to 1, then range cut down to -.5 to .5, and brought up to 0 to 1
+		c_downD = .5*(Robot::oi->getDebugJoystick()->GetRawAxis(3) / 2 + .5); // joystick from -1 to 1, then range cut down to -.5 to .5, and brought up to 0 to 1
+	}
+	else{
+		c_upP = 1;
+		c_downP = 1;
+		c_upI = 0;
+		c_downI = 0;
+		c_upD = 0;
+		c_downD = 0;
+	}
+
+	//std::cout << "\n\nPup: " << c_upP << "\tPdown: " << c_downP << "\tIup: " << c_upI <<
+			//"\tIdown: " << c_downI << "\tDup: " << c_upD << "\tDdown: " << c_downD << "\n\n" << std::endl;
 
 	if(currentHeight < targetHeight)
-	{
-		//These are DOWN gains
-		pid->SetPID(c_downP, c_downI, c_downD);
-	}
-	else
 	{
 		//These are UP gains
 		pid->SetPID(c_upP, c_upI, c_upD);
 	}
+	else
+	{
+		//These are DOWN gains
+		pid->SetPID(c_downP, c_downI, c_downD);
+	}
 
-//	double setVoltage = convertInchesToVolts(targetHeight);
-	double setVoltage = targetHeight;
+	double setVoltage = convertInchesToVolts(targetHeight);
 
 	pid->Disable();
 	pid->Reset();
@@ -118,14 +132,14 @@ void Elevator::InitDefaultCommand()
 
 float Elevator::convertVoltsToInches (float volts)
 {
-	float centimeters = (dVal + ((aVal - dVal)/(1 + pow((volts/cVal),(bVal)))));
-	float inches = .393701 * centimeters;
+	float inches = 6.379 * volts + 3.603;
 	return inches;
+	std::cout << "inches" << inches << std::endl;
 }
 
 float Elevator::convertInchesToVolts (double inches)
 {
-	float volts = cVal * ( pow((((aVal-dVal)/(inches-dVal))-1), (1/bVal)));
+	float volts = (inches - 3.603) / 6.379;
 	return volts;
 }
 
@@ -163,15 +177,16 @@ void Elevator::setElevatorMotors(float speed)
 double Elevator::checkSoftStops(double desiredOutput, bool invertedOutput)
 {
 	//Up is negative speed, Down is positive speed
-	double currentHeight = getCurrentVoltageOfSensor();
+	double currentVolts = getCurrentVoltageOfSensor();
+	double currentHeight = convertVoltsToInches(currentVolts);
 	if(invertedOutput)
 	{
-		if((currentHeight > Elevator_UpperBound) && (desiredOutput < 0))
+		if((currentHeight > Elevator_UpperStop) && (desiredOutput < 0))
 		{
 			//prevent Up movement
 			desiredOutput = 0;
 		}
-		else if((currentHeight < Elevator_LowerBound) && desiredOutput > 0)
+		else if((currentHeight < Elevator_LowerStop) && desiredOutput > 0)
 		{
 			//prevent Down movement
 			desiredOutput = 0;
@@ -179,12 +194,12 @@ double Elevator::checkSoftStops(double desiredOutput, bool invertedOutput)
 	}
 	else
 	{
-		if((currentHeight > Elevator_UpperBound) && (desiredOutput > 0))
+		if((currentHeight > Elevator_UpperStop) && (desiredOutput > 0))
 		{
 			//prevent Up movement
 			desiredOutput = 0;
 		}
-		else if((currentHeight < Elevator_LowerBound) && desiredOutput < 0)
+		else if((currentHeight < Elevator_LowerStop) && desiredOutput < 0)
 		{
 			//prevent Down movement
 			desiredOutput = 0;

@@ -10,10 +10,10 @@ SetRecyclerPosition::SetRecyclerPosition(bool setUp)
 void SetRecyclerPosition::Initialize()
 {
 	if(m_setUp == true){
-		m_speed = .8;
+		m_speed = 1;
 	}
 	else{
-		m_speed = -.65;
+		m_speed = -.85;
 	}
 	Robot::m_recycler->SetRecycleMotors(m_speed);
 }

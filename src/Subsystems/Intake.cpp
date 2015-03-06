@@ -8,7 +8,7 @@ Subsystem("Intake")
 	m_frontIntakeRight = RobotMap ::frontIntakeRight;
 	m_rearIntake = RobotMap::rearIntake;
 	m_frontIntakeSensor = RobotMap::frontIntakeSensor;
-	m_rearIntakeSensor = RobotMap::rearIntakeSensor;
+	m_humanWallSensor = RobotMap::humanWallSensor;
 
 	m_intakeSystemInUse = false;
 }
@@ -25,8 +25,8 @@ void Intake::UseIntakeSystem(bool inUse)
 
 void Intake::SetFrontIntake(float percentage)
 {
-	m_frontIntakeLeft->Set(percentage);
-	m_frontIntakeRight->Set(-percentage);
+	m_frontIntakeLeft->Set(-percentage);
+	m_frontIntakeRight->Set(percentage);
 }
 
 void Intake::SetRearIntake(float percentage)
@@ -44,9 +44,9 @@ bool Intake::IsFrontSensorTripped()
 	}
 }
 
-bool Intake:: IsRearSensorTripped()
+bool Intake::IsAligned()
 {
-	if(m_rearIntakeSensor->Get()==true) {
+	if(m_humanWallSensor->Get()==true) {
 		return false;
 	}
 	else {

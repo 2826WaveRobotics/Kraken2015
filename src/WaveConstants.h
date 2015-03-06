@@ -3,12 +3,17 @@
 
 //#define NULL = 0;
 
-const double Elevator_UpperBound = 4.0;
-const double Elevator_LowerBound = 0.8;
-const double highElevatorPosition=4.08; // Jake wants this 3/1 1AM
-const double lowElevatorPosition=0.85;
-const double AutoElevatorPosition=1.6;
-const double elevatorTolerance = 0.1;
+const double Elevator_UpperVolts = 4.267;
+const double Elevator_LowerVolts = .795;
+const double Elevator_UpperInches = 31.822;
+const double Elevator_LowerInches = 8.67;
+const double Elevator_UpperStop = Elevator_UpperInches - 1.5;
+const double Elevator_LowerStop = Elevator_LowerInches + .5;
+const double highElevatorPosition= 29; // Jake wants this 3/1 1AM
+const double lowElevatorPosition= 9.03;
+const double autoElevatorPosition= 13.81;
+const double stackClearanceElevatorPosition= 25;
+const double elevatorTolerance = 0.025;
 const double bumpHeight = 3.0;
 const int On=1;
 const int Off=0;

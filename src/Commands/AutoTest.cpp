@@ -41,7 +41,7 @@ AutoTest::AutoTest()
 
   // second set
 	AddSequential(new SetElevatorPosition(lowElevatorPosition));
-	AddSequential(new SetElevatorPosition(AutoElevatorPosition));
+	AddSequential(new SetElevatorPosition(autoElevatorPosition));
 	AddSequential(new WaveWait(.5));
 	AddSequential(new BinJugglerCommand(Bin_LoadLeft)); // Switch the arms so a new one is ready
 	AddSequential(new WaveWait(.25));
@@ -73,7 +73,7 @@ AutoTest::AutoTest()
 	AddSequential(new WaveWait(.25));
 	AddSequential(new SetRecyclerPosition(up)); // bring the bin up to the top
 	AddSequential(new WaveWait(.25));
-	AddSequential(new SetElevatorPosition(AutoElevatorPosition));
+	AddSequential(new SetElevatorPosition(autoElevatorPosition));
 
 }
 

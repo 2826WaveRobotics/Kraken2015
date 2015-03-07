@@ -13,15 +13,9 @@ void SetPneumatics::Initialize()
 {
 	switch(m_cylinder){
 	case cyl_leftHook:
-	{
-		Robot::m_binJuggler->hookLeft(m_open);
 		break;
-	}
 	case cyl_rightHook:
-	{
-		Robot::m_binJuggler->hookRight(m_open);
 		break;
-	}
 	case cyl_hooks:
 	{
 		int location = Robot::m_binJuggler->getCurrentLocation();

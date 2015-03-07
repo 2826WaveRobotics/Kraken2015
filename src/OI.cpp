@@ -9,9 +9,13 @@
 #include "Commands/Intake_FrontTote.h"
 #include "Commands/AcquireBins.h"
 #include "Commands/Auto.h"
+<<<<<<< HEAD
 #include "Commands/DatCurve.h"
 #include "Commands/AutoDrive.h"
 #include "Commands/SetRecyclerPosition.h"
+=======
+
+>>>>>>> parent of 564e576... FAILED(but its late)
 
 OI::OI()
 {
@@ -45,7 +49,11 @@ OI::OI()
 	debug_11 = new JoystickButton(debugJoystick, 7);
 	debug_12 = new JoystickButton(debugJoystick, 8);
 
+<<<<<<< HEAD
 	operator_Y->WhenPressed(new SetRecyclerPosition(false));
+=======
+	operator_Y->WhenPressed(new Auto());
+>>>>>>> parent of 564e576... FAILED(but its late)
 	operator_X->WhenPressed(new BinJugglerCommand(Bin_LoadRight));
 	operator_A->WhenPressed(new BinJugglerCommand(Bin_LoadCenter));
 	operator_B->WhenPressed(new BinJugglerCommand(Bin_LoadLeft));
@@ -77,30 +85,27 @@ Joystick* OI::getDebugJoystick2()
 	return debugJoystick2;
 }
 void OI::checkInput(){
-	bool param = getDriverJoystick()->GetRawAxis(Axis_LTrigger)>0.75 ? true : false; // shift with the trigger - Switched to left trigger by chris 3/3
+	bool param = getDriverJoystick()->GetRawAxis(Axis_RTrigger)>0.75 ? true : false; // shift with the trigger
 	Robot::m_drive->ShiftGear(param);
 
 	double throttle = driverJoystick->GetRawAxis(Axis_LY);
 	double turn = driverJoystick->GetRawAxis(Axis_RX);
-	if(fabs(throttle) < .075){ throttle = 0; }
-	if(fabs(turn) < .075){turn = 0; }
+	if(fabs(throttle) < .15){ throttle = 0; }
+	if(fabs(turn) < .25){turn = 0; } // reduce deadband
 	//RobotMap::m_robotDrive->ArcadeDrive(throttle, turn);
 	//Robot::m_drive->SetCoefPower(throttle);
 
 	//Intakes
-	if(!Robot::m_intake->IsIntakeSystemInUse()) // if the intake subsystem isn't utilizing the motors
+	if(!Robot::m_intake->IsIntakeSystemInUse())
 	{
-		//Rear Intake
 		operatorJoystick->GetRawAxis(Axis_RTrigger) < .05 ? Robot::m_intake->SetRearIntake(0) : Robot::m_intake->SetRearIntake(operatorJoystick->GetRawAxis(Axis_RTrigger));
-
-		//Front Intake
-		if(driverJoystick->GetRawAxis(Axis_RTrigger) > .05)
+		if(operatorJoystick->GetRawAxis(Axis_LTrigger) > .05)
 		{
-			Robot::m_intake->SetFrontIntake(-driverJoystick->GetRawAxis(Axis_RTrigger)/2);
+			Robot::m_intake->SetFrontIntake(-operatorJoystick->GetRawAxis(Axis_LTrigger));
 		}
-		else if(driverJoystick->GetRawButton(6))
+		else if(operatorJoystick->GetRawButton(5))
 		{
-			Robot::m_intake->SetFrontIntake(.5);
+			Robot::m_intake->SetFrontIntake(0.5);
 		}
 		else
 		{
@@ -156,22 +161,12 @@ void OI::checkInput(){
 	if(GetDebugJoystickButton(16)){
 
 	}
-	if(GetDebugJoystickButton(16)){
+	if(GetDebugJoystickButton(17)){
 		operatorJoystick->SetRumble(Joystick::kLeftRumble,debugJoystick->GetRawAxis(4)); // left rumble = 0, right rumble = 1
 	}
 	if(GetDebugJoystickButton(10)){
 		operatorJoystick->SetRumble(Joystick::kRightRumble,debugJoystick->GetRawAxis(4)); // left rumble = 0, right rumble = 1
 	}
-
-	//Re-add when we have a working sensor
-//	if(Robot::m_intake->IsAligned()){ // controlling rumble for the driver when aligned
-//		driverJoystick->SetRumble(Joystick::kLeftRumble,1); // left rumble = 0, right rumble = 1
-//		driverJoystick->SetRumble(Joystick::kRightRumble,1); // left rumble = 0, right rumble = 1
-//	}
-//	else{ // turn off the rumble
-//		driverJoystick->SetRumble(Joystick::kLeftRumble,0); // left rumble = 0, right rumble = 1
-//		driverJoystick->SetRumble(Joystick::kRightRumble,0); // left rumble = 0, right rumble = 1
-//	}
 
 	/*elevator*/
 	bool outsideElevatorDeadband = fabs(operatorJoystick->GetRawAxis(Axis_LY)) > 0.15;
@@ -208,13 +203,13 @@ void OI::checkInput(){
 		Robot::m_recycler->SetRecycleMotors(-operatorJoystick->GetRawAxis(Axis_RY));
 	}
 
-	if(operatorJoystick->GetRawButton(7)){
+	if(driverJoystick->GetRawButton(7)){
 		Robot::m_elevator->lockTotes(true);
 	}
-	if(operatorJoystick->GetRawButton(8)){
+	if(driverJoystick->GetRawButton(8)){
 		Robot::m_elevator->lockTotes(false);
 	}
-	if(driverJoystick->GetRawButton(7)){
+	if(operatorJoystick->GetRawButton(7)){
 		std::cout << "Elevator Current Draw: " << Robot::m_elevator->getCurrentFeedback_LeftMotor() << "\t\t" << Robot::m_elevator->getCurrentFeedback_RightMotor() << std::endl;
 	}
 }

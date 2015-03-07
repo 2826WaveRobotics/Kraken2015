@@ -13,7 +13,11 @@ void SetRecyclerPosition::Initialize()
 		m_speed = .8;
 	}
 	else{
+<<<<<<< HEAD
 		m_speed = -.775;
+=======
+		m_speed = -.65;
+>>>>>>> parent of 564e576... FAILED(but its late)
 	}
 	Robot::m_recycler->SetRecycleMotors(m_speed);
 }

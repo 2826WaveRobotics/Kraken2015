@@ -54,7 +54,7 @@ CANTalon* RobotMap::rearIntake= NULL;
 DigitalInput* RobotMap::binLowerSensor= NULL;
 DigitalInput* RobotMap::binUpperSensor= NULL;
 DigitalInput* RobotMap::frontIntakeSensor= NULL;
-DigitalInput* RobotMap::humanWallSensor = NULL;
+DigitalInput* RobotMap::rearIntakeSensor= NULL;
 Encoder* RobotMap::m_driveEncoderLeft= NULL;
 Encoder* RobotMap::m_driveEncoderRight= NULL;
 AnalogInput* RobotMap::yawRate = NULL;
@@ -113,8 +113,7 @@ void RobotMap::init() {
 	binLowerSensor = new DigitalInput (4); // 4
 	binUpperSensor = new DigitalInput (5);
 	frontIntakeSensor = new DigitalInput (6);
-	humanWallSensor = new DigitalInput (7);
-
+	rearIntakeSensor = new DigitalInput (7);
 
 
 	m_driveEncoderLeft = new Encoder (0,1, false);//last parameter is reverse direction

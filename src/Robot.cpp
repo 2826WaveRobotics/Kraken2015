@@ -2,7 +2,7 @@
 
 #include "WPILib.h"
 #include "Commands/Command.h"
-#include "Commands/Auto.h"
+#include "Commands/AutoTest.h"
 #include "CommandBase.h"
 #include "OI.h"
 #include "WaveConstants.h"
@@ -28,7 +28,7 @@ void Robot::RobotInit()
 	m_elevator = new Elevator();
 	oi = new OI();
 	m_recycler = new Recycler();
-	autonomousCommand = new Auto();
+	autonomousCommand = new AutoTest();
 	m_intake= new Intake();
 	m_binJuggler= new BinJuggler();
 	m_compressor= new CompressorSubsystem();
@@ -40,17 +40,17 @@ void Robot::DisabledPeriodic()
 	m_compressor->Stop();
 	Wait(0.01);
 
-	if(oi->GetDebugJoystickButton(16)){ // change back to 17 later
+	if(oi->GetDebugJoystickButton(16)){
 		cout << m_intake->IsFrontSensorTripped();
-		cout << m_intake->IsAligned();
+		cout << m_intake->IsRearSensorTripped();
 		cout << m_recycler->isLowerSensorTripped();
 		cout << m_recycler->isUpperSensorTripped() << "\t";
 		cout << m_elevator->getCurrentVoltageOfSensor() << "\t\t";
-		cout << m_elevator->convertVoltsToInches(m_elevator->getCurrentVoltageOfSensor()) << "\t";
 		cout << m_drive->GetLeftEncoder() << "\t";
 		cout << m_drive->GetRightEncoder() << "\t";
 		cout << endl;
 	}
+<<<<<<< HEAD
 
 	double leftCoef = 1 - (Robot::oi->getDebugJoystick()->GetRawAxis(2) / 5); // for checking the coefficients from the potentiometers
 	double rightCoef = 1 - (Robot::oi->getDebugJoystick()->GetRawAxis(3) / 5);
@@ -78,6 +78,8 @@ void Robot::DisabledPeriodic()
 	//		std::cout << "Pup: " << c_upP << "\tPdown: " << c_downP << "\tIup: " << c_upI << "\tIdown: " << c_downI << "\tDup: " << c_upD << "\tDdown: " << c_downD << std::endl;
 	//
 	//	}
+=======
+>>>>>>> parent of 564e576... FAILED(but its late)
 }
 
 void Robot::AutonomousInit()
@@ -107,20 +109,18 @@ void Robot::TeleopPeriodic()
 
 	if(oi->GetDebugJoystickButton(16)){
 		//		cout << m_intake->IsFrontSensorTripped();
-		//		cout << m_intake->IsAligned();
+		//		cout << m_intake->IsRearSensorTripped();
 		//		cout << m_recycler->isLowerSensorTripped();
 		//		cout << m_recycler->isUpperSensorTripped() << "\t";
 		//		cout << m_elevator->getCurrentVoltageOfSensor() << "\t";
-		//		cout << m_drive->GetLeftEncoder() << "\t";
-		//		cout << m_drive->GetRightEncoder() << "\t";
-		//cout << endl;
-		double leftLoad = m_elevator->getCurrentFeedback_LeftMotor();
-		double rightLoad = m_elevator->getCurrentFeedback_RightMotor();
-		double averageLoad = (leftLoad + rightLoad) / 2;
-		std::cout << "Average Load: " << averageLoad << "\tLeft: " << leftLoad << "\tRight: " << rightLoad << std::endl;
+		cout << m_drive->GetLeftEncoder() << "\t";
+		cout << m_drive->GetRightEncoder() << "\t";
+		cout << endl;
 	}
-
-
+	double leftLoad = m_elevator->getCurrentFeedback_LeftMotor();
+	double rightLoad = m_elevator->getCurrentFeedback_RightMotor();
+	double averageLoad = (leftLoad + rightLoad) / 2;
+	//std::cout << "Average Load: " << averageLoad << "\tLeft: " << leftLoad << "\tRight: " << rightLoad << std::endl;
 
 	Wait(0.01);
 }

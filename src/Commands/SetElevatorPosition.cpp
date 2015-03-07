@@ -2,17 +2,17 @@
 #include "../Subsystems/Elevator.h"
 #include "../Robot.h"
 
-SetElevatorPosition::SetElevatorPosition(double inches)
+SetElevatorPosition::SetElevatorPosition(double volts)
 {
 	Requires(Robot::m_elevator);
 	m_motorValue = 0;
-	m_inches = inches;
+	m_volts = volts;
 }
 
 void SetElevatorPosition::Initialize()
 {
 	Robot::m_elevator->disablePID(); //Disable the PID in order to restart it with setAbsoluteHeight()
-	Robot::m_elevator->setAbsoluteHeight(m_inches); //enables PID after setting new value
+	Robot::m_elevator->setAbsoluteHeight(m_volts); //enables PID after setting new value
 	SetTimeout(3.0); //time in seconds
 }
 
@@ -23,10 +23,10 @@ void SetElevatorPosition::Execute()
 
 bool SetElevatorPosition::IsFinished()
 {
-	double currentHeight = Robot::m_elevator->convertVoltsToInches(Robot::m_elevator->getCurrentVoltageOfSensor());
+	double currentHeight = Robot::m_elevator->getCurrentVoltageOfSensor();
 
 	//std::cout << "SetElevatorPosition::IsFinished: currentHeight == " << currentHeight << "  m_volts=" << m_volts << std::endl;
-	if(fabs(currentHeight - m_inches) < elevatorTolerance) //if we're within an .1*inch of where we want to be
+	if(fabs(currentHeight - m_volts) < elevatorTolerance) //if we're within an inch of where we want to be
 	{
 		return true;
 	}

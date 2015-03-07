@@ -13,7 +13,7 @@ private:
 	CANTalon* m_frontIntakeRight;
 	CANTalon* m_rearIntake;
 	DigitalInput* m_frontIntakeSensor;
-	DigitalInput* m_humanWallSensor;
+	DigitalInput* m_rearIntakeSensor;
 	bool m_intakeSystemInUse;
 public:
 	Intake();
@@ -21,7 +21,7 @@ public:
 	void SetFrontIntake(float percentage);
 	void SetRearIntake(float percentage);
 	bool IsFrontSensorTripped();
-	bool IsAligned ();
+	bool IsRearSensorTripped ();
 
 	bool IsIntakeSystemInUse();
 	void UseIntakeSystem(bool inUse);

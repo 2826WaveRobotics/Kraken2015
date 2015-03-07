@@ -15,7 +15,11 @@ double l_d = 0.0;
 }
 
 Drive::Drive() :
+<<<<<<< HEAD
 						Subsystem("Drive")
+=======
+		Subsystem("Drive")
+>>>>>>> parent of 564e576... FAILED(but its late)
 {
 	m_robotDrive = RobotMap::m_robotDrive;
 	// insert motor controllers, sensors, and everything else in here
@@ -131,13 +135,6 @@ void Drive::SetDrivePID(double p, double i, double d)
 	m_rightPID->SetPID(p, i, d);
 }
 
-void Drive::SetSidePower(double left,double right){
-	m_left1->Set(left);
-	m_left2->Set(left);
-	m_right1->Set(-right);
-	m_right2->Set(-right);
-}
-
 void Drive::SetPower(double power){
 	m_left1->Set(power);
 	m_left2->Set(power);
@@ -145,6 +142,7 @@ void Drive::SetPower(double power){
 	m_right2->Set(-power);
 }
 void Drive::SetCoefPower(double power){
+<<<<<<< HEAD
 	//double leftCoef = 1 - (Robot::oi->getDebugJoystick()->GetRawAxis(2) / 5); // for checking the coefficients from the potentiometers
 	//double rightCoef = 1 - (Robot::oi->getDebugJoystick()->GetRawAxis(3) / 5);
 	double leftCoef = .8;
@@ -153,6 +151,12 @@ void Drive::SetCoefPower(double power){
 	double rightPower = power*rightCoef;
 	//	double rightPower = power -.063;
 	//	double leftPower = power;// - .03;   shifted left today
+=======
+	double leftCoef = 1 - (Robot::oi->getDebugJoystick()->GetRawAxis(2) / 10);
+	double rightCoef = 1 - (Robot::oi->getDebugJoystick()->GetRawAxis(3) / 10);
+	double leftPower = power*leftCoef;
+	double rightPower = power*rightCoef;
+>>>>>>> parent of 564e576... FAILED(but its late)
 
 	std::cout << "Left Ticks: " << GetLeftEncoder() << "\tRight Ticks: " << GetRightEncoder() << "\tLeft Distance: " <<
 			GetLeftDistanceTravelled() << "\tRight Distance: " << GetRightDistanceTravelled() <<

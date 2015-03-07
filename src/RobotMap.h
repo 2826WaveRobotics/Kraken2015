@@ -31,7 +31,7 @@ public:
 	static CANTalon* frontIntakeRight;
 	static CANTalon* rearIntake;
 	static DigitalInput* frontIntakeSensor;
-	static DigitalInput* humanWallSensor;
+	static DigitalInput* rearIntakeSensor;
 	static Solenoid* toteLocker;
 
 	//Elevator

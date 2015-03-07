@@ -15,13 +15,13 @@ void DriveStraight::Initialize()
 {
 	Robot::m_drive->SetCoefPower(m_drivePower);
 	m_gTG = 1;
-	m_swaggerson = 0;
+/*	m_swaggerson = 0;
 	DS_timer->Start();
 	if(Robot::m_intake->IsFrontSensorTripped())
 	{
 		m_startTripped = 1;
 		m_gTG = 0;
-	}
+	} */
 }
 
 void DriveStraight::Execute()
@@ -35,10 +35,10 @@ void DriveStraight::Execute()
 	if(m_startTripped && !Robot::m_intake->IsFrontSensorTripped())
 	{
 		m_startTripped = 0;
-		m_swaggerson = 1;
-		DS_timer->Reset();
+		//m_swaggerson = 1;
+		//DS_timer->Reset();
 	}
-	if((DS_timer->Get() > .05) && (!Robot::m_intake->IsFrontSensorTripped())&& m_swaggerson){
+	if(/*(DS_timer->Get() > .05) && */(!Robot::m_intake->IsFrontSensorTripped())/* && m_swaggerson*/){
 		m_gTG = 1;
 	}
 

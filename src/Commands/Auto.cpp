@@ -45,12 +45,12 @@ Auto::Auto()
 	AddParallel(new SetPneumatics(cyl_leftHook, release)); // open the appropriate hook
 	AddSequential(new WaveWait(.05));
 	//AddSequential(new WaveWait(.05));
-	AddParallel(new DriveStraight(24, -.27)); // drive 24 inches at 25 percent power
 	AddSequential(new SetRecyclerPosition(up)); // bring the tote up to the bin juggler
-	AddParallel(new SetElevatorPosition(highElevatorPosition));
-	AddSequential(new WaveWait(.1));
 	AddParallel(new SetPneumatics(cyl_leftHook, grab)); // grab on to the bin
 	AddSequential(new WaveWait(.05));
+	AddParallel(new SetElevatorPosition(highElevatorPosition));
+	AddSequential(new WaveWait(.3));
+	AddParallel(new DriveStraight(24, -.27)); // drive 24 inches at 25 percent power
 	AddParallel(new SetPneumatics(cyl_handleHolder, open)); // release the bin from the track
 	AddSequential(new WaveWait(.05));
 	 // drive 24 inches at 25 percent power

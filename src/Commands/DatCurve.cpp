@@ -34,7 +34,7 @@ bool DatCurve::IsFinished()
 	double rightTurned = Robot::m_drive->GetRightEncoder();
 
 	if(leftTurned > 100){
-		std::cout << "Left Turn is Greater Than 4000" << std::endl;
+		std::cout << "Left Turn is Greater Than 100" << std::endl;
 		Robot::m_drive->SetSidePower(0,0);
 		return true;
 	}

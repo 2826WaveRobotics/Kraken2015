@@ -1,5 +1,6 @@
 #include "OI.h"
 #include "Robot.h"
+#include "WaveConstants.h"
 #include "Commands/BinJugglerCommand.h"
 #include "Commands/Shift.h"
 #include "Commands/ShiftHigh.h"
@@ -7,10 +8,10 @@
 #include "Commands/LoadMagazine.h"
 #include "Commands/Intake_FrontTote.h"
 #include "Commands/AcquireBins.h"
-#include "Commands/DriveStraight.h"
-#include "Commands/DrivePoweredDistance.h"
 #include "Commands/Auto.h"
 #include "Commands/DatCurve.h"
+#include "Commands/AutoDrive.h"
+#include "Commands/SetRecyclerPosition.h"
 
 OI::OI()
 {
@@ -44,7 +45,7 @@ OI::OI()
 	debug_11 = new JoystickButton(debugJoystick, 7);
 	debug_12 = new JoystickButton(debugJoystick, 8);
 
-	operator_Y->WhenPressed(new DatCurve());
+	operator_Y->WhenPressed(new SetRecyclerPosition(false));
 	operator_X->WhenPressed(new BinJugglerCommand(Bin_LoadRight));
 	operator_A->WhenPressed(new BinJugglerCommand(Bin_LoadCenter));
 	operator_B->WhenPressed(new BinJugglerCommand(Bin_LoadLeft));

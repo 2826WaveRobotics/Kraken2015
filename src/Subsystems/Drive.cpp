@@ -15,7 +15,7 @@ double l_d = 0.0;
 }
 
 Drive::Drive() :
-				Subsystem("Drive")
+						Subsystem("Drive")
 {
 	m_robotDrive = RobotMap::m_robotDrive;
 	// insert motor controllers, sensors, and everything else in here
@@ -69,11 +69,7 @@ void Drive::SetDriveDistance(double distance){
 }
 
 double Drive::GetDistanceTravelled(){
-
-
-
-
-	return 0; //temporary so it won't be an error
+	return (GetLeftDistanceTravelled() + GetRightDistanceTravelled())/2;
 }
 double Drive::GetLeftDistanceTravelled(){
 	return GetLeftEncoder()*circumference*ticksPerWheel;
@@ -149,12 +145,14 @@ void Drive::SetPower(double power){
 	m_right2->Set(-power);
 }
 void Drive::SetCoefPower(double power){
-	double leftCoef = 1 - (Robot::oi->getDebugJoystick()->GetRawAxis(2) / 5);
-	double rightCoef = 1 - (Robot::oi->getDebugJoystick()->GetRawAxis(3) / 5);
-	//	double leftPower = power*leftCoef;
-	//	double rightPower = power*rightCoef;
-	double rightPower = power -.063;
-	double leftPower = power;// - .03;   shifted left today
+	//double leftCoef = 1 - (Robot::oi->getDebugJoystick()->GetRawAxis(2) / 5); // for checking the coefficients from the potentiometers
+	//double rightCoef = 1 - (Robot::oi->getDebugJoystick()->GetRawAxis(3) / 5);
+	double leftCoef = .8;
+	double rightCoef = 1;
+	double leftPower = power*leftCoef;
+	double rightPower = power*rightCoef;
+	//	double rightPower = power -.063;
+	//	double leftPower = power;// - .03;   shifted left today
 
 	std::cout << "Left Ticks: " << GetLeftEncoder() << "\tRight Ticks: " << GetRightEncoder() << "\tLeft Distance: " <<
 			GetLeftDistanceTravelled() << "\tRight Distance: " << GetRightDistanceTravelled() <<

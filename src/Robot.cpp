@@ -51,6 +51,10 @@ void Robot::DisabledPeriodic()
 		cout << m_drive->GetRightEncoder() << "\t";
 		cout << endl;
 	}
+
+	double leftCoef = 1 - (Robot::oi->getDebugJoystick()->GetRawAxis(2) / 5); // for checking the coefficients from the potentiometers
+	double rightCoef = 1 - (Robot::oi->getDebugJoystick()->GetRawAxis(3) / 5);
+	std::cout << "left: " << leftCoef << "\tright: " << rightCoef << std::endl;
 	//	else{ // For reading values from controller for PIDs
 	//		double c_upP, c_downP, c_upI, c_downI, c_upD, c_downD;
 	//		if(Robot::oi->GetDebugJoystickButton(17)){ //
@@ -74,9 +78,6 @@ void Robot::DisabledPeriodic()
 	//		std::cout << "Pup: " << c_upP << "\tPdown: " << c_downP << "\tIup: " << c_upI << "\tIdown: " << c_downI << "\tDup: " << c_upD << "\tDdown: " << c_downD << std::endl;
 	//
 	//	}
-	double leftCoef = 1 - (Robot::oi->getDebugJoystick()->GetRawAxis(2) / 5);
-	double rightCoef = 1 - (Robot::oi->getDebugJoystick()->GetRawAxis(3) / 5);
-	//std::cout << "Left: " << leftCoef << "\tRight: " << rightCoef << std::endl;
 }
 
 void Robot::AutonomousInit()

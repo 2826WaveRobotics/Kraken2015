@@ -8,9 +8,10 @@
 #include "Commands/Intake_FrontTote.h"
 #include "Commands/AcquireBins.h"
 #include "Commands/DriveStraight.h"
-#include "Commands/DrivePoweredDistance.h"
 #include "Commands/Auto.h"
 #include "Commands/DatCurve.h"
+#include "Commands/AutoDrive.h"
+#include "Commands/SetPneumatics.h"
 
 OI::OI()
 {
@@ -44,10 +45,18 @@ OI::OI()
 	debug_11 = new JoystickButton(debugJoystick, 7);
 	debug_12 = new JoystickButton(debugJoystick, 8);
 
-	operator_Y->WhenPressed(new SetElevatorPosition(highElevatorPosition));
+	operator_Y->WhenPressed(new BinJugglerCommand(Bin_LoadCenter));
 	operator_X->WhenPressed(new BinJugglerCommand(Bin_LoadRight));
-	operator_A->WhenPressed(new BinJugglerCommand(Bin_LoadCenter));
+	operator_A->WhenPressed(new AutoDrive(999,.35,0));
 	operator_B->WhenPressed(new BinJugglerCommand(Bin_LoadLeft));
+
+	operator_LB->WhenPressed(new SetPneumatics(cyl_leftHook, true));
+	operator_LB->WhenReleased(new SetPneumatics(cyl_leftHook, false));
+	operator_RB->WhenPressed(new SetPneumatics(cyl_rightHook, true));
+	operator_RB->WhenReleased(new SetPneumatics(cyl_rightHook, false));
+
+	operator_Start->WhenPressed(new SetPneumatics(cyl_handleHolder, false));
+	operator_Back->WhenPressed(new SetPneumatics(cyl_handleHolder, true));
 
 	debug_12->WhenPressed(new AcquireBins());
 	//debug_11->WhenPressed(new SetElevatorPosition(1.0));
@@ -76,7 +85,7 @@ Joystick* OI::getDebugJoystick2()
 	return debugJoystick2;
 }
 void OI::checkInput(){
-	bool param = getDriverJoystick()->GetRawAxis(Axis_LTrigger)>0.75 ? true : false; // shift with the trigger - Switched to left trigger by chris 3/3
+	bool param = getDriverJoystick()->GetRawAxis(Axis_LTrigger)>0.2 ? false : true; // shift with the trigger - Switched to left trigger by chris 3/3
 	Robot::m_drive->ShiftGear(param);
 
 	double throttle = driverJoystick->GetRawAxis(Axis_LY);
@@ -84,7 +93,6 @@ void OI::checkInput(){
 	if(fabs(throttle) < .075){ throttle = 0; }
 	if(fabs(turn) < .075){turn = 0; }
 	//RobotMap::m_robotDrive->ArcadeDrive(throttle, turn);
-	//Robot::m_drive->SetCoefPower(throttle);
 
 	//Intakes
 	if(!Robot::m_intake->IsIntakeSystemInUse()) // if the intake subsystem isn't utilizing the motors
@@ -95,7 +103,7 @@ void OI::checkInput(){
 		//Front Intake
 		if(driverJoystick->GetRawAxis(Axis_RTrigger) > .05)
 		{
-			Robot::m_intake->SetFrontIntake(-driverJoystick->GetRawAxis(Axis_RTrigger)/2);
+			Robot::m_intake->SetFrontIntake(-driverJoystick->GetRawAxis(Axis_RTrigger));
 		}
 		else if(driverJoystick->GetRawButton(6))
 		{
@@ -105,6 +113,13 @@ void OI::checkInput(){
 		{
 			Robot::m_intake->SetFrontIntake(0);
 		}
+	}
+
+	if(operatorJoystick->GetRawAxis(Axis_LTrigger) > .2){ // left trigger
+		Robot::m_elevator->lockTotes(false);
+	}
+	if(operatorJoystick->GetRawAxis(Axis_RTrigger) > .2){ // right trigger
+		Robot::m_elevator->lockTotes(true);
 	}
 
 	if(GetDebugJoystickButton(1)){
@@ -163,14 +178,14 @@ void OI::checkInput(){
 	}
 
 	//Re-add when we have a working sensor
-//	if(Robot::m_intake->IsAligned()){ // controlling rumble for the driver when aligned
-//		driverJoystick->SetRumble(Joystick::kLeftRumble,1); // left rumble = 0, right rumble = 1
-//		driverJoystick->SetRumble(Joystick::kRightRumble,1); // left rumble = 0, right rumble = 1
-//	}
-//	else{ // turn off the rumble
-//		driverJoystick->SetRumble(Joystick::kLeftRumble,0); // left rumble = 0, right rumble = 1
-//		driverJoystick->SetRumble(Joystick::kRightRumble,0); // left rumble = 0, right rumble = 1
-//	}
+	if(Robot::m_intake->IsAligned()){ // controlling rumble for the driver when aligned
+		driverJoystick->SetRumble(Joystick::kLeftRumble,1); // left rumble = 0, right rumble = 1
+		driverJoystick->SetRumble(Joystick::kRightRumble,1); // left rumble = 0, right rumble = 1
+	}
+	else{ // turn off the rumble
+		driverJoystick->SetRumble(Joystick::kLeftRumble,0); // left rumble = 0, right rumble = 1
+		driverJoystick->SetRumble(Joystick::kRightRumble,0); // left rumble = 0, right rumble = 1
+	}
 
 	/*elevator*/
 	bool outsideElevatorDeadband = fabs(operatorJoystick->GetRawAxis(Axis_LY)) > 0.15;
@@ -183,6 +198,8 @@ void OI::checkInput(){
 	{
 		//Turn motors off then don't allow human input again until joysticks are moved again
 		m_allowElevatorInput = false;
+
+		//Robot::m_elevator->setAbsoluteHeight(Robot::m_elevator->getCurrentHeight());
 		Robot::m_elevator->setElevatorMotors(0);
 	}
 	if(m_allowElevatorInput)
@@ -207,15 +224,11 @@ void OI::checkInput(){
 		Robot::m_recycler->SetRecycleMotors(-operatorJoystick->GetRawAxis(Axis_RY));
 	}
 
-	if(operatorJoystick->GetRawButton(7)){
-		Robot::m_elevator->lockTotes(true);
+	if(driverJoystick->GetRawButton(1) || driverJoystick->GetRawButton(2) ||
+			driverJoystick->GetRawButton(3) || driverJoystick->GetRawButton(4)){ // if one of the paddles are pressed
+		Robot::m_intake->SetControlledIntake();
 	}
-	if(operatorJoystick->GetRawButton(8)){
-		Robot::m_elevator->lockTotes(false);
-	}
-	if(driverJoystick->GetRawButton(7)){
-		std::cout << "Elevator Current Draw: " << Robot::m_elevator->getCurrentFeedback_LeftMotor() << "\t\t" << Robot::m_elevator->getCurrentFeedback_RightMotor() << std::endl;
-	}
+
 }
 
 bool OI::GetDebugJoystickButton(int number){

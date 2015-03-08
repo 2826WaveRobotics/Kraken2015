@@ -15,7 +15,7 @@ double l_d = 0.0;
 }
 
 Drive::Drive() :
-				Subsystem("Drive")
+										Subsystem("Drive")
 {
 	m_robotDrive = RobotMap::m_robotDrive;
 	// insert motor controllers, sensors, and everything else in here
@@ -58,10 +58,10 @@ void Drive::SetEncodersContinuous(bool cont = true)
 	m_leftPID->SetContinuous(cont);
 }
 
-void Drive::DriveWithJoysticks(float left, float right)
+void Drive::DriveWithJoysticks(float throttle, float turn)
 {
-	std::cout << "  Drive: " << left << ", " << right << std::endl;
-	m_robotDrive->ArcadeDrive(left,right);
+	std::cout << "  Drive: " << throttle << ", " << turn << std::endl;
+	m_robotDrive->ArcadeDrive(throttle,turn);
 }
 
 void Drive::SetDriveDistance(double distance){
@@ -69,11 +69,10 @@ void Drive::SetDriveDistance(double distance){
 }
 
 double Drive::GetDistanceTravelled(){
+	double totalDistance = (GetLeftDistanceTravelled() + GetRightDistanceTravelled()) / 2;
+	std::cout << "Total: " << totalDistance << "\tLeft: " << GetLeftDistanceTravelled() << "\tRight: " << GetRightDistanceTravelled() << std::endl;
 
-
-
-
-	return 0; //temporary so it won't be an error
+	return totalDistance;
 }
 double Drive::GetLeftDistanceTravelled(){
 	return GetLeftEncoder()*circumference*ticksPerWheel;
@@ -151,10 +150,10 @@ void Drive::SetPower(double power){
 void Drive::SetCoefPower(double power){
 	double leftCoef = 1 - (Robot::oi->getDebugJoystick()->GetRawAxis(2) / 5);
 	double rightCoef = 1 - (Robot::oi->getDebugJoystick()->GetRawAxis(3) / 5);
-	//	double leftPower = power*leftCoef;
-	//	double rightPower = power*rightCoef;
-	double rightPower = power -.063;
-	double leftPower = power;// - .03;   shifted left today
+	//double leftCoef = .8;
+	//double rightCoef = 1;
+	double leftPower = power*leftCoef;
+	double rightPower = power*rightCoef;
 
 	std::cout << "Left Ticks: " << GetLeftEncoder() << "\tRight Ticks: " << GetRightEncoder() << "\tLeft Distance: " <<
 			GetLeftDistanceTravelled() << "\tRight Distance: " << GetRightDistanceTravelled() <<

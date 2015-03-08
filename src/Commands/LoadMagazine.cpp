@@ -6,7 +6,7 @@
 
 LoadMagazine::LoadMagazine()
 {
-	AddSequential(new Intake_FrontTote());
+	//AddSequential(new Intake_FrontTote());
 	AddSequential(new SetElevatorPosition(lowElevatorPosition));
 	AddSequential(new SetElevatorPosition(highElevatorPosition));
 }

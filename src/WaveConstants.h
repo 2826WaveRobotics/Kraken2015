@@ -13,7 +13,7 @@ const double highElevatorPosition= 29; // Jake wants this 3/1 1AM
 const double lowElevatorPosition= 9.03;
 const double autoElevatorPosition= 13.81;
 const double stackClearanceElevatorPosition= 25;
-const double elevatorTolerance = 0.025;
+const double elevatorTolerance = 0.25;
 const double bumpHeight = 3.0;
 const int On=1;
 const int Off=0;
@@ -22,17 +22,17 @@ const double pi = 3.1415926354;
 const double circumference = ((3/16)+6)*pi;
 const double ticksPerWheel = 1/(256*3*2.5); // 256 ticks per encoder * (3:1) * (5:2)
 
-const double toteLoad0 = .4375;
-const double toteLoad1 = .625;
-const double toteLoad2 = .9375;
-const double toteLoad3 = 1.5;
-const double toteLoad3B = 2.125;
-const double toteLoad4 = 2.125;
-const double toteLoad4B = 3.25;
-const double toteLoad5 = 2.875;
-const double toteLoad5B = 4.375;
-const double toteLoad6 = 0;
-const double toteLoad6B = 0;
+const double toteLoad0 = .625; //.4375;
+const double toteLoad1 = .75; //.625;
+const double toteLoad2 = 1.0625; //.9375;
+const double toteLoad3 = 1.375; //1.5;
+const double toteLoad3B = 2.4375; //2.125;
+const double toteLoad4 = 1.9375; //2.125;
+const double toteLoad4B = 3.3125; //3.25;
+const double toteLoad5 = 2.6875; //2.875;
+const double toteLoad5B = 4.25; //4.375;
+const double toteLoad6 = 3.4375; //0;
+const double toteLoad6B = 4.875; //0;
 
 
 //An enumeration is a numbered list of variables

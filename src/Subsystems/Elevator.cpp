@@ -19,7 +19,7 @@ float c_upD = 0.0;
 }
 
 Elevator::Elevator() :
-				 PIDSubsystem("Elevator", 0.5, 0.0, 0.0)
+	 PIDSubsystem("Elevator", 0.5, 0.0, 0.0)
 
 {
 	SetAbsoluteTolerance(0.1);
@@ -96,7 +96,7 @@ void Elevator::setAbsoluteHeight(double targetHeight) // target height is in inc
 	}
 
 	//std::cout << "\n\nPup: " << c_upP << "\tPdown: " << c_downP << "\tIup: " << c_upI <<
-			//"\tIdown: " << c_downI << "\tDup: " << c_upD << "\tDdown: " << c_downD << "\n\n" << std::endl;
+	//"\tIdown: " << c_downI << "\tDup: " << c_upD << "\tDdown: " << c_downD << "\n\n" << std::endl;
 
 	if(currentHeight < targetHeight)
 	{
@@ -120,7 +120,7 @@ void Elevator::setAbsoluteHeight(double targetHeight) // target height is in inc
 
 void Elevator::disablePID()
 {
-	std::cout << "ELevator::DisablePID()" << std::endl;
+	//std::cout << "ELevator::DisablePID()" << std::endl;
 	GetPIDController()->Disable();
 }
 
@@ -150,24 +150,15 @@ float Elevator::getCurrentVoltageOfSensor()
 
 double Elevator::getCurrentHeight()
 {
-	double negative = convertVoltsToInches(getCurrentVoltageOfSensor());
-	double inches = 28 - negative;
+	double inches = convertVoltsToInches(getCurrentVoltageOfSensor());
+	//double inches = 28 - negative;
 	//	std::cout << "Inches: " << inches << std::endl;
 	return inches;
 }
 
 void Elevator::setElevatorMotors(float speed)
 {
-	/*	if(speed>=0 && getCurrentHeight() >= MaxLength)
-	{
-		speed = 0;
-	}
- if(speed<=0 && getCurrentHeight() <= MinLength)
-	{
-		speed = 0;
-	}
-	 */
-	std::cout << "Elevator Speed: " << speed << std::endl;
+	//std::cout << "Elevator Speed: " << speed << std::endl;
 	speed=checkSoftStops(speed, true);
 
 	m_elevatorLeft->Set(-speed);
@@ -222,11 +213,82 @@ void Elevator::lockTotes(bool lock){
 	m_toteLock->Set(lock);
 }
 void Elevator::CalculateTotes(){
+	double motorCurrent = (getCurrentFeedback_LeftMotor() + getCurrentFeedback_RightMotor()) / 2;
 
+	double boundary0_1 = (toteLoad0 + toteLoad1)/2;
+	double boundary1_2 = (toteLoad1 + toteLoad2)/2;
+	double boundary2_3 = (toteLoad2 + toteLoad3)/2;
+	double boundary3_4 = (toteLoad3 + toteLoad4)/2;
+	double boundary4_3B = (toteLoad4 + toteLoad3B)/2;
+	double boundary3B_5 = (toteLoad3B + toteLoad5)/2;
+	double boundary5_4B = (toteLoad5 + toteLoad4B)/2;
+	double boundary4B_6 = (toteLoad4B + toteLoad6)/2;
+	double boundary6_5B = (toteLoad6 + toteLoad5B)/2;
+	double boundary5B_6B = (toteLoad5B + toteLoad6B)/2;
+
+	if(motorCurrent == m_previousCurrentOfElevator){ // make sure that the motor current draw is constant
+		if(motorCurrent < boundary0_1){
+			m_numOfTotes = 0;
+			m_haveBin = false;
+			//std::cout << "We have " << m_numOfTotes << " totes" << std::endl;
+		}
+		else if(motorCurrent < boundary1_2){
+			m_numOfTotes = 1;
+			m_haveBin = false;
+			//std::cout << "We have " << m_numOfTotes << " totes" << std::endl;
+		}
+		else if(motorCurrent < boundary2_3){
+			m_numOfTotes = 2;
+			m_haveBin = false;
+			//std::cout << "We have " << m_numOfTotes << " totes" << std::endl;
+		}
+		else if(motorCurrent < boundary3_4){
+			m_numOfTotes = 3;
+			m_haveBin = false;
+			//std::cout << "We have " << m_numOfTotes << " totes" << std::endl;
+		}
+		else if(motorCurrent < boundary4_3B){
+			m_numOfTotes = 4;
+			m_haveBin = false;
+			//std::cout << "We have " << m_numOfTotes << " totes" << std::endl;
+		}
+		else if(motorCurrent < boundary3B_5){
+			m_numOfTotes = 3;
+			m_haveBin = true;
+			//std::cout << "We have " << m_numOfTotes << " totes" << std::endl;
+		}
+		else if(motorCurrent < boundary5_4B){
+			m_numOfTotes = 5;
+			m_haveBin = false;
+			//std::cout << "We have " << m_numOfTotes << " totes" << std::endl;
+		}
+		else if(motorCurrent < boundary4B_6){
+			m_numOfTotes = 4;
+			m_haveBin = true;
+			//std::cout << "We have " << m_numOfTotes << " totes" << std::endl;
+		}
+		else if(motorCurrent < boundary6_5B){
+			m_numOfTotes = 6;
+			m_haveBin = false;
+			//std::cout << "We have " << m_numOfTotes << " totes" << std::endl;
+		}
+		else if(motorCurrent < boundary5B_6B){
+			m_numOfTotes = 5;
+			m_haveBin = true;
+			//std::cout << "We have " << m_numOfTotes << " totes" << std::endl;
+		}
+		else{
+			m_numOfTotes = 6;
+			m_haveBin = true;
+			//std::cout << "We have " << m_numOfTotes << " totes" << std::endl;
+		}
+	}
+	m_previousCurrentOfElevator = motorCurrent;
 }
 void Elevator::SetTotes(int totes){
 	m_numOfTotes = totes;
 }
 int Elevator::GetTotes(){
+	CalculateTotes();
 	return m_numOfTotes;
 }

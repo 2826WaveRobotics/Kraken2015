@@ -40,6 +40,8 @@ void Robot::DisabledPeriodic()
 	m_compressor->Stop();
 	Wait(0.01);
 
+//	autoChooser.AddObject("AutoMode", &m_autoMode);
+
 	if(oi->GetDebugJoystickButton(16)){ // change back to 17 later
 		cout << m_intake->IsFrontSensorTripped();
 		cout << m_intake->IsAligned();
@@ -47,8 +49,9 @@ void Robot::DisabledPeriodic()
 		cout << m_recycler->isUpperSensorTripped() << "\t";
 		cout << m_elevator->getCurrentVoltageOfSensor() << "\t\t";
 		cout << m_elevator->convertVoltsToInches(m_elevator->getCurrentVoltageOfSensor()) << "\t";
-		cout << m_drive->GetLeftEncoder() << "\t";
-		cout << m_drive->GetRightEncoder() << "\t";
+		cout << m_drive->GetLeftDistanceTravelled() << "\t\t";
+		cout << m_drive->GetRightDistanceTravelled() << "\t\t";
+		cout << m_drive->GetDistanceTravelled() << "\t";
 		cout << endl;
 	}
 	//	else{ // For reading values from controller for PIDs
@@ -76,11 +79,14 @@ void Robot::DisabledPeriodic()
 	//	}
 	double leftCoef = 1 - (Robot::oi->getDebugJoystick()->GetRawAxis(2) / 5);
 	double rightCoef = 1 - (Robot::oi->getDebugJoystick()->GetRawAxis(3) / 5);
-	//std::cout << "Left: " << leftCoef << "\tRight: " << rightCoef << std::endl;
+	std::cout << "Left: " << leftCoef << "\tRight: " << rightCoef << std::endl;
 }
 
 void Robot::AutonomousInit()
 {
+//	m_autoMode = autoChooser.GetSelected();
+
+
 	if (autonomousCommand != NULL)
 		autonomousCommand->Start();
 	m_compressor->Start();
@@ -116,10 +122,9 @@ void Robot::TeleopPeriodic()
 		double leftLoad = m_elevator->getCurrentFeedback_LeftMotor();
 		double rightLoad = m_elevator->getCurrentFeedback_RightMotor();
 		double averageLoad = (leftLoad + rightLoad) / 2;
-		std::cout << "Average Load: " << averageLoad << "\tLeft: " << leftLoad << "\tRight: " << rightLoad << std::endl;
+		int numOfTotes = m_elevator->GetTotes();
+		std::cout << "Average Load: " << averageLoad << "\tLeft: " << leftLoad << "\tRight: " << rightLoad << "\tNumOfTotes: " << numOfTotes <<  std::endl;
 	}
-
-
 
 	Wait(0.01);
 }

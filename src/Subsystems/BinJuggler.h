@@ -18,8 +18,14 @@ private:
 		 int active;
 		 int m_cycle;// = 1;
 		 int m_currentLocation;
+
+		 bool m_jugglerSystemInUse;
 public:
 	BinJuggler();
+
+	bool IsJugglerSystemInUse();
+	void UseJugglerSystem(bool inUse);
+
 	void InitDefaultCommand();
 	void loadSelection(int cylinder, bool state);
 	void sequenceUp(bool trueForUp);

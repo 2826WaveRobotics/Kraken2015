@@ -38,6 +38,9 @@ void SetPneumatics::Initialize()
 	case cyl_handleHolder:
 		Robot::m_recycler->HandleHold(m_open);
 		break;
+	case cyl_toteHolder:
+		Robot::m_elevator->lockTotes(m_open);
+		break;
 	default:
 		break;
 	}

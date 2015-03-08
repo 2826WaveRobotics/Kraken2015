@@ -1,5 +1,6 @@
 #include "Intake.h"
 #include "../RobotMap.h"
+#include "../Robot.h"
 
 Intake::Intake() :
 Subsystem("Intake")
@@ -53,7 +54,43 @@ bool Intake::IsAligned()
 		return true;
 	}
 }
+void Intake::SetControlledIntake()
+{
+	//A-X-Y-B
+	bool _A = Robot::oi->getDriverJoystick()->GetRawButton(1); // left in
+	bool _X = Robot::oi->getDriverJoystick()->GetRawButton(3); // left out
+	bool _Y = Robot::oi->getDriverJoystick()->GetRawButton(4); // right out
+	bool _B = Robot::oi->getDriverJoystick()->GetRawButton(2); // right in
 
+	if(_A && _B){ // both in
+		SetFrontIntake(.5);
+	}
+	else if(_X && _Y){ // both out
+		SetFrontIntake(-.5);
+	}
+	else if(_A && _Y){ // sides are moving differently, and turning a tote
+		m_frontIntakeLeft->Set(-.5);
+		m_frontIntakeRight->Set(-.5);
+	}
+	else if(_X && _B){ // sides are moving differently, and turning a tote
+		m_frontIntakeLeft->Set(.5);
+		m_frontIntakeRight->Set(.5);
+	}
+	else{ // none of our specific conditions were met, we go with the default
+		if(_A){
+			m_frontIntakeLeft->Set(-.5);
+		}
+		if(_X){
+			m_frontIntakeLeft->Set(.5);
+		}
+		if(_Y){
+			m_frontIntakeRight->Set(-.5);
+		}
+		if(_B){
+			m_frontIntakeRight->Set(.5);
+		}
+	}
+}
 void Intake::InitDefaultCommand()
 {
 	// Set the default command for a subsystem here.

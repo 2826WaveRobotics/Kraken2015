@@ -11,9 +11,17 @@ Subsystem("BinJuggler")
 	m_leftHook= RobotMap::leftHook;
 	m_rightHook= RobotMap::rightHook;
 	m_currentLocation= Bin_RightActive;
-
+	m_jugglerSystemInUse = false;
+}
+bool BinJuggler::IsJugglerSystemInUse()
+{
+	return m_jugglerSystemInUse;
 }
 
+void BinJuggler::UseJugglerSystem(bool inUse)
+{
+	m_jugglerSystemInUse=inUse;
+}
 void BinJuggler::InitDefaultCommand()
 {
 	// Set the default command for a subsystem here.
@@ -28,23 +36,23 @@ void BinJuggler::loadSelection(int cylinder, bool state) {
 	switch(cylinder) {
 	case Bin_LiftCylinder:
 		m_jugglerLift-> Set(state);
-		std::cout << "Setting Lift Cylinder to " << state << std::endl;
+		//std::cout << "Setting Lift Cylinder to " << state << std::endl;
 		break;
 	case Bin_LeftLock:
 		m_leftLock-> Set(!state);
-		std::cout << "Setting Left Lock to " << state << std::endl;
+		//std::cout << "Setting Left Lock to " << state << std::endl;
 		break;
 	case Bin_RightLock:
 		m_rightLock-> Set(state);
-		std::cout << "Setting Right Lock to " << state << std::endl;
+		//std::cout << "Setting Right Lock to " << state << std::endl;
 		break;
 	case Bin_RightHook:
 		m_rightHook->Set(state);
-		std::cout << "Setting Right Hook to " << state << std::endl;
+		//std::cout << "Setting Right Hook to " << state << std::endl;
 		break;
 	case Bin_LeftHook:
 		m_leftHook->Set(state);
-		std::cout << "Setting Left Hook to " << state << std::endl;
+		//std::cout << "Setting Left Hook to " << state << std::endl;
 		break;
 	default:
 		break;

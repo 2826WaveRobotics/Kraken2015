@@ -16,6 +16,10 @@ private:
 	AnalogInput* m_elevatorSensor;
 	Solenoid* m_toteLock;
 
+	double m_previousCurrentOfElevator;
+	int m_numOfTotes;
+	bool m_haveBin;
+
 
 public:
 	Elevator();
@@ -32,21 +36,18 @@ public:
 	float convertVoltsToInches (float volts);
 	float convertInchesToVolts(double inches);
 	double getCurrentHeight();
-
 	//Returns current in Amps.
 	float getCurrentFeedback_LeftMotor();
 	float getCurrentFeedback_RightMotor();
-
 	// A positive speed will raise the elevator, a negative speed will lower it.
 	void setElevatorMotors(float speed);
 	void lockTotes(bool lock);
 
 	double checkSoftStops(double desiredOutput, bool invertedOutput = false);
-
-	int m_numOfTotes = 0;
 	void CalculateTotes();
 	void SetTotes(int totes);
 	int GetTotes();
+
 };
 
 #endif

@@ -4,7 +4,7 @@
 namespace
 {
 const double c_pinTime = 0.25;
-const double c_liftTime = 1.25;
+const double c_liftTime = .75;
 }
 BinJugglerCommand::BinJugglerCommand(int configuration = Bin_LeftActive)
 {
@@ -14,6 +14,7 @@ BinJugglerCommand::BinJugglerCommand(int configuration = Bin_LeftActive)
 
 void BinJugglerCommand::Initialize()
 {
+	Robot::m_binJuggler->UseJugglerSystem(true);
 	m_waitTimer2.Reset();
 	m_waitTimer2.Start();
 	step = 1;
@@ -224,6 +225,9 @@ void BinJugglerCommand::Execute()
 		}
 		else if(5 == step)
 		{
+			//Close both the left lock and the right lock
+			Robot::m_binJuggler->loadSelection(Bin_LeftLock, On);
+			Robot::m_binJuggler->loadSelection(Bin_RightLock, On);
 			currentPosition = Bin_CenterActive;
 			std::cout << "Setting actual movement from left to center" << std::endl;
 			m_sequenceFinished = true;
@@ -350,6 +354,9 @@ void BinJugglerCommand::Execute()
 		}
 		else if(5 == step)
 		{
+			//Close both the left lock and the right lock
+			Robot::m_binJuggler->loadSelection(Bin_LeftLock, On);
+			Robot::m_binJuggler->loadSelection(Bin_RightLock, On);
 			currentPosition = Bin_CenterActive;
 			std::cout << "Setting actual movement from right to center" << std::endl;
 			m_sequenceFinished = true;
@@ -459,9 +466,12 @@ void BinJugglerCommand::End()
 {
 	std::cout << "Ending Bin Juggler Command" << std::endl;
 	std::cout << "Bin Juggler Command took " << m_waitTimer2.Get() << " seconds" << std::endl;
+
+	Robot::m_binJuggler->UseJugglerSystem(false);
 }
 
 void BinJugglerCommand::Interrupted()
 {
 	std::cout << "Bin Juggler Interrupted" << std::endl;
+	Robot::m_binJuggler->UseJugglerSystem(false);
 }

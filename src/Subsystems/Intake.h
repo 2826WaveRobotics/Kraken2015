@@ -15,11 +15,13 @@ private:
 	DigitalInput* m_frontIntakeSensor;
 	DigitalInput* m_humanWallSensor;
 	bool m_intakeSystemInUse;
+
 public:
 	Intake();
 	void InitDefaultCommand();
 	void SetFrontIntake(float percentage);
 	void SetRearIntake(float percentage);
+	void SetControlledIntake();
 	bool IsFrontSensorTripped();
 	bool IsAligned ();
 

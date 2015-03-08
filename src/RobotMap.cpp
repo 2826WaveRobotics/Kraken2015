@@ -117,7 +117,7 @@ void RobotMap::init() {
 
 
 
-	m_driveEncoderLeft = new Encoder (0,1, false);//last parameter is reverse direction
-	m_driveEncoderRight = new Encoder (2,3, true);//last parameter is reverse direction
+	m_driveEncoderLeft = new Encoder (0,1, true);//last parameter is reverse direction
+	m_driveEncoderRight = new Encoder (2,3, false);//last parameter is reverse direction
 
 	}

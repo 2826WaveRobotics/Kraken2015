@@ -2,7 +2,6 @@
 #include "Commands/BinJugglerCommand.h"
 #include "WPILib.h"
 #include "Commands/Command.h"
-#include "Commands/AutoTest.h"
 #include "CommandBase.h"
 #include "OI.h"
 #include "Subsystems/Elevator.h"
@@ -31,6 +30,9 @@ private:
 
 	Command *binCommand; // for bin test
 	LiveWindow *lw;
+
+//	SendableChooser autoChooser;
+//	int m_autoMode;
 
 	void RobotInit();
 	void DisabledPeriodic();

@@ -10,7 +10,7 @@ SetRecyclerPosition::SetRecyclerPosition(bool setUp)
 void SetRecyclerPosition::Initialize()
 {
 	if(m_setUp == true){
-		m_speed = 1;
+		m_speed = .93;
 	}
 	else{
 		m_speed = -.85;

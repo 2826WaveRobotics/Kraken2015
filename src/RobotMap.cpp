@@ -2,37 +2,37 @@
 #include "WaveConstants.h"
 #include "stdlib.h"
 
-#define PRACTICE_BOT
+//definition of practice vs compitition bot moved to WaveConstants
 
 #ifdef COMPETITION_BOT
 
-	int CANTalon_leftDrive1 = 19;
-	int CANTalon_leftDrive2 = 20;
-	int CANTalon_rightDrive1 = 2;
-	int CANTalon_rightDrive2 = 3;
-	int CANTalon_elevatorLeft = 8;
-	int CANTalon_elevatorRight = 11;
-	int CANTalon_trackArmLeft = 15;
-	int CANTalon_trackArmRight = 18;
-	int CANTalon_frontIntakeLeft = 12;
-	int CANTalon_frontIntakeRight = 13;
-	int CANTalon_rearIntake = 10;
+int CANTalon_leftDrive1 = 19;
+int CANTalon_leftDrive2 = 20;
+int CANTalon_rightDrive1 = 2;
+int CANTalon_rightDrive2 = 3;
+int CANTalon_elevatorLeft = 8;
+int CANTalon_elevatorRight = 11;
+int CANTalon_trackArmLeft = 15;
+int CANTalon_trackArmRight = 18;
+int CANTalon_frontIntakeLeft = 12;
+int CANTalon_frontIntakeRight = 13;
+int CANTalon_rearIntake = 10;
 
 #endif
 
 #ifdef PRACTICE_BOT
 
-	int CANTalon_leftDrive1 = 14; //coast
-	int CANTalon_leftDrive2 = 26; //coast
-	int CANTalon_rightDrive1 = 1; //coast
-	int CANTalon_rightDrive2 = 27; //coast
-	int CANTalon_elevatorLeft = 25; //brake
-	int CANTalon_elevatorRight = 5; //brake
-	int CANTalon_trackArmLeft = 17; //brake
-	int CANTalon_trackArmRight = 16; //brake
-	int CANTalon_frontIntakeLeft = 9; //brake
-	int CANTalon_frontIntakeRight = 4; //brake
-	int CANTalon_rearIntake = 7; //coast
+int CANTalon_leftDrive1 = 14; //coast
+int CANTalon_leftDrive2 = 26; //coast
+int CANTalon_rightDrive1 = 1; //coast
+int CANTalon_rightDrive2 = 27; //coast
+int CANTalon_elevatorLeft = 25; //brake
+int CANTalon_elevatorRight = 5; //brake
+int CANTalon_trackArmLeft = 17; //brake
+int CANTalon_trackArmRight = 16; //brake
+int CANTalon_frontIntakeLeft = 9; //brake
+int CANTalon_frontIntakeRight = 4; //brake
+int CANTalon_rearIntake = 7; //coast
 #endif
 
 Compressor* RobotMap::compressor = NULL;
@@ -54,7 +54,7 @@ CANTalon* RobotMap::rearIntake= NULL;
 DigitalInput* RobotMap::binLowerSensor= NULL;
 DigitalInput* RobotMap::binUpperSensor= NULL;
 DigitalInput* RobotMap::frontIntakeSensor= NULL;
-DigitalInput* RobotMap::humanWallSensor = NULL;
+DigitalInput* RobotMap::autoBinSensor = NULL;
 Encoder* RobotMap::m_driveEncoderLeft= NULL;
 Encoder* RobotMap::m_driveEncoderRight= NULL;
 AnalogInput* RobotMap::yawRate = NULL;
@@ -65,19 +65,6 @@ Solenoid* RobotMap::leftHook = NULL;
 Solenoid* RobotMap::rightHook = NULL;
 Solenoid* RobotMap::toteLocker = NULL;
 Solenoid* RobotMap::handleHolder = NULL;
-
-//DigitalInput* RobotMap::DIO0 = NULL; // for testing purposes
-//DigitalInput* RobotMap::DIO1 = NULL;
-//DigitalInput* RobotMap::DIO2 = NULL;
-//DigitalInput* RobotMap::DIO3 = NULL;
-DigitalInput* RobotMap::DIO4 = NULL;
-DigitalInput* RobotMap::DIO5 = NULL;
-DigitalInput* RobotMap::DIO6 = NULL;
-DigitalInput* RobotMap::DIO7 = NULL;
-DigitalInput* RobotMap::DIO8 = NULL;
-DigitalInput* RobotMap::DIO9 = NULL; // for testing purposes
-
-
 
 void RobotMap::init() {
 
@@ -110,14 +97,11 @@ void RobotMap::init() {
 	elevatorSensor = new AnalogInput(0);
 	yawRate = new AnalogInput(1);
 
-	binLowerSensor = new DigitalInput (4); // 4
-	binUpperSensor = new DigitalInput (5);
-	frontIntakeSensor = new DigitalInput (6);
-	humanWallSensor = new DigitalInput (7);
-
-
-
 	m_driveEncoderLeft = new Encoder (0,1, true);//last parameter is reverse direction
 	m_driveEncoderRight = new Encoder (2,3, false);//last parameter is reverse direction
 
-	}
+	binLowerSensor = new DigitalInput (4); // 4
+	binUpperSensor = new DigitalInput (5);
+	frontIntakeSensor = new DigitalInput (6);
+	autoBinSensor = new DigitalInput (7);
+}

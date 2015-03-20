@@ -13,59 +13,29 @@ DriveStraight::DriveStraight(double distance, double power)
 
 void DriveStraight::Initialize()
 {
-	Robot::m_drive->SetCoefPower(m_drivePower);
-	m_gTG = 1;
-/*	m_swaggerson = 0;
-	DS_timer->Start();
-	if(Robot::m_intake->IsFrontSensorTripped())
-	{
-		m_startTripped = 1;
-		m_gTG = 0;
-	} */
+	std::cout << "DriveStraight: Initialize" << std::endl;
+	Robot::m_drive->SetPower(.3);
+	Robot::m_drive->MoveStraight(0);
 }
 
 void DriveStraight::Execute()
 {
-//	double leftCoef = 1 - (Robot::oi->getDebugJoystick()->GetRawAxis(2) / 10);
-//	double rightCoef = 1 - (Robot::oi->getDebugJoystick()->GetRawAxis(3) / 10);
-//	double leftPower = -.25*leftCoef;
-//	double rightPower = -.25*rightCoef;
-//
-
-	if(m_startTripped && !Robot::m_intake->IsFrontSensorTripped())
-	{
-		m_startTripped = 0;
-		//m_swaggerson = 1;
-		//DS_timer->Reset();
-	}
-	if(/*(DS_timer->Get() > .05) && */(!Robot::m_intake->IsFrontSensorTripped())/* && m_swaggerson*/){
-		m_gTG = 1;
-	}
-
-
-
-//	std::cout << "Left Ticks: " << Robot::m_drive->GetLeftEncoder() << "\tRight Ticks: " << Robot::m_drive->GetRightEncoder() << "\tLeft Distance: " <<
-//			Robot::m_drive->GetLeftDistanceTravelled() << "\tRight Distance: " << Robot::m_drive->GetRightDistanceTravelled() <<
-//			"\tLeft Coef: " << leftCoef << "\tRight Coef: " << rightCoef << "\tLeft Power: " << leftPower << "\tRight Power: " << rightPower << std::endl;
+	std::cout << "DriveStraight: Execute" << std::endl;
+	double correction = Robot::m_drive->GetPIDOutput();
+	std::cout << "Correction Power: " << correction << std::endl;
+	Robot::m_drive->SetSidePower(m_drivePower + correction, m_drivePower - correction);
+	std::cout << "Setting Power (L:R) ~ " << (m_drivePower + correction) << "\t" <<
+			(m_drivePower - correction) << std::endl;
 }
 
 bool DriveStraight::IsFinished()
 {
-	double averageEncoder = (Robot::m_drive->GetLeftEncoder() + Robot::m_drive->GetRightEncoder()) / 2;
-	double distanceTravelled = fabs(averageEncoder*circumference*ticksPerWheel);
-	std::cout << "Distance" << distanceTravelled << std::endl;
-
-	if(/*(distanceTravelled >= m_distanceToDrive) ||*/ (Robot::m_intake->IsFrontSensorTripped() && m_gTG)){ //sensor isnt tripped and we are good to go
-		return true;
-	}
-	else{
-		return false;
-	}
+	return false;
 }
 
 void DriveStraight::End()
 {
-	Robot::m_drive->SetCoefPower(0);
+
 }
 
 void DriveStraight::Interrupted()

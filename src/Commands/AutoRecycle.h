@@ -7,7 +7,7 @@
 class AutoRecycle: public CommandGroup
 {
 public:
-	AutoRecycle(int position);
+	AutoRecycle(int position, int hooks);
 };
 
 #endif

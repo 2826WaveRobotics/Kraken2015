@@ -19,12 +19,14 @@ public:
 	Recycler();
 	void InitDefaultCommand();
 	void canControl(bool grab);
+	double GetCurrent();
 	void SetRecycleMotors(float speed);
 
 	bool isUpperSensorTripped();
 	bool isLowerSensorTripped();
 
 	void HandleHold(bool open);
+	void ToggleHandleHolder();
 };
 
 #endif

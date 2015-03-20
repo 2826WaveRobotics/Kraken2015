@@ -7,29 +7,18 @@
 class AutoDrive: public CommandBase
 {
 public:
-	AutoDrive(double distance = 999, double power = .25, double bearing = 0);
+	AutoDrive(double maxDistance, double power, float direction);
 	void Initialize();
 	void Execute();
 	bool IsFinished();
 	void End();
 	void Interrupted();
-	void CalculateTurn();
+
 private:
-	double m_minDistanceToDrive;
-	double m_maxDistanceToDrive;
+	double m_distance;
 	double m_power;
-	double m_bearing;
-
-	double m_leftPower;
-	double m_rightPower;
-
-	bool m_intakeCleared;
-	bool m_ImWaitingForATote;
-	bool m_checkingTime;
-	bool m_WeFoundTote;
-	double m_distanceTravelled;
-	bool m_farEnough;
-	Timer m_timer;
+	float m_direction;
+	double m_distanceTraveled;
 };
 
 #endif

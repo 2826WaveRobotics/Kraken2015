@@ -9,7 +9,7 @@ Subsystem("Intake")
 	m_frontIntakeRight = RobotMap ::frontIntakeRight;
 	m_rearIntake = RobotMap::rearIntake;
 	m_frontIntakeSensor = RobotMap::frontIntakeSensor;
-	m_humanWallSensor = RobotMap::humanWallSensor;
+	m_autoBinSensor = RobotMap::autoBinSensor;
 
 	m_intakeSystemInUse = false;
 }
@@ -45,15 +45,6 @@ bool Intake::IsFrontSensorTripped()
 	}
 }
 
-bool Intake::IsAligned()
-{
-	if(m_humanWallSensor->Get()==true) {
-		return false;
-	}
-	else {
-		return true;
-	}
-}
 void Intake::SetControlledIntake()
 {
 	//A-X-Y-B
@@ -63,40 +54,53 @@ void Intake::SetControlledIntake()
 	bool _B = Robot::oi->getDriverJoystick()->GetRawButton(2); // right in
 
 	if(_A && _B){ // both in
-		SetFrontIntake(.5);
+		SetFrontIntake(1);
 	}
 	else if(_X && _Y){ // both out
-		SetFrontIntake(-.5);
+		SetFrontIntake(-1);
 	}
 	else if(_A && _Y){ // sides are moving differently, and turning a tote
-		m_frontIntakeLeft->Set(-.5);
-		m_frontIntakeRight->Set(-.5);
+		m_frontIntakeLeft->Set(-1);
+		m_frontIntakeRight->Set(-1);
 	}
 	else if(_X && _B){ // sides are moving differently, and turning a tote
-		m_frontIntakeLeft->Set(.5);
-		m_frontIntakeRight->Set(.5);
+		m_frontIntakeLeft->Set(1);
+		m_frontIntakeRight->Set(1);
 	}
 	else{ // none of our specific conditions were met, we go with the default
 		if(_A){
-			m_frontIntakeLeft->Set(-.5);
+			m_frontIntakeLeft->Set(-1);
 		}
 		if(_X){
-			m_frontIntakeLeft->Set(.5);
+			m_frontIntakeLeft->Set(1);
 		}
 		if(_Y){
-			m_frontIntakeRight->Set(-.5);
+			m_frontIntakeRight->Set(-1);
 		}
 		if(_B){
-			m_frontIntakeRight->Set(.5);
+			m_frontIntakeRight->Set(1);
 		}
 	}
 }
+double Intake::GetLeftCurrent(){
+	return m_frontIntakeLeft->GetOutputCurrent();
+}
+double Intake::GetRightCurrent(){
+	return m_frontIntakeRight->GetOutputCurrent();
+}
+double Intake::GetAverageCurrent(){
+	return (GetLeftCurrent() + GetRightCurrent()) / 2;
+}
+
+
 void Intake::InitDefaultCommand()
 {
 	// Set the default command for a subsystem here.
 	//SetDefaultCommand(new MySpecialCommand());
 }
-
+bool Intake::GetBinSensor(){
+	return m_autoBinSensor->Get();
+}
 // Put methods for controlling this subsystem
 // here. Call these from Commands.
 

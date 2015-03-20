@@ -13,7 +13,7 @@ void SetElevatorPosition::Initialize()
 {
 	Robot::m_elevator->disablePID(); //Disable the PID in order to restart it with setAbsoluteHeight()
 	Robot::m_elevator->setAbsoluteHeight(m_inches); //enables PID after setting new value
-	SetTimeout(2.0); //time in seconds
+	SetTimeout(1.0); //time in seconds
 }
 
 void SetElevatorPosition::Execute()

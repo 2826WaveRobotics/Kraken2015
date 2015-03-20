@@ -18,8 +18,17 @@ public:
 	void Interrupted();
 
 private:
-	bool m_rearSensorHasBeenTripped;
+	double m_leftIntakeLoad;
+	double m_rightIntakeLoad;
+	double m_averageIntakeLoad;
+	bool m_intakeAtSpeed;
+	bool m_intakeWheelsHaveBeenTripped;
 	bool m_frontSensorHasBeenTripped;
+	bool m_timerTripped;
+	bool m_canStop;
+
+	Timer frontIntakeTimer;
+	Timer atSpeedTimer;
 
 };
 

@@ -3,17 +3,22 @@
 
 namespace
 {
-const double c_pinTime = 0.25;
-const double c_liftTime = .75;
+double c_pinTime = 0.25; // should be constant but we change these for different lifts
+double c_liftTime = 1.1; //.75
 }
-BinJugglerCommand::BinJugglerCommand(int configuration = Bin_LeftActive)
+BinJugglerCommand::BinJugglerCommand(int configuration = Bin_LeftActive, bool teleop = false)
 {
 	Requires(Robot::m_binJuggler);
 	newConfiguration = configuration;
+	m_teleop = teleop;
 }
 
 void BinJugglerCommand::Initialize()
 {
+	if(m_teleop){
+		//c_liftTime += .25; // during teleop, there is an additional strain, and we need to wait
+	} // longer for things to complete
+
 	Robot::m_binJuggler->UseJugglerSystem(true);
 	m_waitTimer2.Reset();
 	m_waitTimer2.Start();
@@ -285,6 +290,7 @@ void BinJugglerCommand::Execute()
 		{
 			Robot::m_binJuggler->loadSelection(Bin_LiftCylinder,Off);
 			//wait (maybe?)
+			currentPosition = Bin_RightActive;
 			m_waitTimer.Reset();
 			m_waitTimer.Start();
 			std::cout << "Setting timer to " << c_liftTime << std::endl;
@@ -414,6 +420,7 @@ void BinJugglerCommand::Execute()
 		{
 			Robot::m_binJuggler->loadSelection(Bin_LiftCylinder,Off);
 			//wait (maybe?)
+			currentPosition = Bin_LeftActive;
 			m_waitTimer.Reset();
 			m_waitTimer.Start();
 			std::cout << "Setting timer to " << c_liftTime << std::endl;

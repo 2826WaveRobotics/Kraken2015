@@ -1,13 +1,13 @@
-#ifndef DatCurve_H
-#define DatCurve_H
+#ifndef SetFrontIntake_H
+#define SetFrontIntake_H
 
 #include "../CommandBase.h"
 #include "WPILib.h"
 
-class DatCurve: public CommandBase
+class SetFrontIntake: public CommandBase
 {
 public:
-	DatCurve(double power = .25, double degrees = 90);
+	SetFrontIntake(double power, double timeout);
 	void Initialize();
 	void Execute();
 	bool IsFinished();
@@ -15,9 +15,7 @@ public:
 	void Interrupted();
 private:
 	double m_power;
-	double m_degrees;
-	double m_leftPower;
-	double m_rightPower;
+	double m_timeout;
 };
 
 #endif

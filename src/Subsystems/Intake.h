@@ -13,7 +13,7 @@ private:
 	CANTalon* m_frontIntakeRight;
 	CANTalon* m_rearIntake;
 	DigitalInput* m_frontIntakeSensor;
-	DigitalInput* m_humanWallSensor;
+	DigitalInput* m_autoBinSensor;
 	bool m_intakeSystemInUse;
 
 public:
@@ -25,8 +25,14 @@ public:
 	bool IsFrontSensorTripped();
 	bool IsAligned ();
 
+	double GetLeftCurrent();
+	double GetRightCurrent();
+	double GetAverageCurrent();
+
 	bool IsIntakeSystemInUse();
 	void UseIntakeSystem(bool inUse);
+
+	bool GetBinSensor();
 };
 
 #endif

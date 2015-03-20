@@ -31,7 +31,7 @@ public:
 	static CANTalon* frontIntakeRight;
 	static CANTalon* rearIntake;
 	static DigitalInput* frontIntakeSensor;
-	static DigitalInput* humanWallSensor;
+	static DigitalInput* autoBinSensor;
 	static Solenoid* toteLocker;
 
 	//Elevator
@@ -52,17 +52,6 @@ public:
 	static Solenoid* rightLock;
 	static Solenoid* leftHook;
 	static Solenoid* rightHook;
-
-//	static DigitalInput* DIO0; // for testing purposes
-//	static DigitalInput* DIO1;
-//	static DigitalInput* DIO2;
-//	static DigitalInput* DIO3;
-	static DigitalInput* DIO4;
-	static DigitalInput* DIO5;
-	static DigitalInput* DIO6;
-	static DigitalInput* DIO7;
-	static DigitalInput* DIO8;
-	static DigitalInput* DIO9; // for testing purposes
 
 	static void init();
 

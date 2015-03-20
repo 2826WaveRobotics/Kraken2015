@@ -1,40 +1,66 @@
-#ifndef DRIVE_H
-#define DRIVE_H
+#ifndef Drive_H
+#define Drive_H
 
-#include "Commands/Subsystem.h"
+#include "Commands/PIDSubsystem.h"
 #include "WPILib.h"
-#include "LeftPID.h"
-#include "RightPID.h"
+#include "IMU.h"
+#include "AHRS.h"
+#include "IMUAdvanced.h"
+#include "IMURegisters.h"
+#include "AHRSProtocol.h"
+#include "IMUProtocol.h"
 
-class Drive: public Subsystem
+class Drive: public PIDSubsystem
 {
+
+#define ENABLE_IMU
+	//#define ENABLE_IMU_ADVANCED
+	//#define ENABLE_AHRS
+
+	NetworkTable *table;
+#if defined(ENABLE_AHRS)
+	AHRS *imu;
+#elif defined(ENABLE_IMU_ADVANCED)
+	IMUAdvanced *imu;
+#else // ENABLE_IMU
+	IMU *imu;
+#endif
+	SerialPort *serial_port;
+
 public:
 	Drive();
+	double ReturnPIDInput();
+	void DisablePID();
+	void UsePIDOutput(double output);
+	double GetPIDOutput();
 	void InitDefaultCommand();
-	void DriveWithJoysticks(float left, float right);
-	void ShiftGear(bool highGear);
+	void MoveStraight(float direction);
+	void DriveStraight(double power);
+	void MoveDistance(double distance);
+	void DriveDistance(double power);
+	void Turn(double power);
+	void Orient(double degrees);
 	double GetLeftEncoder();
 	double GetRightEncoder();
-	void ResetEncoders();
-
-	//PID stuff
-	void SetDriveDistance(double distance);
-	double GetDistanceTravelled();
-	double GetRightDistanceTravelled();
-	double GetLeftDistanceTravelled();
-
-	//PID Controller Wrapper Functions
-	void Enable();
-	void Disable();
-	void Reset();
-	void SetEncodersContinuous(bool cont);
-	void SetDriveSetpoint(double setpoint);
-	void SetLeftSetpoint(double setpoint);
-	void SetRightSetpoint(double setpoint);
-	void SetDrivePID(double p, double i, double d);
-	void SetSidePower(double left, double right);
+	double GetDistanceTraveled();
+	double GetLeftDistanceTraveled();
+	double GetRightDistanceTraveled();
+	void Shift(bool high);
+	void DriveWithJoysticks();
 	void SetPower(double power);
-	void SetCoefPower(double power);
+	void SetSidePower(double left, double right);
+	void ResetEncoders();
+	void SetYaw(double yaw); // because yaw is measured in Robot for now, we need to import it basically
+	double GetYaw();
+	void SetPIDs(double p, double i, double d);
+	void PIDReset();
+	void GyroReset();
+	bool first_iteration;
+	IMU* getIMU();
+	void ZeroYaw();
+	void PrintPIDs();
+	void SetPIDMode(int mode);
+
 
 private:
 	RobotDrive* m_robotDrive;
@@ -47,11 +73,17 @@ private:
 	CANTalon* m_right1;
 	CANTalon* m_right2;
 
-	LeftPID* m_leftPID;
-	RightPID* m_rightPID;
-
 	double m_inchesToDrive;
 	double m_distanceDriven;
+
+	double m_throttle;
+	double m_turn;
+
+	double m_p;
+	double m_i;
+	double m_d;
+
+	int m_mode;
 };
 
 #endif

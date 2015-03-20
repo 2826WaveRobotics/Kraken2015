@@ -15,6 +15,7 @@ public:
 	void checkInput();
 
 private:
+	CommandGroup *binShift;
 
 	Joystick* driverJoystick;
 	JoystickButton* driver_RJoy;
@@ -64,6 +65,9 @@ private:
 	bool m_allowElevatorInput;
 	bool m_allowRecyclerInput;
 	bool m_allowIntakeInput;
+
+	bool m_prevLTrig = true;
+	bool m_prevRTrig = true;
 
 };
 

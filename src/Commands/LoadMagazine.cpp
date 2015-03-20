@@ -1,12 +1,15 @@
 #include "LoadMagazine.h"
-#include "../WaveConstants.h"
 #include "SetElevatorPosition.h"
 #include "Intake_FrontTote.h"
 #include "WaveWait.h"
+#include "Robot.h"
+#include "SetTotes.h"
 
-LoadMagazine::LoadMagazine()
+LoadMagazine::LoadMagazine(int position)
 {
-	//AddSequential(new Intake_FrontTote());
 	AddSequential(new SetElevatorPosition(lowElevatorPosition));
-	AddSequential(new SetElevatorPosition(highElevatorPosition));
+	AddSequential(new SetElevatorPosition(position));
+	AddSequential(new SetTotes(true, 1));
 }
+
+

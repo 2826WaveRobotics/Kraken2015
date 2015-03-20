@@ -3,11 +3,12 @@
 
 #include "Commands/CommandGroup.h"
 #include "WPILib.h"
+#include "../WaveConstants.h"
 
 class LoadMagazine: public CommandGroup
 {
 public:
-	LoadMagazine();
+	LoadMagazine(int position = highElevatorPosition);
 };
 
 #endif

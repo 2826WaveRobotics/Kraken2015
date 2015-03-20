@@ -18,6 +18,8 @@ private:
 	bool m_setUp; //direction
 	float m_speed; //speed
 
+	bool m_over25;
+
 };
 
 #endif

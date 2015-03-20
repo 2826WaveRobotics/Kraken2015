@@ -10,7 +10,7 @@ Subsystem("BinJuggler")
 	m_rightLock= RobotMap::rightLock;
 	m_leftHook= RobotMap::leftHook;
 	m_rightHook= RobotMap::rightHook;
-	m_currentLocation= Bin_RightActive;
+	m_currentLocation= Bin_LeftActive;
 	m_jugglerSystemInUse = false;
 }
 bool BinJuggler::IsJugglerSystemInUse()
@@ -43,7 +43,7 @@ void BinJuggler::loadSelection(int cylinder, bool state) {
 		//std::cout << "Setting Left Lock to " << state << std::endl;
 		break;
 	case Bin_RightLock:
-		m_rightLock-> Set(state);
+		m_rightLock-> Set(!state);
 		//std::cout << "Setting Right Lock to " << state << std::endl;
 		break;
 	case Bin_RightHook:

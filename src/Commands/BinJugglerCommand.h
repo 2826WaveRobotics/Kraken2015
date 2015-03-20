@@ -10,7 +10,7 @@
 class BinJugglerCommand: public CommandBase
 {
 public:
-	BinJugglerCommand(int configuration);
+	BinJugglerCommand(int configuration, bool teleop);
 	void Initialize();
 	void Execute();
 	bool IsFinished();
@@ -25,6 +25,8 @@ private:
 	Timer m_waitTimer;
 	Timer m_waitTimer2;
 	bool m_sequenceFinished;
+
+	bool m_teleop; // useful for determining if we need to do things differntly in teleop
 };
 
 #endif

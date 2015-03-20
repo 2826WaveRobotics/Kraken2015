@@ -3,6 +3,7 @@
 #include "BinJugglerCommand.h"
 #include "SetRecyclerPosition.h"
 #include "WaveConstants.h"
+#include "WaitForSensor.h"
 
 namespace{
 bool up = true;
@@ -13,15 +14,19 @@ bool open = true;
 bool close = false;
 }
 
-AutoRecycle::AutoRecycle(int position)
+AutoRecycle::AutoRecycle(int position, int hooks)
 {
+	//wait for the bin before doing anything else
+	//AddSequential(new WaitForSensor(dio_bin, 15));
 	AddSequential(new SetPneumatics(cyl_handleHolder, close));
-	AddParallel(new SetPneumatics(cyl_hooks, release));
+	AddParallel(new SetPneumatics(hooks, release));
 	AddSequential(new SetRecyclerPosition(up));
 	AddSequential(new WaveWait(.05));
-	AddSequential(new SetPneumatics(cyl_hooks, grab));
+	AddSequential(new SetPneumatics(hooks, grab));
 	AddSequential(new WaveWait(.1));
 	AddParallel(new SetPneumatics(cyl_handleHolder, open));
-	AddSequential(new SetRecyclerPosition(down));
-	AddParallel(new BinJugglerCommand(position));
+	AddSequential(new WaveWait(.01));
+	AddParallel(new SetRecyclerPosition(down));
+	AddSequential(new WaveWait(.1));
+	AddSequential(new BinJugglerCommand(position, false)); // false means auto
 }

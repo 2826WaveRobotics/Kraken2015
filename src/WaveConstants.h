@@ -2,37 +2,38 @@
 #define WAVECONSTANTS_H
 
 //#define NULL = 0;
+#define COMPETITION_BOT
 
-const double Elevator_UpperVolts = 4.267;
-const double Elevator_LowerVolts = .795;
-const double Elevator_UpperInches = 31.822;
-const double Elevator_LowerInches = 8.67;
-const double Elevator_UpperStop = Elevator_UpperInches - 1.5;
-const double Elevator_LowerStop = Elevator_LowerInches + .5;
+#ifdef COMPETITION_BOT
+const double Elevator_UpperVolts = .72998; // remember to change this value between sensors
+const double Elevator_LowerVolts = 4.28933;
+#endif
+
+#ifdef PRACTICE_BOT
+const double Elevator_UpperVolts = .72998; // remember to change this value between sensors
+const double Elevator_LowerVolts = 4.28933;
+#endif
+
+const double Elevator_UpperInches = 31.375;
+const double Elevator_LowerInches = 8;
+const double Elevator_UpperStop = Elevator_UpperInches - 1.0;
+const double Elevator_LowerStop = Elevator_LowerInches + 0.0;
+
 const double highElevatorPosition= 29; // Jake wants this 3/1 1AM
 const double lowElevatorPosition= 9.03;
 const double autoElevatorPosition= 13.81;
-const double stackClearanceElevatorPosition= 25;
+const double stackClearanceElevatorPosition= 25.25;
+const double elevatorEngagedPosition= 10.75;
+
+
 const double elevatorTolerance = 0.25;
 const double bumpHeight = 3.0;
 const int On=1;
 const int Off=0;
-const double binCylinderWait = 0.5;
+const double binCylinderWait = 0.75;
 const double pi = 3.1415926354;
 const double circumference = ((3/16)+6)*pi;
 const double ticksPerWheel = 1/(256*3*2.5); // 256 ticks per encoder * (3:1) * (5:2)
-
-const double toteLoad0 = .625; //.4375;
-const double toteLoad1 = .75; //.625;
-const double toteLoad2 = 1.0625; //.9375;
-const double toteLoad3 = 1.375; //1.5;
-const double toteLoad3B = 2.4375; //2.125;
-const double toteLoad4 = 1.9375; //2.125;
-const double toteLoad4B = 3.3125; //3.25;
-const double toteLoad5 = 2.6875; //2.875;
-const double toteLoad5B = 4.25; //4.375;
-const double toteLoad6 = 3.4375; //0;
-const double toteLoad6B = 4.875; //0;
 
 
 //An enumeration is a numbered list of variables
@@ -41,6 +42,16 @@ enum
 	Bin_LoadCenter = 0,
 	Bin_LoadLeft, //This has a value of 1
 	Bin_LoadRight, //This has a value of 2
+};
+
+enum // debug modes
+{
+	debug_driveCoefficients,
+	debug_PIDs,
+	debug_DIOs,
+	debug_elevator,
+	debug_driveClock
+
 };
 
 enum
@@ -103,6 +114,22 @@ enum
 	Axis_RY         //5
 };
 enum
+{//A,B,X,Y,L,R,B,S,L,R
+	Button_Nothing = 0,
+	Btn_A,
+	Btn_B,
+	Btn_X,
+	Btn_Y,
+	Btn_LBump,
+	Btn_RBump,
+	Btn_Back,
+	Btn_Start,
+	Btn_LJoy,
+	Btn_RJoy
+};
+
+
+enum
 {
 	cyl_leftHook = 0,
 	cyl_rightHook,
@@ -113,6 +140,19 @@ enum
 	cyl_shifter,
 	cyl_toteHolder,
 	cyl_hooks // for commands that need to determine which hook to use
+};
+
+enum
+{
+	dio_tote = 0,
+	dio_bin,
+	dio_recyclerLower,
+	dio_recyclerUpper
+};
+
+enum{
+	mode_straight = 0,
+	mode_distance
 };
 
 #endif

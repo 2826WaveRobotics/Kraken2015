@@ -14,11 +14,11 @@ void Shift::Initialize()
 	std::cout << "Shift Initialized, is Drive NULL?" << (NULL == drive ? "NULL":"Good") << std::endl;
 	if(m_highGear == true)
 	{
-		drive->ShiftGear(true);
+		drive->Shift(true);
 	}
 	else
 	{
-		drive->ShiftGear(false);
+		drive->Shift(false);
 	}
 }
 

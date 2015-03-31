@@ -60,6 +60,8 @@ public:
 	void ZeroYaw();
 	void PrintPIDs();
 	void SetPIDMode(int mode);
+	double GetVelocity();
+	double CheckPower(double power, double minPower, double distanceToDrive, double midpointMultiplier);
 
 
 private:

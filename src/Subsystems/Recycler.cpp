@@ -11,6 +11,7 @@ Subsystem("Recycler")
 	binLowerSensor = RobotMap::binLowerSensor;
 	binUpperSensor = RobotMap::binUpperSensor;
 	handleHolder = RobotMap::handleHolder;
+	m_binSensor = RobotMap::autoBinSensor;
 }
 
 bool Recycler::isUpperSensorTripped(){
@@ -61,7 +62,7 @@ void Recycler::InitDefaultCommand()
 	//SetDefaultCommand(new MySpecialCommand());
 }
 void Recycler::HandleHold(bool open){
-	handleHolder->Set(open);
+	handleHolder->Set(open); //cylinders switched default for Wisc Reg to be in compliance
 }
 void Recycler::ToggleHandleHolder(){
 	std::cout << "ToggleHandleHolder: Begin! State is: " << handleHolder->Get() << std::endl;
@@ -69,4 +70,9 @@ void Recycler::ToggleHandleHolder(){
 	handleHolder->Set(!handleHolder->Get());
 
 	std::cout << "Current State is Now: " << handleHolder->Get() << std::endl;
+}
+
+bool Recycler::isBinSensed()
+{
+	return !m_binSensor->Get();
 }

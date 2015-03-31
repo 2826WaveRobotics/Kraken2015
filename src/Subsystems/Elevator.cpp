@@ -114,7 +114,8 @@ void Elevator::InitDefaultCommand()
 
 float Elevator::convertVoltsToInches (float volts)
 {
-	float inches = -6.528 * volts + 36.04;
+	//float inches = -6.528 * volts + 36.04; //competition bot
+	float inches = -6.4663744 * volts + 38.367138;
 //	std::cout << "Volts (Received) = " << volts << "\tInches (calced) = " << inches << std::endl;
 	//float inches = 6.379 * volts + 3.603; // this was for the sensor that we broke
 	return inches;
@@ -143,8 +144,13 @@ double Elevator::getCurrentHeight()
 
 void Elevator::setElevatorMotors(float speed)
 {
-	//std::cout << "Elevator Speed: " << speed << std::endl;
+	std::cout << "Elevator Speed: " << getCurrentHeight() << std::endl;
 	speed=checkSoftStops(speed, true);
+
+	if((getCurrentHeight()>22.5)&&(speed > 0))
+	{
+		speed = speed * pow((getCurrentHeight()/31),2);
+	}
 
 	m_elevatorLeft->Set(-speed);
 	m_elevatorRight->Set(-speed);
@@ -155,6 +161,10 @@ double Elevator::checkSoftStops(double desiredOutput, bool invertedOutput)
 	//Up is negative speed, Down is positive speed
 	double currentVolts = getCurrentVoltageOfSensor();
 	double currentHeight = convertVoltsToInches(currentVolts);
+	if(!IsSensorValid())
+	{
+		return desiredOutput;
+	}
 	if(invertedOutput)
 	{
 		if((currentHeight > Elevator_UpperStop) && (desiredOutput < 0))
@@ -258,4 +268,12 @@ float Elevator::GetTotes(){
 
 void Elevator::SetPIDs(double _p, double _i, double _d){
 	GetPIDController()->SetPID(_p, _i, _d);
+}
+bool Elevator::IsSensorValid(){
+	if(getCurrentHeight() > 34){
+		return false;
+	}
+	else{
+		return true;
+	}
 }

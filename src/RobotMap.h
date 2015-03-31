@@ -53,6 +53,7 @@ public:
 	static Solenoid* leftHook;
 	static Solenoid* rightHook;
 
+
 	static void init();
 
 private:

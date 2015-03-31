@@ -2,7 +2,7 @@
 #define WAVECONSTANTS_H
 
 //#define NULL = 0;
-#define COMPETITION_BOT
+#define PRACTICE_BOT
 
 #ifdef COMPETITION_BOT
 const double Elevator_UpperVolts = .72998; // remember to change this value between sensors
@@ -14,17 +14,32 @@ const double Elevator_UpperVolts = .72998; // remember to change this value betw
 const double Elevator_LowerVolts = 4.28933;
 #endif
 
+/*COMP VALUES
 const double Elevator_UpperInches = 31.375;
 const double Elevator_LowerInches = 8;
+*/
+
+const double Elevator_UpperInches = 30.7;
+const double Elevator_LowerInches = 8;
+
 const double Elevator_UpperStop = Elevator_UpperInches - 1.0;
 const double Elevator_LowerStop = Elevator_LowerInches + 0.0;
+
+/*  COMP VALUES
 
 const double highElevatorPosition= 29; // Jake wants this 3/1 1AM
 const double lowElevatorPosition= 9.03;
 const double autoElevatorPosition= 13.81;
 const double stackClearanceElevatorPosition= 25.25;
 const double elevatorEngagedPosition= 10.75;
+*/
 
+
+const double highElevatorPosition= 29; // Jake wants this 3/1 1AM
+const double lowElevatorPosition= 8;
+const double autoElevatorPosition= 13.81;
+const double stackClearanceElevatorPosition= 25.25;
+const double elevatorEngagedPosition= 10.75;
 
 const double elevatorTolerance = 0.25;
 const double bumpHeight = 3.0;
@@ -152,7 +167,8 @@ enum
 
 enum{
 	mode_straight = 0,
-	mode_distance
+	mode_distance,
+	mode_velocity
 };
 
 #endif

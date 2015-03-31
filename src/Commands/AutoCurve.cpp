@@ -50,9 +50,9 @@ void AutoCurve::Execute()
 bool AutoCurve::IsFinished()
 {
 	double facing = Robot::m_drive->GetYaw();
-	std::cout << "Yaw: " << facing << std::endl;
-	if(facing > m_angle - 5 && facing < m_angle + 5){
-		Robot::m_drive->SetSidePower(-1,1);
+	std::cout << "We are finished turning with Yaw: " << facing << std::endl;
+	if(facing > m_angle - 15 && facing < m_angle + 15){
+		Robot::m_drive->SetSidePower(-1,1); // full brake for a fraction of a second
 		return true;
 	}
 	else{

@@ -7,7 +7,7 @@
 class SetRecyclerPosition: public CommandBase
 {
 public:
-	SetRecyclerPosition(bool setUp);
+	SetRecyclerPosition(bool setUp, double speed);
 	void Initialize();
 	void Execute();
 	bool IsFinished();
@@ -17,9 +17,6 @@ public:
 private:
 	bool m_setUp; //direction
 	float m_speed; //speed
-
-	bool m_over25;
-
 };
 
 #endif

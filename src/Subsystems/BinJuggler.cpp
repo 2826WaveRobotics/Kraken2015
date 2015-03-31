@@ -12,6 +12,7 @@ Subsystem("BinJuggler")
 	m_rightHook= RobotMap::rightHook;
 	m_currentLocation= Bin_LeftActive;
 	m_jugglerSystemInUse = false;
+
 }
 bool BinJuggler::IsJugglerSystemInUse()
 {
@@ -90,3 +91,5 @@ void BinJuggler::setCurrentLocation(int newLocation)
 {
 	m_currentLocation=newLocation;
 }
+
+

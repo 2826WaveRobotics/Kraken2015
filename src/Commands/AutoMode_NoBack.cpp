@@ -27,8 +27,6 @@ bool close = false;
 
 AutoMode_NoBack::AutoMode_NoBack()
 {
-	//AddSequential(new AutoDistance(72,.75)); // distance, max power
-
 	//first set
 	AddSequential(new WaveWait(.00));
 	AddParallel(new AutoDrive(100,.3, 0)); // drive 24 inches at 30 percent power // .3
@@ -56,7 +54,7 @@ AutoMode_NoBack::AutoMode_NoBack()
 
 	AddSequential(new KillDriveStraight());
 	//AddParallel(new AutoDrive(-24, -.1));//Stop moving forward {Connor Added}
-	AddParallel(new SetRecyclerPosition(up)); // bring the bin up to the top
+	AddParallel(new SetRecyclerPosition(up,1)); // bring the bin up to the top
 
 
 	AddParallel(new LoadMagazine(elevatorEngagedPosition)); // [for swapping wheels] AddParallel(new LoadMagazine(autoElevatorPosition));

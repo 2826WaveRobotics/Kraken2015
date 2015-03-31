@@ -14,6 +14,7 @@ private:
 	DigitalInput* binLowerSensor;
 	DigitalInput* binUpperSensor;
 	Solenoid* handleHolder;
+	DigitalInput* m_binSensor;
 
 public:
 	Recycler();
@@ -27,6 +28,8 @@ public:
 
 	void HandleHold(bool open);
 	void ToggleHandleHolder();
+
+	bool isBinSensed();
 };
 
 #endif

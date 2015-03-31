@@ -19,6 +19,7 @@ private:
 	double m_power;
 	float m_direction;
 	double m_distanceTraveled;
+	double m_maxPower;
 };
 
 #endif

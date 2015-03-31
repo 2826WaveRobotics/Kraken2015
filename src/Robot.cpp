@@ -10,6 +10,7 @@
 #include "Commands/LoadMagazine.h"
 #include "Commands/AutoMode_DoNothing.h"
 #include "Commands/AutoMode_NoBack.h"
+#include "Commands/AutoMode_ShootTotes.h"
 
 using namespace std;
 
@@ -39,8 +40,9 @@ void Robot::RobotInit()
 	autoChooser = new SendableChooser();
 	//autoChooser->AddObject("AutoMode", new Auto());
 	autoChooser->AddObject("Default - Do Nothing",  new AutoMode_DoNothing());
-	autoChooser->AddDefault("Win Mode", new Auto());
+	autoChooser->AddObject("Win Mode", new Auto());
 	autoChooser->AddObject("No Backing", new AutoMode_NoBack());
+	autoChooser->AddDefault("ShootTotes", new AutoMode_ShootTotes());
 	SmartDashboard::PutData("Auto Modes", autoChooser);
 
 }
@@ -57,13 +59,23 @@ void Robot::DisabledPeriodic()
 		double _p = ((Robot::oi->getDebugJoystick()->GetRawAxis(4) + 1) / 2) * .05;
 		double _i = ((Robot::oi->getDebugJoystick()->GetRawAxis(2) + 1) / 2) * .05;
 		double _d = ((Robot::oi->getDebugJoystick()->GetRawAxis(3) + 1) / 2) * .05;
-		//std::cout << "P: " << _p << "\tI: " << _i << "\tD: " << _d << std::endl;
+		std::cout << "P: " << _p << "\tI: " << _i << "\tD: " << _d << std::endl;
 	}
 	else{
 
+//		std::cout << "RecLow: " << Robot::m_recycler->isLowerSensorTripped() <<
+//				"\tRecHigh: " << Robot::m_recycler->isUpperSensorTripped() <<
+//				"\tBinSensed: " << Robot::m_recycler->isBinSensed() <<
+//				"\tIntake: " << Robot::m_intake->IsFrontSensorTripped() <<
+//				"\tLeft: " << Robot::m_drive->GetLeftDistanceTraveled() <<
+//				"\tRight: " << Robot::m_drive->GetRightDistanceTraveled() << std::endl;
+		//std::cout << "Velocity: " << m_drive->GetVelocity() << std::endl;
 	}
-	std::cout << "Elevator Height: " << m_elevator->getCurrentHeight() <<
-			" inches \t\tVoltage: " << m_elevator->getCurrentVoltageOfSensor() << std::endl;
+	//std::cout << "Elevator Height: " << m_elevator->getCurrentHeight() <<
+		//" inches \t\tVoltage: " << m_elevator->getCurrentVoltageOfSensor() << std::endl;
+
+	//std::cout << "Auto Bin Sensor:" << RobotMap::autoBinSensor->Get() << std::endl;
+
 	Wait(0.01);
 }
 
@@ -116,8 +128,15 @@ void Robot::TeleopPeriodic()
 	Scheduler::GetInstance()->Run();
 	oi->checkInput(); // runs through a function to check all the used buttons and joysticks
 
-	if(oi->GetDebugJoystickButton(16)){
+	SmartDashboard::PutBoolean("Recycler Bottom",m_recycler->isLowerSensorTripped());
+	SmartDashboard::PutBoolean("Recycler Top" , m_recycler->isUpperSensorTripped());
+	SmartDashboard::PutNumber("Elevator Height",m_elevator->getCurrentHeight());
+	SmartDashboard::PutBoolean("Tote Sensor",m_intake->IsFrontSensorTripped());
 
+
+
+	if(oi->GetDebugJoystickButton(16)){
+		std::cout << "Voltage :"  << m_elevator->getCurrentVoltageOfSensor() << "\tHeight: " << m_elevator->getCurrentHeight() << std::endl;
 	}
 	else{
 

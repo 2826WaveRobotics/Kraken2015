@@ -20,13 +20,13 @@ AutoRecycle::AutoRecycle(int position, int hooks)
 	//AddSequential(new WaitForSensor(dio_bin, 15));
 	AddSequential(new SetPneumatics(cyl_handleHolder, close));
 	AddParallel(new SetPneumatics(hooks, release));
-	AddSequential(new SetRecyclerPosition(up));
+	AddSequential(new SetRecyclerPosition(up,1)); // 100% power up
 	AddSequential(new WaveWait(.05));
 	AddSequential(new SetPneumatics(hooks, grab));
 	AddSequential(new WaveWait(.1));
 	AddParallel(new SetPneumatics(cyl_handleHolder, open));
 	AddSequential(new WaveWait(.01));
-	AddParallel(new SetRecyclerPosition(down));
+	AddParallel(new SetRecyclerPosition(down,-.7)); //70% power for down
 	AddSequential(new WaveWait(.1));
 	AddSequential(new BinJugglerCommand(position, false)); // false means auto
 }

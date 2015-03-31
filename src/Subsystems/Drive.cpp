@@ -56,6 +56,9 @@ double Drive::ReturnPIDInput()
 	else if(m_mode == mode_distance){
 		return GetDistanceTraveled();
 	}
+	else if(m_mode == mode_velocity){
+		return GetVelocity();
+	}
 	else{
 		return 0;
 	}
@@ -218,6 +221,7 @@ void Drive::GyroReset(){
 	GetPIDController()->Enable();
 }
 void Drive::ZeroYaw(){
+	std::cout << "\n\n\n\n\nResetting Yaw!!!!\n\n\n\n\n\n\n" << std::endl;
 	imu->ZeroYaw();
 }
 void Drive::PrintPIDs(){
@@ -226,4 +230,38 @@ void Drive::PrintPIDs(){
 }
 void Drive::SetPIDMode(int mode){
 	m_mode = mode;
+}
+
+double Drive::GetVelocity(){
+	double encoder_LRate = m_driveEncoderLeft->GetRate(); //returns ticks / second
+	double encoder_RRate = m_driveEncoderRight->GetRate();
+	double averageEncoderRate = (encoder_LRate + encoder_RRate) / 2;
+	double velocity = averageEncoderRate*circumference*ticksPerWheel; //turns ticks / second into inches / second
+	return velocity;
+}
+double Drive::CheckPower(double maxPower, double minPower, double distanceToDrive, double midpointMultiplier){ // returns the max power allowed during auto for the distance
+	bool forward = distanceToDrive > 0 ? true : false; //if distance is positive, we are moving forward
+	double distance = fabs(GetDistanceTraveled());
+	double distanceToTarget = fabs(fabs(distanceToDrive) - fabs(distance));
+	double powerRange = fabs(maxPower-minPower);
+
+	//using equation f(x) = a(x-b)+c
+	double midpoint = fabs(distanceToDrive / 2);
+	double c = fabs(maxPower); // higher c makes it ramp up to 1 faster
+	double b = midpointMultiplier * midpoint; // b is distance that we achieve max power //number less than 1 will move the peak speed closer to beginning
+	double a = c / pow((distanceToDrive - b), 2);
+
+	double modPower = -a * pow((distance-b),2) + c;
+
+	if(modPower < minPower){
+		modPower = minPower * (modPower / fabs(modPower));
+	}
+	//	double modPower = pow(fabs(distanceToTarget)/distanceToDrive, exponent)*actualPower;
+	//	modPower = (modPower+minPower)*(distanceToTarget/fabs(distanceToTarget));
+	if(!forward){
+		modPower = -modPower;
+		std::cout << "Return modPower = " << modPower << std::endl;
+	}
+
+	return modPower;
 }

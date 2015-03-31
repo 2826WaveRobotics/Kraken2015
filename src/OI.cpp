@@ -104,7 +104,7 @@ void OI::checkInput(){
 		//Front Intake
 		if(driverJoystick->GetRawAxis(Axis_RTrigger) > .05)
 		{
-			Robot::m_intake->SetFrontIntake(-driverJoystick->GetRawAxis(Axis_RTrigger)*1.5);
+			Robot::m_intake->SetFrontIntake(-.65); //Robot::m_intake->SetFrontIntake(-driverJoystick->GetRawAxis(Axis_RTrigger)*1.5);
 		}
 		else if(driverJoystick->GetRawButton(6))
 		{
@@ -213,7 +213,7 @@ void OI::checkInput(){
 	//below this point is joystick axis control for elevator and recycler
 	/*elevator*/
 	bool outsideElevatorDeadband = fabs(operatorJoystick->GetRawAxis(Axis_RY)) > 0.15;
-	if(outsideElevatorDeadband)
+	if(outsideElevatorDeadband || !Robot::m_elevator->IsSensorValid())
 	{
 		m_allowElevatorInput = true;
 		Robot::m_elevator->disablePID();
@@ -223,13 +223,20 @@ void OI::checkInput(){
 		//Turn motors off then don't allow human input again until joysticks are moved again
 		m_allowElevatorInput = false;
 		//Comment out the line below if it doesn't work (Set new setpoint)
-		Robot::m_elevator->setAbsoluteHeight(Robot::m_elevator->getCurrentHeight());
-		//Robot::m_elevator->setElevatorMotors(0);
+		if (Robot::m_elevator->IsSensorValid())
+		{
+			Robot::m_elevator->setAbsoluteHeight(Robot::m_elevator->getCurrentHeight());
+		}
+		else //sensor is invalid, turn off motors
+		{
+			Robot::m_elevator->setElevatorMotors(0);
+		}
 	}
 	if(m_allowElevatorInput)
 	{
 		//The elevator output is bounds checked in the Elevator class
 		Robot::m_elevator->setElevatorMotors(operatorJoystick->GetRawAxis(Axis_RY));
+
 	}
 
 	//Recycler Track

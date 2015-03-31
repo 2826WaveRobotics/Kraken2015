@@ -47,6 +47,7 @@ bool Intake::IsFrontSensorTripped()
 
 void Intake::SetControlledIntake()
 {
+	double power = .65;
 	//A-X-Y-B
 	bool _A = Robot::oi->getDriverJoystick()->GetRawButton(1); // left in
 	bool _X = Robot::oi->getDriverJoystick()->GetRawButton(3); // left out
@@ -54,31 +55,31 @@ void Intake::SetControlledIntake()
 	bool _B = Robot::oi->getDriverJoystick()->GetRawButton(2); // right in
 
 	if(_A && _B){ // both in
-		SetFrontIntake(1);
+		SetFrontIntake(power);
 	}
 	else if(_X && _Y){ // both out
-		SetFrontIntake(-1);
+		SetFrontIntake(-power);
 	}
 	else if(_A && _Y){ // sides are moving differently, and turning a tote
-		m_frontIntakeLeft->Set(-1);
-		m_frontIntakeRight->Set(-1);
+		m_frontIntakeLeft->Set(-power);
+		m_frontIntakeRight->Set(-power);
 	}
 	else if(_X && _B){ // sides are moving differently, and turning a tote
-		m_frontIntakeLeft->Set(1);
-		m_frontIntakeRight->Set(1);
+		m_frontIntakeLeft->Set(power);
+		m_frontIntakeRight->Set(power);
 	}
 	else{ // none of our specific conditions were met, we go with the default
 		if(_A){
-			m_frontIntakeLeft->Set(-1);
+			m_frontIntakeLeft->Set(-power);
 		}
 		if(_X){
-			m_frontIntakeLeft->Set(1);
+			m_frontIntakeLeft->Set(power);
 		}
 		if(_Y){
-			m_frontIntakeRight->Set(-1);
+			m_frontIntakeRight->Set(-power);
 		}
 		if(_B){
-			m_frontIntakeRight->Set(1);
+			m_frontIntakeRight->Set(power);
 		}
 	}
 }

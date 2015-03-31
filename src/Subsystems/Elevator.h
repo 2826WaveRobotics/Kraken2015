@@ -39,6 +39,7 @@ public:
 	double GetSpeed();
 
 	void SetPIDs(double p, double i, double d);
+	bool IsSensorValid();
 
 private:
 	// It's desirable that everything possible under private except

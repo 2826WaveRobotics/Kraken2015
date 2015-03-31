@@ -15,28 +15,33 @@ void AutoDrive::Initialize()
 	Robot::m_drive->SetPIDMode(mode_straight);
 	Robot::m_drive->ResetEncoders();
 	//Robot::m_drive->AutoPIDReset();
-//	Robot::m_drive->SetPIDs(.0246094, 0, .0742188);
-	Robot::m_drive->SetPIDs(.035, 0, .08);
-	Robot::m_drive->MoveStraight(m_direction);
+	//	Robot::m_drive->SetPIDs(.0246094, 0, .0742188);
+	Robot::m_drive->SetPIDs(.055, 0, .08); // .035 //comp = .055
+	Robot::m_drive->MoveStraight(m_direction); //sets up the PID for moving straight
 }
 
 void AutoDrive::Execute()
 {
-	Robot::m_drive->DriveStraight(m_power);
+	//double m_maxPower = Robot::m_drive->CheckPower(m_power, m_distance); // get the max power allowed to move (basically P)
+	Robot::m_drive->DriveStraight(m_power); //sets the correction based on degrees off the angle
 }
 
 bool AutoDrive::IsFinished()
 {
 	m_distanceTraveled = Robot::m_drive->GetDistanceTraveled();
-//	std::cout << "Distance: " << m_distance << "\tTraveled: " <<
-//			m_distanceTraveled << "\tPower: " << m_power << std::endl;
+	//std::cout << "Distance to Go: " << m_distance << "\tLeft: " << Robot::m_drive->GetLeftDistanceTraveled() <<
+	//		"\tRight: " << Robot::m_drive->GetRightDistanceTraveled() << "\tPower: " << m_power << std::endl;
 
+	//if(fabs(m_distanceTraveled) > fabs(m_distance)){
+	//	return true;
+	//}
 	if(m_power > 0 && m_distanceTraveled > m_distance){
 		return true;
 	}
 	else if(m_power < 0 && m_distanceTraveled < m_distance){
 		return true;
 	}
+
 	else if(m_power == 0){
 		return true;
 	}

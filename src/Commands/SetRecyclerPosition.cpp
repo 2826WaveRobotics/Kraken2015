@@ -1,26 +1,25 @@
 #include "SetRecyclerPosition.h"
 #include "../Robot.h"
 
-SetRecyclerPosition::SetRecyclerPosition(bool setUp)
+SetRecyclerPosition::SetRecyclerPosition(bool setUp, double speed)
 {
 	m_setUp = setUp;
-	m_speed = 0;
+	m_speed = speed;
 	SetTimeout(2);
 }
 
 void SetRecyclerPosition::Initialize()
 {
-	m_over25 = false;
+
 }
 
 void SetRecyclerPosition::Execute()
 {
-
 	if(m_setUp == true){
-		m_speed = 1;
+		//m_speed = 1;
 	}
 	else{
-		m_speed = -.85;
+		//m_speed = -1; // -.85;
 	}
 	Robot::m_recycler->SetRecycleMotors(m_speed);
 }

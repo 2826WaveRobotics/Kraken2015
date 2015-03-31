@@ -97,11 +97,14 @@ void RobotMap::init() {
 	elevatorSensor = new AnalogInput(0);
 	yawRate = new AnalogInput(1);
 
-	m_driveEncoderLeft = new Encoder (0,1, true);//last parameter is reverse direction
-	m_driveEncoderRight = new Encoder (2,3, false);//last parameter is reverse direction
+	//m_driveEncoderLeft = new Encoder (0,1, true);//last parameter is reverse direction // FOR PRACTICE ROBOT
+	//m_driveEncoderRight = new Encoder (2,3, false);//last parameter is reverse direction
+	m_driveEncoderLeft = new Encoder (0,1, false);//last parameter is reverse direction // FOR COMPETITION ROBOT
+	m_driveEncoderRight = new Encoder (2,3, true);//last parameter is reverse direction
 
 	binLowerSensor = new DigitalInput (4); // 4
 	binUpperSensor = new DigitalInput (5);
 	frontIntakeSensor = new DigitalInput (6);
 	autoBinSensor = new DigitalInput (7);
+
 }

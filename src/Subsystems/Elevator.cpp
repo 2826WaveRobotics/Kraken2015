@@ -114,8 +114,8 @@ void Elevator::InitDefaultCommand()
 
 float Elevator::convertVoltsToInches (float volts)
 {
-	//float inches = -6.528 * volts + 36.04; //competition bot
-	float inches = -6.4663744 * volts + 38.367138;
+	float inches = -6.528 * volts + 36.04 ; //competition bot
+	//float inches = -6.4663744 * volts + 38.367138; //practice bot
 //	std::cout << "Volts (Received) = " << volts << "\tInches (calced) = " << inches << std::endl;
 	//float inches = 6.379 * volts + 3.603; // this was for the sensor that we broke
 	return inches;
@@ -147,10 +147,15 @@ void Elevator::setElevatorMotors(float speed)
 	std::cout << "Elevator Speed: " << getCurrentHeight() << std::endl;
 	speed=checkSoftStops(speed, true);
 
-	if((getCurrentHeight()>22.5)&&(speed > 0))
+	if((getCurrentHeight()>(stackClearanceElevatorPosition-3))&&(speed > 0))
 	{
-		speed = speed * pow((getCurrentHeight()/31),2);
+		speed = speed * pow((((getCurrentHeight())+30)/61),3);
 	}
+
+	if((getCurrentHeight()>(highElevatorPosition-5))&&(speed < 0))
+		{
+			speed = speed * pow((((highElevatorPosition - getCurrentHeight())+5)/10),1.25);
+		}
 
 	m_elevatorLeft->Set(-speed);
 	m_elevatorRight->Set(-speed);

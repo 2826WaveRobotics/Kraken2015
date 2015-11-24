@@ -11,6 +11,7 @@
 #include "Commands/AutoMode_DoNothing.h"
 #include "Commands/AutoMode_NoBack.h"
 #include "Commands/AutoMode_ShootTotes.h"
+#include "Commands/AutoMode_SecondAndThird.h"
 
 using namespace std;
 
@@ -43,6 +44,7 @@ void Robot::RobotInit()
 	autoChooser->AddObject("Win Mode", new Auto());
 	autoChooser->AddObject("No Backing", new AutoMode_NoBack());
 	autoChooser->AddDefault("ShootTotes", new AutoMode_ShootTotes());
+	autoChooser->AddObject("Second And Third", new AutoMode_SecondAndThird());
 	SmartDashboard::PutData("Auto Modes", autoChooser);
 
 }
@@ -132,6 +134,11 @@ void Robot::TeleopPeriodic()
 	SmartDashboard::PutBoolean("Recycler Top" , m_recycler->isUpperSensorTripped());
 	SmartDashboard::PutNumber("Elevator Height",m_elevator->getCurrentHeight());
 	SmartDashboard::PutBoolean("Tote Sensor",m_intake->IsFrontSensorTripped());
+	SmartDashboard::PutBoolean("RC Sensor",m_intake->GetBinSensor());
+	SmartDashboard::PutNumber("Left Distance" , m_drive->GetLeftDistanceTraveled());
+	std::cout<<"leftDistance"<<m_drive->GetLeftDistanceTraveled()<< std::endl;
+	std::cout<<"rightDistance"<<m_drive->GetRightDistanceTraveled()<< std::endl;
+	SmartDashboard::PutNumber("Right Distance", m_drive->GetRightDistanceTraveled());
 
 
 

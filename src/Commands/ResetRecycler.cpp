@@ -20,6 +20,6 @@ ResetRecycler::ResetRecycler()
 
 		AddSequential(new SetPneumatics(cyl_handleHolder, open)); // release the bin from the track
 		AddSequential(new WaveWait(.025));
-		AddSequential(new SetRecyclerPosition(down,-.7)); //  bring down @ 70% power
+		AddSequential(new SetRecyclerPosition(down,-.7, false)); //  bring down @ 70% power
 
 }

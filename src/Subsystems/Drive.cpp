@@ -153,6 +153,7 @@ void Drive::DriveWithJoysticks()
 {
 	m_turn = Robot::oi->getDriverJoystick()->GetRawAxis(Axis_RX);
 	m_throttle = Robot::oi->getDriverJoystick()->GetRawAxis(Axis_LY);
+	//std::cout << "WHEELS!!!" << GetDistanceTraveled()<< std::endl;
 	if(fabs(m_turn) < .075){m_turn = 0; }
 	if(fabs(m_throttle) < .075){m_throttle = 0;}
 	m_robotDrive->ArcadeDrive(m_throttle,m_turn);

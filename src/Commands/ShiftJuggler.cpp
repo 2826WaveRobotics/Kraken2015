@@ -3,6 +3,7 @@
 #include "WaveWait.h"
 #include "../WaveConstants.h"
 #include "BinJugglerCommand.h"
+#include "LoadMagazine.h"
 
 namespace{
 bool up = true;
@@ -17,7 +18,8 @@ ShiftJuggler::ShiftJuggler()
 {
 	std::cout << "Shift Juggler Running" << std::endl;
 	AddSequential(new SetPneumatics(cyl_hooks, open));
-	AddSequential(new WaveWait(.25));
+	AddParallel(new LoadMagazine(highElevatorPosition));//elevator down then up
+	//AddSequential(new WaveWait(.25));
 	if(close){
 		AddSequential(new WaveWait(5));
 	}

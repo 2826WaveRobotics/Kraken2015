@@ -16,6 +16,7 @@ public:
 
 private:
 	CommandGroup *binShift;
+	CommandGroup *lockToScore;
 
 	Joystick* driverJoystick;
 	JoystickButton* driver_RJoy;
@@ -68,6 +69,11 @@ private:
 
 	bool m_prevLTrig = true;
 	bool m_prevRTrig = true;
+	bool m_prevOpLBump = true;
+	bool m_prevRBump = true;
+	bool m_prevDriveLBump = true;
+
+	bool m_ScoreLocked = 0;
 
 };
 

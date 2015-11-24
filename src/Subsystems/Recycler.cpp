@@ -12,6 +12,8 @@ Subsystem("Recycler")
 	binUpperSensor = RobotMap::binUpperSensor;
 	handleHolder = RobotMap::handleHolder;
 	m_binSensor = RobotMap::autoBinSensor;
+
+	m_resourceFree = true;
 }
 
 bool Recycler::isUpperSensorTripped(){
@@ -34,24 +36,27 @@ bool Recycler::isLowerSensorTripped() {
 }
 
 void Recycler::SetRecycleMotors(float speed) {
-	//std::cout << "Speed: " << speed << std::endl;
-	if(isLowerSensorTripped() && speed < 0){ // lower is tripped, but we're going up
-		std::cout << "Lower bound"<< std::endl;
-		speed = 0;
+//	if(m_resourceFree)
+	{
+		//std::cout << "Speed: " << speed << std::endl;
+		if(isLowerSensorTripped() && speed < 0){ // lower is tripped, but we're going up
+			std::cout << "Lower bound"<< std::endl;
+			speed = 0;
+		}
+		else if(isUpperSensorTripped() && speed > 0){ // upper is tripped, but we're going down
+			std::cout << "upper bound"<< std::endl;
+			speed = 0;
+		}
+
+		trackArmLeft->Set(-speed);
+		trackArmRight->Set(speed);
+
+
+		std::cout << "Recycler Amps Left: " << trackArmLeft->GetOutputCurrent() <<
+				"\tRight: " << trackArmRight->GetOutputCurrent() <<
+				"\tVolts Left : " << trackArmLeft->GetOutputVoltage() <<
+				"\tRight: " << trackArmRight->GetOutputVoltage() << std::endl;
 	}
-	else if(isUpperSensorTripped() && speed > 0){ // upper is tripped, but we're going down
-		std::cout << "upper bound"<< std::endl;
-		speed = 0;
-	}
-
-	trackArmLeft->Set(-speed);
-	trackArmRight->Set(speed);
-
-
-	std::cout << "Recycler Amps Left: " << trackArmLeft->GetOutputCurrent() <<
-			"\tRight: " << trackArmRight->GetOutputCurrent() <<
-			"\tVolts Left : " << trackArmLeft->GetOutputVoltage() <<
-			"\tRight: " << trackArmRight->GetOutputVoltage() << std::endl;
 }
 double Recycler::GetCurrent(){
 	return (trackArmLeft->GetOutputCurrent() + trackArmRight->GetOutputCurrent()) / 2;
@@ -76,3 +81,14 @@ bool Recycler::isBinSensed()
 {
 	return !m_binSensor->Get();
 }
+
+void Recycler::LockResource()
+{
+	m_resourceFree = false;
+}
+
+void Recycler::UnlockResource()
+{
+	m_resourceFree = true;
+}
+

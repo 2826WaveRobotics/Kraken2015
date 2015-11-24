@@ -16,6 +16,8 @@ private:
 	Solenoid* handleHolder;
 	DigitalInput* m_binSensor;
 
+	bool m_resourceFree;
+
 public:
 	Recycler();
 	void InitDefaultCommand();
@@ -30,6 +32,12 @@ public:
 	void ToggleHandleHolder();
 
 	bool isBinSensed();
+
+	//Locking the resource will prevent two command instances from
+	//moving the recycler at the same time.
+	void LockResource();
+	void UnlockResource();
+	bool IsResourceLocked(){ return !m_resourceFree; };
 };
 
 #endif

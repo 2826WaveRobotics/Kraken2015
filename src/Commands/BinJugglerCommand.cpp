@@ -16,7 +16,7 @@ BinJugglerCommand::BinJugglerCommand(int configuration = Bin_LeftActive, bool te
 void BinJugglerCommand::Initialize()
 {
 	if(m_teleop){
-		//c_liftTime += .25; // during teleop, there is an additional strain, and we need to wait
+		//c_liftTime += .5; // during teleop, there is an additional strain, and we need to wait
 	} // longer for things to complete
 
 	Robot::m_binJuggler->UseJugglerSystem(true);

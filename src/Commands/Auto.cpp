@@ -41,7 +41,7 @@ Auto::Auto()
 	AddSequential(new WaitForBin()); // move some distance forwards instead of time // 3in
 
 	AddParallel(new AutoRecycle(Bin_LoadCenter, cyl_rightHook));//lift, grab, un-lift, load to the side
-	AddParallel(new AutoDrive(92, .35, 1.5)); // -1.5 is a new setpoint for the gyro [COMPETITION ROBOT]
+	AddParallel(new AutoDrive(92, .35, -1.5)); // -1.5 is a new setpoint for the gyro [COMPETITION ROBOT]
 	AddSequential(new LoadMagazine(stackClearanceElevatorPosition));//elevator down then up
 	AddSequential(new Intake_FrontTote(.45));//wait for 3rd tote // .4
 	//AddSequential(new KillDriveStraight());
@@ -54,7 +54,7 @@ Auto::Auto()
 
 	AddSequential(new KillDriveStraight());
 	//AddParallel(new AutoDrive(-24, -.1));//Stop moving forward {Connor Added}
-	AddParallel(new SetRecyclerPosition(up,.7)); // bring the bin up to the top [.7 speed up on the last bin
+	AddParallel(new SetRecyclerPosition(up,.7, true)); // bring the bin up to the top [.7 speed up on the last bin, Lock the recycler Resource
 
 	AddParallel(new LoadMagazine(elevatorEngagedPosition)); // [for swapping wheels] AddParallel(new LoadMagazine(autoElevatorPosition));
 

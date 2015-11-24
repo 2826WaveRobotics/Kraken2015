@@ -27,22 +27,26 @@ bool close = false;
 
 AutoMode_ShootTotes::AutoMode_ShootTotes()
 {
+
 	//first set
 	AddSequential(new WaveWait(0.00));
 	//AddSequential(new SetPneumatics(cyl_handleHolder, close));
 	//AddSequential(new WaveWait(.1));
-	AddParallel(new AutoDrive(1000,.35, 0)); // drive 24 inches at 30 percent power // .3
+	AddParallel(new SetElevatorPosition(lowElevatorPosition)); //lower the elevator right away
+													//because the springs pull it up
+
+	AddParallel(new AutoDrive(1000,.34, 0)); // drive 24 inches at 30 percent power // .3
 	AddParallel(new AutoRecycle(Bin_LoadRight,cyl_leftHook));//lift, grab, un-lift, load to the side
 	AddSequential(new Intake_FrontTote(.45));//Run intake until a tote is seated in the elevator // .4 // .33
 	AddSequential(new SetElevatorPosition(stackClearanceElevatorPosition)); //elevator up
 	AddSequential(new Intake_FrontTote(.45));//wait for a tote / .4
 
 	//second set
-	//AddSequential(new WaitForBin()); // move some distance forwards instead of time // 3in
-	AddSequential(new AutoDrive(3, .27, 0)); //- uncomment to switch to distance for sensing bin
+	AddSequential(new WaitForBin()); // move some distance forwards instead of time // 3in
+	//AddSequential(new AutoDrive(3, .27, 0)); //- uncomment to switch to distance for sensing bin
 
 	AddParallel(new AutoRecycle(Bin_LoadCenter, cyl_rightHook));//lift, grab, un-lift, load to the side
-	AddParallel(new AutoDrive(92, .35, 1.5)); // -1.5 is a new setpoint for the gyro [COMPETITION ROBOT]
+	AddParallel(new AutoDrive(92, .35, -1.5)); // -1.5 is a new setpoint for the gyro [COMPETITION ROBOT]
 	AddSequential(new LoadMagazine(stackClearanceElevatorPosition));//elevator down then up
 	AddSequential(new Intake_FrontTote(.45));//wait for 3rd tote // .4
 	//AddSequential(new KillDriveStraight());
@@ -50,14 +54,14 @@ AutoMode_ShootTotes::AutoMode_ShootTotes()
 	//third set
 	AddParallel(new SetElevatorPosition(lowElevatorPosition));
 
-	//AddSequential(new WaitForBin()); // move some distance forwards instead of time //5in //3in
-	AddSequential(new AutoDrive(4, .27, 0/* 1.5*/));// - uncomment to switch to distance for sensing bin
+	AddSequential(new WaitForBin()); // move some distance forwards instead of time //5in //3in
+	//AddSequential(new AutoDrive(4, .27, 0/* 1.5*/));// - uncomment to switch to distance for sensing bin
 
 	AddParallel(new SetPneumatics(cyl_handleHolder, close)); // grab on to the bin with the track
 	AddParallel(new WaveWait(0));
 	AddSequential(new KillDriveStraight());
 	//AddParallel(new AutoDrive(-24, -.1));//Stop moving forward {Connor Added}
-	AddParallel(new SetRecyclerPosition(up,.8)); // bring the bin up to the top [.8 speed up on the last bin
+	AddParallel(new SetRecyclerPosition(up,1, true)); // bring the bin up to the top [.8 speed up on the last bin
 
 	AddParallel(new LoadMagazine(elevatorEngagedPosition)); // [for swapping wheels] AddParallel(new LoadMagazine(autoElevatorPosition));
 

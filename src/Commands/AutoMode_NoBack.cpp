@@ -54,7 +54,7 @@ AutoMode_NoBack::AutoMode_NoBack()
 
 	AddSequential(new KillDriveStraight());
 	//AddParallel(new AutoDrive(-24, -.1));//Stop moving forward {Connor Added}
-	AddParallel(new SetRecyclerPosition(up,1)); // bring the bin up to the top
+	AddParallel(new SetRecyclerPosition(up,1, false)); // bring the bin up to the top
 
 
 	AddParallel(new LoadMagazine(elevatorEngagedPosition)); // [for swapping wheels] AddParallel(new LoadMagazine(autoElevatorPosition));
